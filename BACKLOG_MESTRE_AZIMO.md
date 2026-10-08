@@ -7316,3 +7316,11 @@ Anderson pediu pra testar de verdade em vez de so supor que estava tudo certo (c
 Testado de ponta a ponta depois da correcao: clone do repositorio com o token recriado, commit de teste, push confirmado (`044985f..99655de`), revert do commit de teste, push do revert confirmado (`99655de..249815f`). Copia de trabalho real deixada em `Azimo/Projeto/Estratégia/` (dentro da pasta conectada), pronta pra proxima edicao.
 
 **Pendencia explicita:** revogar e trocar o token exposto (acima). Enquanto nao for trocado, ele continua funcional (nao foi revogado), mas e pratica de seguranca recomendada trocar.
+
+## 2026-10-08 - Token do GitHub (azimo-estrategia) regenerado e validado
+
+Anderson revogou o token exposto por acidente e gerou um novo (mesmo escopo: fine-grained, acesso só ao repositorio azimo-estrategia, permissao Contents Read/write), colando ele mesmo em `_Segredos/github_estrategia_token.txt`.
+
+Teste de ponta a ponta feito para confirmar que o novo token funciona: commit de teste, push, revert, push do revert. Tudo passou (`981c7e8..abc2f40`).
+
+Item de seguranca do incidente anterior (token antigo exposto via `cat` durante debug) esta encerrado: o token antigo nao existe mais, foi substituido.
