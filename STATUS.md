@@ -1,23 +1,16 @@
 # Azimo | Estado Atual
 
-> Atualizado em 15/09/2026. Última publicação: reorganização do Command e interface de última sincronização, item 79, commit 6236f7b. Worker de metadados publicado: fecc3ff4-43fc-492e-ac23-c7905d3c2a95.
+> Atualizado em 08/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 162-174 (recorrencia financeira, highlight visual acende-e-apaga em Despesas/Receitas/Metas, tour de Controles, ajustes de Importacao de fatura). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
 >
-> Ler integralmente no início da sessão técnica, junto dos últimos 5 a 10 itens do Backlog. O histórico operacional permanente está no [BACKLOG_MESTRE_AZIMO.md](BACKLOG_MESTRE_AZIMO.md); responsabilidades e precedência documental estão no [_INDICE_DOCUMENTOS.md](_INDICE_DOCUMENTOS.md). Este resumo não substitui o [protocolo técnico](AZIMO_AUTONOMIA_CHATGPT.md).
+> Ler integralmente no inicio da sessao tecnica, junto dos ultimos itens do Backlog (daqui pra tras, nao so dos itens antigos abaixo nesta secao). O historico operacional permanente esta no [BACKLOG_MESTRE_AZIMO.md](BACKLOG_MESTRE_AZIMO.md); responsabilidades e precedencia documental estao no [_INDICE_DOCUMENTOS.md](_INDICE_DOCUMENTOS.md).
 
 ## 0. Handoff ativo
 
-> Coordenação entre agentes (Claude ⇄ GPT). O próximo agente deve conferir este bloco, Git e últimos itens do Backlog antes de assumir, conforme a seção 8bis de `AZIMO_AUTONOMIA_CHATGPT.md`.
+> Coordenacao entre agentes (Claude <-> GPT). O proximo agente deve conferir este bloco, Git e os ultimos itens do Backlog antes de assumir.
 
-**Agente ativo:** CLAUDE (29/09/2026: item 95 -- Worker publicado com sucesso (conta Cloudflare corrigida), rota /gcal-events confirmada ao vivo. Anderson testou e mandou lote de 12 ajustes; 7 implementados e commitados (`e6db898`): renomeia Sua Agenda Azimo, Agenda Semanal como padrao, corrige BUG CRITICO de sincronizacao do Google Calendar (eventos nao apareciam no Semanal/Mensal), renomeia Matriz de Eisenhower com gradiente de cor por urgencia, botao Adicionar Tarefa fixo no cabecalho, confirmacao antes de minimizar secao. AGUARDANDO Anderson publicar (`publicar.command`) e testar ao vivo. Itens 5/7/8/9/10 do lote ficam pra proxima rodada -- ver item 95.1 do Backlog)
+**Agente ativo:** nenhum em execucao ativa no momento (08/10/2026). GPT preparado para possivel handoff de teste, com `AZIMO_HANDOFF_GPT.md` nas Fontes do projeto Azimo no ChatGPT. Claude segue como executor principal ate confirmacao de que o teste correu bem.
 
-**Último handoff**
-- Data: 26/09/2026
-- De → Para: GPT → CLAUDE
-- Alterações relevantes: card “Análise Semanal do Vio” ajustado à referência visual, commit `9483b17` em `Empresa/index.html`, publicado em `origin/main`; HTML público conferido. Três áreas integradas, hierarquia reforçada, timeline com Vio, horizonte sutil e organização vertical em telas menores. A lógica de semana, registros e liberação permaneceu. Item 89 do Backlog traz escopo, validação e limites.
-- Arquivos afetados: `Empresa/index.html`; `Estratégia/STATUS.md` seção 0; `Estratégia/BACKLOG_MESTRE_AZIMO.md` itens 89–90; novo `Estratégia/DIRECAO_ARTE_INTERFACE_AZIMO.md` (guia documental, fora do Git do produto).
-- Decisões importantes: Anderson quer que as próximas interfaces implementadas pelo Claude sigam a direção de arte concebida pelo GPT, com criatividade dentro da identidade do Azimo. O guia registra o princípio e usa o card como exemplo, sem pedir reimplementação dele ou impor estética espacial a outras telas. Para cada novo pedido visual, consultar o guia e o briefing específico, conferir o código vigente e preservar arquitetura, dados e funcionalidades. GPT não iniciou outra tarefa.
-- Pendências: receber o próximo pedido visual específico e, se Anderson desejar, avaliação final do card publicado. Não há pendência técnica conhecida no lote 89. Claude deve executar `ASSUMIR CLAUDE` antes de trabalhar e reconferir Git/Backlog; `main` e `origin/main` locais estavam em `9483b17` neste handoff.
-- Alertas: alteração local preexistente em `Empresa/publicar.command` corrige o caminho do backup (`../../backup.command`), ainda não commitada; preservar. Estratégia não pertence ao repositório Git de Empresa. Backup diário é automação separada e não requer ação na troca.
+**Bloco de handoff detalhado anterior (26/09, GPT -> Claude) preservado abaixo, historico, nao reflete mais o estado atual:**
 
 ## 1. Situação geral
 
