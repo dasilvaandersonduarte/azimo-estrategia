@@ -7344,3 +7344,15 @@ Extensao do destaque acende-e-apaga dos itens 172-174 para Habitos e Estudos, co
 **Validacao local:** `.github/scripts/validate.py` passou: sete blocos JavaScript com `node --check` sem erro e tags div/span/button/svg/select balanceadas. Teste autenticado ao vivo das duas telas ainda depende de Anderson.
 
 **Commit do site:** `208d27c67b89226942b60dc0a33ed26c8b10c228` (`index.html` somente), enviado a `main`; publicacao automatica pela Vercel conforme configuracao do repositorio. Conferir deploy e teste ao vivo antes de declarar funcionamento integral em producao.
+
+## Item 175, validacao ao vivo (08/10/2026) -- Teste de handoff GPT bem-sucedido
+
+Item 175 (destaque "acende e apaga" em Habitos e Estudos, implementado pelo GPT via Work conectado ao GitHub, commit 208d27c, publicado) testado ao vivo por Anderson, nao so por suposicao:
+
+- Habitos: criar e reativar habito, confirmado que o destaque disparou nas duas acoes.
+- Estudos: area criada em categoria "Outros" (filtro correto), depois registro salvo dentro dela (10% concluido, ultimo registro hoje, proxima revisao amanha). Destaque confirmado ao vivo nas duas acoes (criar area e salvar registro).
+
+**Primeiro teste real do handoff tecnico pro GPT (Work "Azimo", conectado via GitHub Connector aos tres repositorios azimo-site/azimo-worker/azimo-estrategia) concluido com sucesso:** leu o contexto certo (STATUS.md + Backlog + codigo), identificou sozinho um risco de UX antes de implementar (area vs registro em Estudos, mesmo tipo de cuidado que o Claude ja teve com Objetivos), pediu confirmacao antes de editar, implementou, testou localmente, publicou, e reportou com evidencia (commit, status do deploy, pendencia clara do que ainda precisava validacao humana). Nao inventou acesso que nao tinha (pediu conexao ao GitHub em vez de simular).
+
+**Pendencia aberta:** adaptar o protocolo de handoff do Azimo pro formato de bloco unico usado no Beleza Rara (gatilho ASSUMIR GPT/HANDOFF no topo do STATUS.md), ainda nao decidido por Anderson.
+
