@@ -7324,3 +7324,11 @@ Anderson revogou o token exposto por acidente e gerou um novo (mesmo escopo: fin
 Teste de ponta a ponta feito para confirmar que o novo token funciona: commit de teste, push, revert, push do revert. Tudo passou (`981c7e8..abc2f40`).
 
 Item de seguranca do incidente anterior (token antigo exposto via `cat` durante debug) esta encerrado: o token antigo nao existe mais, foi substituido.
+
+## 2026-10-08 - Terceiro token gerado apos exposicao via busca no Drive
+
+Durante verificacao de um backup do token no Google Drive, uma busca por conteudo (fullText) expos o valor do token nos resultados. Anderson revogou e gerou um terceiro token, mesmo escopo (fine-grained, so azimo-estrategia, Contents Read/write), colado por ele mesmo em `_Segredos/github_estrategia_token.txt`.
+
+Pasta local `Azimo` tinha sido apagada (passo esperado, sem perda de dados). Cópia de trabalho da Estrategia reclonada do zero em `Azimo/Projeto/Estrategia`. Teste de push de ponta a ponta com o token novo: commit, push, revert, push do revert. Tudo passou (`7438c99..5718091..` ate o revert).
+
+Licao registrada: nunca mais usar busca por conteudo (fullText) do Drive perto de arquivos de segredo. Verificacao de arquivos sensiveis no Drive deve ser feita so por nome/metadado, nunca por busca que devolve trecho de conteudo.
