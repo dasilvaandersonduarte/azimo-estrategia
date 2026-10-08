@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> Atualizado em 08/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 162-174 (recorrencia financeira, highlight visual acende-e-apaga em Despesas/Receitas/Metas, tour de Controles, ajustes de Importacao de fatura). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
+> Atualizado em 08/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 162-175 (recorrencia financeira, destaque visual acende-e-apaga em Despesas/Receitas/Metas Financeiras/Habitos/Estudos, tour de Controles, ajustes de Importacao de fatura). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
 >
 > Ler integralmente no inicio da sessao tecnica, junto dos ultimos itens do Backlog (daqui pra tras, nao so dos itens antigos abaixo nesta secao). O historico operacional permanente esta no [BACKLOG_MESTRE_AZIMO.md](BACKLOG_MESTRE_AZIMO.md); responsabilidades e precedencia documental estao no [_INDICE_DOCUMENTOS.md](_INDICE_DOCUMENTOS.md).
 
