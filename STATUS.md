@@ -75,7 +75,3 @@ Fontes atualizadas por Anderson em 14/09, conforme confirmação. Conexão Cloud
 Consultar arquivo geral + direcionador do ambiente + domínios necessários. Aplicar eficiência conforme o arquivo geral e seção 7 do protocolo: usar o menor contexto e esforço suficientes para execução segura, reutilizando evidências válidas e agrupando alterações relacionadas quando não aumentar o risco, sem reduzir segurança, preservação histórica ou qualidade.
 
 Para retomar produto, conferir o item 76 e o handoff vigente, sem presumir que solicitações antigas continuam abertas. Manter a verificação mobile no mesmo lote das mudanças de desktop, conforme item 71. Segurança, commits, publicação, backups e recuperação continuam regidos pelo protocolo; esta atualização documental não autoriza código, deploy ou mudança de procedimento.
-
-## Teste de sincronizacao (08/10/2026, 17:5x horario local)
-
-Teste automatico pra confirmar que o push continua funcionando depois de recriar o token. Pode ignorar/remover esta linha depois.
