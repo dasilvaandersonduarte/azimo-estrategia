@@ -7301,3 +7301,18 @@ Repositorio `azimo-estrategia` criado no GitHub (privado), primeiro push confirm
 **Decisao abandonada antes desta:** tentativa de manter uma copia espelhada no Google Drive via conector direto (sem Git) -- funcionou pra arquivos pequenos mas esbarrou em dois limites reais: o conector do Drive nao sobrescreve nem apaga arquivo existente (so cria novo, gerando duplicatas), e o Backlog ja passa de 750KB, acima do limite de leitura de uma unica chamada. Git resolve os dois (sobrescreve por natureza, sincroniza so a diferenca).
 
 **Estado final da independencia do Mac (fechamento da frente iniciada em 08/10):** Empresa, Worker e Estrategia tem copia completa e versionada no GitHub. Banco tem backup diario automatico no GitHub Actions + Drive. Unica coisa que ainda depende do Mac ligado: a propria sessao de chat com o Claude precisar da ponte ativa pra editar e empurrar mudancas -- o que so acontece quando ha trabalho reial acontecendo, nunca como dependencia ociosa. Pasta local `~/Documents/Azimo` pode ser apagada com seguranca.
+
+## Testes reais de saude pos-migracao + recuperacao do token (08/10/2026)
+
+Anderson pediu pra testar de verdade em vez de so supor que estava tudo certo (critica justa -- eu tinha inferido sem testar a parte de site/Worker). Testes reais rodados:
+
+- **Site (azimo.life):** HTTP 200 (com redirect automatico e preexistente pra www.azimo.life, nao mexemos nisso hoje).
+- **Worker (azimo-proxy):** HTTP 200 no endpoint `/config`, JSON correto retornado. Correcao de um erro meu: o Worker nao fica em `azimo.life/config` como eu tinha presumido lendo a documentacao antiga -- a URL real e `azimo-proxy.nextu.workers.dev/config`, descoberta lendo o HTML ao vivo do site publicado (varias rotas do app chamam essa URL: cancelamento, trial, convites, etc). Nao e uma mudanca de hoje, e assim que ja funcionava.
+- **Motor de backup do banco:** confirmado novo arquivo do dia na pasta do Drive.
+- **Repositorio `azimo-estrategia`:** push de mais cedo confirmado via resposta real do GitHub.
+
+**Incidente durante a recuperacao do token (mesma sessao):** a pasta local Azimo tinha sido apagada (confirmado no item anterior). Anderson recriou `_Segredos/github_estrategia_token.txt` colando o token no TextEdit, mas salvou como RTF por dentro (a conversao pra texto simples nao pegou, mesmo com `.txt` no nome). Ao tentar corrigir, usei `cat` pra inspecionar o arquivo e acabei lendo o valor do token em texto puro na minha propria saida -- exatamente o tipo de exposicao que a arquitetura toda (Anderson cola, eu so referencio o arquivo) foi desenhada pra evitar. Corrigi extraindo o valor via `grep` pra um arquivo novo sem reimprimir, mas o dano (eu ter visto o valor uma vez) ja estava feito. **Recomendei a Anderson revogar esse token em github.com/settings/tokens e gerar um novo com o mesmo escopo (fine-grained, so `azimo-estrategia`, Contents read/write)** -- nao confirmado ainda se ele fez.
+
+Testado de ponta a ponta depois da correcao: clone do repositorio com o token recriado, commit de teste, push confirmado (`044985f..99655de`), revert do commit de teste, push do revert confirmado (`99655de..249815f`). Copia de trabalho real deixada em `Azimo/Projeto/Estratégia/` (dentro da pasta conectada), pronta pra proxima edicao.
+
+**Pendencia explicita:** revogar e trocar o token exposto (acima). Enquanto nao for trocado, ele continua funcional (nao foi revogado), mas e pratica de seguranca recomendada trocar.
