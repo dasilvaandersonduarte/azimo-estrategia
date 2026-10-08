@@ -7332,3 +7332,15 @@ Durante verificacao de um backup do token no Google Drive, uma busca por conteud
 Pasta local `Azimo` tinha sido apagada (passo esperado, sem perda de dados). Cópia de trabalho da Estrategia reclonada do zero em `Azimo/Projeto/Estrategia`. Teste de push de ponta a ponta com o token novo: commit, push, revert, push do revert. Tudo passou (`7438c99..5718091..` ate o revert).
 
 Licao registrada: nunca mais usar busca por conteudo (fullText) do Drive perto de arquivos de segredo. Verificacao de arquivos sensiveis no Drive deve ser feita so por nome/metadado, nunca por busca que devolve trecho de conteudo.
+
+## Item 175 (08/10/2026)
+
+Extensao do destaque acende-e-apaga dos itens 172-174 para Habitos e Estudos, conforme plano aprovado por Anderson nesta sessao.
+
+- Habitos: apos criar um habito personalizado ou reativar um padrao, a linha correspondente no Minimo Diario recebe `scrollIntoView` e `_flashHighlightEl`. O id do habito ja existente identifica a linha; marcacoes diarias nao acionam esse efeito.
+- Estudos: apos criar uma area ou salvar um registro, a lista renderiza e destaca o card da area correspondente. Se o filtro de categoria ocultaria a area, troca para sua categoria antes da renderizacao. A lista nao tem paginacao; registros individuais nao aparecem como cards nessa tela.
+- Reutilizada a animacao existente, sem alterar o modelo de dados nem os fluxos de edicao.
+
+**Validacao local:** `.github/scripts/validate.py` passou: sete blocos JavaScript com `node --check` sem erro e tags div/span/button/svg/select balanceadas. Teste autenticado ao vivo das duas telas ainda depende de Anderson.
+
+**Commit do site:** `208d27c67b89226942b60dc0a33ed26c8b10c228` (`index.html` somente), enviado a `main`; publicacao automatica pela Vercel conforme configuracao do repositorio. Conferir deploy e teste ao vivo antes de declarar funcionamento integral em producao.
