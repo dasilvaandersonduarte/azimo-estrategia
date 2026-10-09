@@ -7381,3 +7381,18 @@ Arquivo: azimo-site/index.html. Commit 3759501 (push 208d27c..3759501).
 Resumo objetivo: o commit do item 176 (azimo-site) foi feito com `user.email=anderson@azimo.life`, que não é um e-mail verificado na conta GitHub `dasilvaandersonduarte`. O Vercel tem uma proteção que bloqueia deploy em produção quando o e-mail do commit não bate com nenhum e-mail verificado da conta GitHub autora -- status apareceu como "Blocked" no painel, com a mensagem "The deployment was blocked because the commit email ... could not be matched to a GitHub account."
 
 Lição registrada: todo commit feito por mim (Claude) nos repositórios do Azimo que publicam via Vercel (hoje só `azimo-site`) precisa usar `user.email=dasilvaandersonduarte@gmail.com` (o e-mail real da conta GitHub do Anderson), nunca `anderson@azimo.life` ou qualquer outro. Corrigido via `git commit --amend --author` + force-push (commit final: a8d5148, era 3759501). Vale conferir esse detalhe sempre que outro agente (ex: GPT) também tiver permissão de push nesse repositório.
+
+## Item 177 (Anderson, 09/10/2026) -- Remove coluna Parcela redundante + projeção automática de parcelas futuras
+
+Verbatim:
+"O campo Parcela que criamos do lado direito da Despesa e antes do Recorrência se faz desnecessário pois a parcela atual/quantidade de parcelas já aparece diretamente no cadastro da recorrência."
+"Eu quero que o sistema identifique e coloque para os meses futuros a quantidade de parcelas pois assim como é a operação de uma recorrência anual, mensal ou qualquer outra, se temos a quantidade de parcelas, ele sabe quantos meses para a frente que tem que colocar a parcela e ir progredindo."
+"Se amortizarmos algo, só ficaremos com a pendência de como resolver isso."
+
+Resumo objetivo: a coluna "Parcela" criada no item 176 duplicava informação que o label de Recorrência já mostra ("Parcela 165/420", ver _finRecTipoLabel) -- removida. Separadamente, pedido pra que um lançamento corrigido manualmente pra 'parcela' (item 176) se comporte como uma recorrência de verdade: gerar sozinho os meses seguintes, incrementando o número da parcela a cada mês até bater o total, do mesmo jeito que mensal/anual já fazem.
+
+Implementado: _finGerarRecorrenciasAteAgora() (mesmo motor que já gera mensal/bimestral/semestral/anual/semanal/quinzenal/diasx) ganhou um bloco novo pra 'parcela'. Só entra nesse fluxo quem foi corrigido manualmente (sem parcelasGrupoId) -- as parcelas criadas em lote pelo fluxo "Parcelado" de uma despesa nova continuam intocadas, porque já nascem todas de uma vez. Gera até o mês atual/visualizado, incrementando parcelaN a cada mês, e para sozinho quando parcelaN chega em parcelasTotal.
+
+Pendência explícita, registrada por pedido do Anderson (ele mesmo já identificou o risco, não resolvido ainda): amortização. Se o Anderson pagar um valor extra pra abater o financiamento, o total de parcelas ou o ritmo de progressão pode mudar de verdade (não é mais um incremento simples de 1 por mês). O motor atual não tem como saber disso sozinho -- não existe hoje um conceito de "replanejar a série a partir daqui". Workaround manual pra quando isso acontecer: editar o lançamento mais recente (gerado ou original) ajustando o campo "Total de parcelas" pro novo valor, e apagar os lançamentos futuros já gerados daquela série (os que têm recorrenciaId apontando pra esse lançamento) pra que o motor regenere certo a partir da próxima vez que o Financas carregar. Não implementado como funcionalidade própria ainda -- fica como item em aberto pra quando o caso acontecer de verdade, com o Anderson confirmando se o fluxo manual acima é suficiente ou se vale construir uma ação dedicada ("Recalcular parcelas após amortização").
+
+Arquivo: azimo-site/index.html. Commit 51e55fc.
