@@ -7356,3 +7356,22 @@ Item 175 (destaque "acende e apaga" em Habitos e Estudos, implementado pelo GPT 
 
 **Pendencia aberta:** adaptar o protocolo de handoff do Azimo pro formato de bloco unico usado no Beleza Rara (gatilho ASSUMIR GPT/HANDOFF no topo do STATUS.md), ainda nao decidido por Anderson.
 
+
+## Item 176 (Anderson, 09/10/2026) -- Correção manual de Parcela num lançamento existente + coluna Parcela na lista
+
+Verbatim (Anderson, sobre a despesa "Casa 297/02 | 165/420 | Automático Caixa"):
+"Essa despesa está cadastrada como única pois subi diretamente da planilha e não tínhamos alinhado ainda a leitura de que se tiver um X/X é relativo a questão da quantidade de parcelas. Mas esse lançamento estou na parcela 165/420, então não é uma parcela única mas sim um Parcelado e não estou conseguindo alterar."
+"Eu quero que quando coloquemos que é parcelado e já tivermos a quantidade X/X das parcelas, ao lado do nome cadastrado da despesa e antes da recorrência nós tenhamos um campo para o nome 'Parcela' e fique nessa linha vertical anotado o X/X."
+"Tem uma sobra bem grande no card da Data, pode alinhar o espaçamento, por favor?"
+
+Resumo objetivo: a opção "Parcelado" vinha travada na edição de um lançamento já existente (item 163), porque converter pra parcelado normalmente significa criar N lançamentos novos, fora de escopo de uma edição simples. Mas o caso real era outro: uma despesa importada de planilha, sem o alinhamento da leitura X/X, que precisava só ser corrigida pra refletir que já é uma parcela de uma série que existe fora do Azimo (financiamento), sem gerar nenhum lançamento novo.
+
+Implementado:
+1. Na edição de um lançamento, "Parcelado" deixou de vir desabilitado no select de Recorrência. Selecionar essa opção durante uma edição não dispara mais o fluxo de criação em lote -- abre dois campos novos ("Parcela atual" e "Total de parcelas") pra correção manual. Salvar grava rec:'parcela', parcelaN e parcelasTotal diretamente no lançamento existente, sem criar nem remover nada.
+2. Um lançamento que já é 'parcela' continua sem poder trocar de tipo de recorrência (mesma trava de antes), mas os dois campos de número/total agora ficam editáveis mesmo assim, pré-preenchidos com o valor atual -- corrige erro de digitação sem reabrir o caso.
+3. Nova coluna "Parcela" na lista de Despesas por Controle (ao lado do nome, antes de Recorrência), mostrando X/Y pros lançamentos tipo parcela e "-" pros demais.
+4. Ajuste de espaçamento: coluna Data passou de largura proporcional (.55fr) pra largura fixa (62px), evitando que ela fique desproporcionalmente larga em relação ao conteúdo curto (datas no formato dd/mm/aaaa).
+
+Ponto 4 (espaçamento) foi corrigido com base na leitura do grid, sem conseguir reproduzir visualmente a tela antes de publicar (sem acesso a device bridge com navegador pra esse teste) -- pedir confirmação direta do Anderson depois do deploy.
+
+Arquivo: azimo-site/index.html. Commit 3759501 (push 208d27c..3759501).
