@@ -7375,3 +7375,9 @@ Implementado:
 Ponto 4 (espaçamento) foi corrigido com base na leitura do grid, sem conseguir reproduzir visualmente a tela antes de publicar (sem acesso a device bridge com navegador pra esse teste) -- pedir confirmação direta do Anderson depois do deploy.
 
 Arquivo: azimo-site/index.html. Commit 3759501 (push 208d27c..3759501).
+
+## Correção (09/10/2026) -- Deploy do item 176 bloqueado pelo Vercel (e-mail de commit errado)
+
+Resumo objetivo: o commit do item 176 (azimo-site) foi feito com `user.email=anderson@azimo.life`, que não é um e-mail verificado na conta GitHub `dasilvaandersonduarte`. O Vercel tem uma proteção que bloqueia deploy em produção quando o e-mail do commit não bate com nenhum e-mail verificado da conta GitHub autora -- status apareceu como "Blocked" no painel, com a mensagem "The deployment was blocked because the commit email ... could not be matched to a GitHub account."
+
+Lição registrada: todo commit feito por mim (Claude) nos repositórios do Azimo que publicam via Vercel (hoje só `azimo-site`) precisa usar `user.email=dasilvaandersonduarte@gmail.com` (o e-mail real da conta GitHub do Anderson), nunca `anderson@azimo.life` ou qualquer outro. Corrigido via `git commit --amend --author` + force-push (commit final: a8d5148, era 3759501). Vale conferir esse detalhe sempre que outro agente (ex: GPT) também tiver permissão de push nesse repositório.
