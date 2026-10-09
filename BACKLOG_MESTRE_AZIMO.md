@@ -7404,3 +7404,11 @@ Verbatim: "Acredito que podemos já ajustar para que o usuário possa fazer isso
 Resumo objetivo: fecha a pendência deixada em aberto no item 177. Editar valor ou total de uma parcela (seja o lançamento original da série, ou um filho já gerado automaticamente) agora pergunta o escopo quando faz sentido perguntar (só se valor ou total mudaram de verdade, e só se existe futuro pela frente -- já é filho de uma série, ou o original já gerou filhos). "Só esta parcela" muda unicamente o lançamento editado. "Esta e todas as futuras" atualiza o lançamento original da série (de onde o motor de geração do item 177 lê os valores pros meses que ainda não existem) e apaga os filhos futuros já gerados com o padrão antigo, que são regerados certos no próximo carregamento do Financas. Mesmo padrão de pergunta de escopo que já existia pra mudança de tipo de recorrência (mensal/anual).
 
 Arquivo: azimo-site/index.html. Commit a16ebdc.
+
+## Item 179 (Anderson, 09/10/2026) -- Bug: Recorrência vazia ao editar parcela + placeholder genérico
+
+Verbatim: "A recorrência da parcela no campo de recorrência ficou travada aqui 'do nada', mandei o print." / "na parte do 'Número da parcela (correção manual, não cria novos lançamentos)' os exemplos eu quero que fique Parcela atual 1 Total de parcelas 10 como padrão ali abaixo de exemplo e não o exemplo que deu já baseado no meu financiamento."
+
+Resumo objetivo: bug real no item 176/177 -- o `<select>` de Recorrência só tem a option `value="parcelado"`, nunca existiu `value="parcela"` (esse é só o valor salvo no dado, não uma opção do menu). `abrirFinEditarTransacao` setava `recSel.value = item.rec` direto, e como "parcela" não bate com nenhuma option, o select ficava sem nada selecionado (aparência vazia, reportada pelo Anderson). Corrigido: ao editar um lançamento que já é 'parcela', o select mostra "Parcelado" selecionado (mesma opção visual, o dado salvo continua sendo 'parcela' por baixo). Também trocado o placeholder dos campos de correção de parcela de "Ex: 165"/"Ex: 420" (exemplo real do financiamento do Anderson) pra "Ex: 1"/"Ex: 10" (genérico).
+
+Arquivo: azimo-site/index.html. Commit 0b8a7fa.
