@@ -7428,3 +7428,31 @@ Verbatim: "O que achas de quando marcarmos como paga, as informações da seçã
 Resumo objetivo: quando t.pago é true, a linha inteira na lista de Despesas por Controle perde a cor de destaque (ícone colorido, descrição, recorrência colorida, valor em vermelho) e tudo vira o mesmo cinza neutro que a coluna Categoria já usa (var(--text3)) -- continua legível, só deixa de chamar atenção, sinalizando "resolvido". Independente do dimming por opacidade que já existia pra despesa prevista (t.previsto), que continua intacto.
 
 Arquivo: azimo-site/index.html (_finDespRowHtml). Commit c7f9ffd.
+
+## Correção (10/10/2026) -- E-mails de falha do workflow "Validar index.html" (falso-positivo)
+
+**Reportado por Anderson:** recebendo e-mails do GitHub dizendo que o workflow
+"Validar index.html" falhava em todo push recente (job `validar`, 3 anotações),
+mas o site em produção sempre funcionou normalmente.
+
+**Diagnóstico:** `.github/scripts/validate.py` roda duas checagens no `index.html`
+inteiro a cada push: sintaxe JS (`node --check`) e balanceamento de tags
+(`div`/`span`/`button`/`svg`/`select`), contando aberturas (`<tag>`) e fechamentos
+(`</tag>`) em TODO o arquivo, não só no HTML real que o navegador renderiza.
+
+Os itens 176 e 179 (correção manual de parcela) adicionaram comentários de
+código em JavaScript que mencionavam o texto literal `<select>` (ex: "o
+<select> só tem a option 'parcelado'") sem um `</select>` correspondente, porque
+é só texto de comentário, não uma tag HTML de verdade. O validador não distingue
+comentário de HTML real, então contou 56 aberturas de `<select` contra só 54
+fechamentos (`</select>`) e travou todo o workflow -- mesmo o navegador nunca
+tendo visto esse "erro", já que comentários JS são invisíveis em runtime.
+
+**Correção:** reescritos os dois comentários pra dizer "campo select" em vez do
+texto com `<>`, sem mudar nenhuma lógica. `validate.py` voltou a passar limpo
+(div/span/button/svg/select todos com diff=0). Commit `f95bcbd` em `azimo-site`.
+
+**Lição permanente:** ao escrever comentários de código dentro do `index.html`,
+evitar colocar nomes de tag HTML entre `<>` (ex: `<select>`, `<div>`) -- usar
+"elemento select", "campo select" etc. O validador de tags é ingênuo e escaneia
+o arquivo inteiro, comentário incluso.
