@@ -7502,3 +7502,42 @@ Agora, se algum dos lançamentos selecionados já está pago, o lote pergunta
 antes de executar. Também passou a gravar/limpar `pagoEm` no fluxo em lote
 (tanto marcar quanto desmarcar), pra manter o tooltip de data (item 182)
 consistente independente de qual caminho foi usado. Commit `9a87f36`.
+
+## Item 183 (10/10/2026) -- Botão "Pagamento agendado" + backfill de pagoEm
+
+**Pedido do Anderson:** um botão ao lado direito do check de Pago, pra quando
+um pagamento (ex: boleto pago hoje, mas só compensa no próximo dia útil) ainda
+não está realmente pago. Ao selecionar, deve criar automaticamente uma tarefa
+na agenda na data certa, com o nome "Conferir | Nome da Despesa".
+
+**Implementado:**
+- Novo botão (ícone de relógio) na linha da despesa, ao lado do check de Pago.
+  Abre um modal simples: nome da despesa, campo de data (pré-preenchido com o
+  próximo dia útil a partir de hoje -- só pula sábado/domingo, o Azimo ainda
+  não tem calendário de feriados) e salva.
+- Ao confirmar, cria uma tarefa na Agenda na data escolhida: "Conferir | <nome
+  da despesa>". A despesa continua pendente (não marca como paga).
+- Reabrir o botão numa despesa já agendada permite reagendar (move a tarefa
+  pra nova data, sem duplicar) ou cancelar o agendamento (remove a tarefa
+  criada e desfaz o vínculo).
+- O botão fica com destaque (âmbar) quando há agendamento ativo, e o hover
+  mostra a data e o texto da tarefa.
+- Se a despesa for marcada como Pago depois (pelo check normal), o vínculo com
+  o agendamento é desfeito automaticamente -- a tarefa em si continua na
+  agenda (não é apagada), só deixa de estar "presa" a essa despesa.
+
+**Backfill (pedido avulso do Anderson, mesma mensagem):** despesas que já
+estavam marcadas como pagas antes do campo `pagoEm` existir (item 182) não
+tinham data registrada. Como todas as que ele tinha marcado como pagas até
+agora foram marcadas durante os testes de hoje, criei uma migração única
+(`_migrarFinPagoEmBackfill`, mesmo padrão de flag único que `_migrarFinancasV1`
+já usa) que grava `pagoEm = agora` nessas despesas na próxima vez que o Azimo
+carregar no navegador dele. Roda automaticamente, uma única vez, sem precisar
+de acesso direto ao banco.
+
+**Decisões assumidas, não confirmadas explicitamente (flagueadas pro
+Anderson):** (1) excluir uma despesa agendada não remove a tarefa já criada
+na agenda -- fica solta, sem decisão explícita pedida; (2) "próximo dia útil"
+não considera feriados nacionais, só fins de semana.
+
+Commit `d7408a6` em `azimo-site`.
