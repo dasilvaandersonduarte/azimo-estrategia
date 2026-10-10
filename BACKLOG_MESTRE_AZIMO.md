@@ -7719,3 +7719,27 @@ ambiguidade e uma auto-correção no meio):
 
 Nenhuma das duas foi implementada ainda -- aguardando resposta da pergunta de
 alinhamento feita na conversa.
+
+## Item 189 (10/10/2026) -- Ordenar por Recorrência e por Status
+
+Alinhamento feito via perguntas diretas ao Anderson (3 perguntas, todas
+respondidas com a opção recomendada): as duas novas formas de ordenar ficam
+dentro do MESMO dropdown de Recorrência que já existe em cada Controle, como
+opções extras logo depois de "Todas" -- não são filtros novos, são
+reordenação: nenhuma despesa fica escondida, só a ordem de exibição muda.
+
+**Implementado:**
+- "Ordenar por Recorrência": agrupa as despesas pelo tipo (a cada X dias,
+  semanal, quinzenal, mensal, bimestral, semestral, anual, parcelado, única),
+  nessa ordem.
+- "Ordenar por Status": agrupa por status, pendentes primeiro -- Não paga,
+  depois Agendada, depois Paga (decisão minha: paga é o que menos precisa de
+  atenção, mesma lógica do item 181; Anderson tinha dito "Pagas - Não Pagas -
+  Agendadas" na mensagem original, ordem que pode ter sido só a forma de
+  listar os três status na fala, não necessariamente a ordem de exibição
+  pretendida -- se não for isso, é só avisar que inverto).
+
+Dentro de cada grupo, a ordenação por Valor/Data (que já existia, clicando no
+cabeçalho da coluna) continua valendo como critério de desempate.
+
+Commit `14218b1` em `azimo-site`.
