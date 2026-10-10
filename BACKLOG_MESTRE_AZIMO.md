@@ -7996,3 +7996,34 @@ criação dedicada.
   separados em linhas o conteúdo ficou mais alto.
 
 Commit `b0a7f3a` em `azimo-site`.
+
+## Item 198 (10/10/2026) -- Cards de Recorrentes (Despesas e Receitas) seguindo o mesmo padrão dos Parcelamentos ativos
+
+Anderson confirmou qual é o padrão visual certo (Bradesco | Infinite e
+Pagamento Prestadoras, dentro de Parcelamentos ativos) e pediu pra
+replicar esse mesmo padrão nos cards de Despesas/Receitas Recorrentes
+(Nubank, Pagamento Prestadoras de Despesas Recorrentes, Receitas
+Recorrentes), inclusive garantindo que vale pra qualquer Controle que
+vier a ter recorrência no futuro, mesmo sem nada cadastrado hoje.
+
+**Causa:** `_finRecTabelaHtml` (Despesas/Receitas Recorrentes) e
+`blocoParcHtml` (Parcelamentos ativos) eram duas implementações visuais
+diferentes pro mesmo conceito de "card por Controle, com recolher e
+total". A de Recorrentes tinha um ícone decorativo colorido ao lado do
+título e mostrava o total dentro de um badge no cabeçalho; a de
+Parcelamentos (a que o Anderson confirmou como certa) usa título simples
+e um rodapé fixo de "Total", separado por linha, sempre visível.
+
+**Corrigido:** `_finRecTabelaHtml` reescrita pra seguir exatamente o
+padrão do `blocoParcHtml`: título sem ícone, mesmo botão de
+recolher/expandir, corpo vira "N itens · recolhido" quando fechado, e
+"Total mensal" fixo no rodapé (visível com o card aberto ou recolhido,
+que já era o comportamento pedido no item 195). O card vazio (quando um
+filtro deixa "Despesas Recorrentes" sem nenhum item) ganhou o mesmo
+tratamento do card vazio de Parcelamentos: só título + mensagem, sem
+botão de recolher (não tem o que recolher). Como essa função é chamada
+genericamente pra todo Controle que tiver recorrência, o padrão já vale
+automaticamente pra qualquer Controle novo que passar a ter recorrência,
+sem precisar de ajuste caso a caso.
+
+Commit `594051e` em `azimo-site`.
