@@ -7684,3 +7684,38 @@ mostrar o ícone de "agendado" aceso quando novembro chegar e a transação for
 gerada. A tarefa em si funciona normalmente antes disso.
 
 Commit `b0a5788` em `azimo-site`.
+
+## Item 188 (10/10/2026) -- Leva direto pra Agenda após confirmar o agendamento
+
+**Pedido do Anderson:** quando confirma um "Pagamento agendado", quer já ser
+direcionado pra Agenda, no dia em que a tarefa foi criada, pra ter a
+confirmação visual na hora de que já está lá, já está feito.
+
+**Implementado:** nova função `_finIrParaAgendaNoDia(data)`, que navega pra
+tela de Rotina Diária, muda a Agenda pro modo diário, pula pro dia escolhido
+(o primeiro dia agendado, não a série inteira de uma parcela) e pisca o card
+"Sua Agenda Azimo" -- mesmo padrão visual que `_irParaTarefasDoDiaDireto` já
+usa em outros lugares do Azimo (ex: os pills de pendência do Dashboard). O
+toast de confirmação continua aparecendo também, a navegação é um reforço, não
+substitui.
+
+Commit `7e56805` em `azimo-site`.
+
+## Pendente de alinhamento -- filtro/ordenar de Recorrência e status de Pago
+
+Anderson pediu duas mudanças relacionadas a filtro e ordenação que ainda
+precisam de alinhamento antes de implementar (mensagem dictada, com
+ambiguidade e uma auto-correção no meio):
+
+1. O filtro de Recorrência (dropdown que hoje só exclui outros tipos quando
+   você escolhe um) deveria também ter uma opção "Ordenar" que reorganiza a
+   lista pela Recorrência sem esconder nada (ao contrário do filtro, que
+   exclui). Não ficou claro se isso é uma opção nova dentro do mesmo dropdown,
+   uma ordenação automática por padrão, ou outra coisa -- vou perguntar antes
+   de mexer.
+
+2. Pedido novo, na mesma linha: um "ordenar" que agrupe por status --
+   Pagas / Não Pagas / Agendadas.
+
+Nenhuma das duas foi implementada ainda -- aguardando resposta da pergunta de
+alinhamento feita na conversa.
