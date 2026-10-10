@@ -7743,3 +7743,33 @@ Dentro de cada grupo, a ordenação por Valor/Data (que já existia, clicando no
 cabeçalho da coluna) continua valendo como critério de desempate.
 
 Commit `14218b1` em `azimo-site`.
+
+## Item 190 (10/10/2026) -- Icone de editar nome em categorias personalizadas
+
+Anderson pediu um icone para editar o nome da categoria, visivel na lista de
+categorias "quando estamos para selecionar". O unico lugar do Azimo hoje que
+mostra categorias como lista de linhas clicaveis (em vez de um campo select
+nativo) e o picker de Orcamento (`abrirFinOrcamentoPicker`), chamado pelo CTA
+da aba Geral de Financas quando a pessoa ainda nao tem nenhum orcamento
+definido.
+
+**Implementado:**
+- Icone de editar (lapis) no final de cada linha, mas so' aparece nas
+  categorias personalizadas (criadas pelo proprio usuario, em `catsCustom`).
+  As categorias padrao do Azimo sao fixas no codigo e nao sao editaveis.
+- Clique no icone abre um prompt simples para digitar o novo nome. Nao deixa
+  salvar em branco.
+- A linha inteira, que antes era um elemento botao, virou um elemento div
+  clicavel, porque precisava acomodar o botao de editar aninhado dentro dela
+  (botao dentro de botao e HTML invalido e quebra o clique).
+
+**Nota tecnica:** essa edicao gerou o mesmo tipo de falso-positivo que ja
+tinha acontecido antes no workflow de validacao -- os comentarios explicando
+a mudanca mencionavam literalmente as tags de botao, div e select, e o
+validador conta esse texto como tags reais de HTML em qualquer parte do
+arquivo, inclusive dentro de comentarios. Reescrevi os comentarios sem usar
+colchetes angulares (ex: "elemento select" em vez da tag literal). Vale
+ficar atento a isso em futuras edicoes: nunca escrever uma tag HTML literal
+em comentario, sempre descrever por extenso.
+
+Commit `5a1ab1f` em `azimo-site`.
