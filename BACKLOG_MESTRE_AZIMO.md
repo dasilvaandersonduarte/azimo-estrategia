@@ -7420,3 +7420,11 @@ Verbatim: "Na parte do Despesas, o botão que nós temos para marcar como paga, 
 Resumo objetivo: os botões "Pago" e "Selecionar" eram visualmente idênticos em repouso (mesmo tamanho, mesmo quadrado vazio), só diferindo depois de marcados (verde vs indigo). Ajustado pra o ícone de check do botão Pago ficar sempre visível, discreto e cinza quando não pago, virando verde sólido e com opacidade total quando marcado como pago -- diferencia os dois botões de cara, sem precisar clicar.
 
 Arquivo: azimo-site/index.html (CSS .fin-pago-chk/.fin-pago-chk-icon). Commit 5e3584f.
+
+## Item 181 (Anderson, 10/10/2026) -- Despesa paga "desliga" visualmente
+
+Verbatim: "O que achas de quando marcarmos como paga, as informações da seção 'desligarem', ou seja, ficar menos chamativa. De repente, só alterar ela toda para a cor 'cinza' que é a cor padrão da 'Categoria' (Exemplo)."
+
+Resumo objetivo: quando t.pago é true, a linha inteira na lista de Despesas por Controle perde a cor de destaque (ícone colorido, descrição, recorrência colorida, valor em vermelho) e tudo vira o mesmo cinza neutro que a coluna Categoria já usa (var(--text3)) -- continua legível, só deixa de chamar atenção, sinalizando "resolvido". Independente do dimming por opacidade que já existia pra despesa prevista (t.previsto), que continua intacto.
+
+Arquivo: azimo-site/index.html (_finDespRowHtml). Commit c7f9ffd.
