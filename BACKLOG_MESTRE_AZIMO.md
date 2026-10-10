@@ -7631,3 +7631,56 @@ atrasadas cuida de trazer ela pra atenção -- não precisei duplicar essa
 lógica.
 
 Commit `95cf238` em `azimo-site`.
+
+## Item 187 (10/10/2026) -- Correção de texto + agendamento em lote pras parcelas
+
+**Correção de texto apontada pelo Anderson (print do tooltip de "Pagamento
+agendado", item 183):** maiúscula faltando depois de abre-parêntese ("ex:" →
+"Ex:") e depois de dois-pontos ("boleto" → "Boleto"), travessão duplo ("--")
+usado apesar da regra de não usar travessão nos textos do Azimo, e "pra"
+informal onde devia ser "para". Corrigido o texto exato: "Pagamento agendado
+para outro dia (Ex: Boleto que só cai no próximo dia útil). Cria uma tarefa
+na agenda para conferir."
+
+Conferi se esse mesmo erro ("--" em texto visível ao usuário) se repetia em
+algum outro toast/confirm/título criado hoje (itens 176 a 186) -- não se
+repetiu, era só esse tooltip. Existe uma inconsistência pré-existente e bem
+mais ampla no app inteiro (33 ocorrências de "(ex:" minúsculo contra 28 de
+"(Ex:" maiúsculo, espalhadas por telas que não mexi hoje) -- não entrou no
+escopo dessa correção, fica registrado caso o Anderson queira uma passada de
+limpeza dedicada depois.
+
+**Pedido do Anderson:** o botão "Pagamento agendado" (item 183) também devia
+ser o caminho padrão pra quem tem pagamento recorrente em débito automático.
+Exemplo: uma despesa que é a parcela 3/48 -- ao agendar essa parcela, o
+sistema já devia criar as tarefas de conferência pra todas as 45 parcelas
+futuras também, automaticamente, como padrão (não como opção).
+
+**Implementado:** `_finAplicarAgendamento` agora detecta quando a despesa
+agendada é `rec==='parcela'` com `parcelaN`/`parcelasTotal` conhecidos e
+`parcelasTotal > parcelaN` (ainda tem parcelas futuras). Nesse caso, gera uma
+tarefa "Conferir | nome" pra CADA parcela restante, um mês após o outro, a
+partir da data escolhida pra essa parcela (novo helper `_finAdicionarMes`,
+que avança a data em exatamente um mês preservando o dia, limitado ao
+tamanho do mês seguinte quando necessário -- ex: dia 31 vira dia 30 em
+abril). O modal avisa isso antes de confirmar ("Essa despesa é a parcela
+X/Total... também vamos agendar as próximas N parcelas"). Cancelar o
+agendamento remove todas as tarefas da série de uma vez, não só a mais
+próxima.
+
+**Mudança técnica:** a despesa agora guarda `agendamentoTarefaIds` (lista),
+em vez do `agendamentoTarefaId` (um só) do item 183 original -- cobre tanto o
+caso simples (1 tarefa) quanto o de uma parcela com vários meses agendados de
+uma vez. Mantida leitura do campo antigo também, pra não perder a limpeza de
+um agendamento que já tivesse sido salvo com ele antes dessa mudança.
+
+**Limitação conhecida, não resolvida:** as tarefas das parcelas futuras são
+criadas antecipadamente (matematicamente, por mês), mas a TRANSAÇÃO real
+dessas parcelas futuras só é gerada pelo motor de recorrência quando o mês
+dela realmente chegar (comportamento já existente, ver
+`_finGerarRecorrenciasAteAgora`). Ou seja: a tarefa "Conferir" de novembro já
+existe na Agenda desde hoje, mas a linha da despesa de novembro só vai
+mostrar o ícone de "agendado" aceso quando novembro chegar e a transação for
+gerada. A tarefa em si funciona normalmente antes disso.
+
+Commit `b0a5788` em `azimo-site`.
