@@ -7951,3 +7951,48 @@ Receitas Recorrentes e o bloco inteiro de cards de Despesas Recorrentes),
 um por coluna, como deveria ser desde o início.
 
 Commit `f09c65c` em `azimo-site`.
+
+## Item 197 (10/10/2026) -- Modal Nova Tarefa ganhou formulário próprio, mais espaçado e sem elementos que não fazem sentido numa criação
+
+Anderson mandou print do modal "Nova Tarefa" reclamando que estava compacto
+demais e misturado, pediu pra tirar o check de concluir e o botão de
+excluir (a tarefa ainda nem existe de verdade pra ter o que concluir ou
+remover), reorganizar em título, descrição, data/horário/duração,
+Manutenção/Evolução lado a lado com uma descrição melhor pra quem não sabe
+o que é, hábito e recorrência cada um em sua própria linha pra selecionar,
+as 4 prioridades numa linha única em ordem de mais pra menos prioritária, e
+Cancelar/Concluir lado a lado.
+
+**Causa:** o modal reaproveitava `_tarefaRowHtml`, o componente de linha
+compacta usado nas listas de tarefas (Diário, Semanal, Blocos, Priorizar) --
+por isso vinha com os elementos de uma linha de lista (check, excluir,
+tudo espremido numa linha só), que fazem sentido lá mas não numa tela de
+criação dedicada.
+
+**Implementado:**
+- Nova função `_tarefaRapidaFormHtml`, só pro modal de criação rápida --
+  não mexe em `_tarefaRowHtml` nem em nenhuma lista existente.
+- Campos reorganizados exatamente na ordem pedida, um por linha, cada um
+  com rótulo.
+- Descrição agora sempre visível (antes ficava escondida atrás de um ícone).
+- Manutenção/Evolução viraram botões maiores lado a lado com uma legenda
+  curta embaixo do nome ("Mantém sua rotina funcionando" / "Te leva para
+  frente"), sem depender de passar o mouse pra entender.
+- Hábito e recorrência: cada um virou um botão de linha inteira, mostrando
+  o estado atual ("Nenhum hábito vinculado" / "Não repete") com o ícone do
+  lado.
+- As 4 prioridades: a ordem no código (`fazer, agendar, delegar, eliminar`)
+  não seguia o nível real de prioridade de cada quadrante (Prioridade
+  Máxima=4, Resolver Rápido=3, Planejar=2, Repensar=1) -- corrigido pra
+  `fazer, delegar, agendar, eliminar`, da mais pra menos prioritária, da
+  esquerda pra direita. Esse ajuste valeu só pro modal novo por enquanto;
+  a mesma ordem errada ainda existe nas linhas normais de tarefa
+  (`_tarefaRowHtml`), separado pra não mudar o hábito visual de quem já
+  usa a lista no dia a dia sem o Anderson pedir.
+- Cancelar/Concluir passaram a ficar lado a lado (Cancelar à esquerda,
+  Concluir à direita, padrão já usado nos outros modais do Azimo).
+- Modal alargado de 460px pra 500px e ganhou scroll interno próprio
+  (mesmo padrão do `#fin-modal`, item 191), porque com todos os campos
+  separados em linhas o conteúdo ficou mais alto.
+
+Commit `b0a7f3a` em `azimo-site`.
