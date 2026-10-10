@@ -7412,3 +7412,11 @@ Verbatim: "A recorrência da parcela no campo de recorrência ficou travada aqui
 Resumo objetivo: bug real no item 176/177 -- o `<select>` de Recorrência só tem a option `value="parcelado"`, nunca existiu `value="parcela"` (esse é só o valor salvo no dado, não uma opção do menu). `abrirFinEditarTransacao` setava `recSel.value = item.rec` direto, e como "parcela" não bate com nenhuma option, o select ficava sem nada selecionado (aparência vazia, reportada pelo Anderson). Corrigido: ao editar um lançamento que já é 'parcela', o select mostra "Parcelado" selecionado (mesma opção visual, o dado salvo continua sendo 'parcela' por baixo). Também trocado o placeholder dos campos de correção de parcela de "Ex: 165"/"Ex: 420" (exemplo real do financiamento do Anderson) pra "Ex: 1"/"Ex: 10" (genérico).
 
 Arquivo: azimo-site/index.html. Commit 0b8a7fa.
+
+## Item 180 (Anderson, 10/10/2026) -- Check sempre visível no botão Pago (Despesas)
+
+Verbatim: "Na parte do Despesas, o botão que nós temos para marcar como paga, poderia ter dentro dele um 'Check' para diferenciar do botão do selecionar."
+
+Resumo objetivo: os botões "Pago" e "Selecionar" eram visualmente idênticos em repouso (mesmo tamanho, mesmo quadrado vazio), só diferindo depois de marcados (verde vs indigo). Ajustado pra o ícone de check do botão Pago ficar sempre visível, discreto e cinza quando não pago, virando verde sólido e com opacidade total quando marcado como pago -- diferencia os dois botões de cara, sem precisar clicar.
+
+Arquivo: azimo-site/index.html (CSS .fin-pago-chk/.fin-pago-chk-icon). Commit 5e3584f.
