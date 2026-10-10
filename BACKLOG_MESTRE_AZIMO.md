@@ -7773,3 +7773,26 @@ ficar atento a isso em futuras edicoes: nunca escrever uma tag HTML literal
 em comentario, sempre descrever por extenso.
 
 Commit `5a1ab1f` em `azimo-site`.
+
+## Item 191 (10/10/2026) -- Correção: botões Salvar/Cancelar saindo do card no modal de Lançamento
+
+Anderson reportou, com print, que ao escolher "+ Nova categoria..." no modal
+de Editar Lançamento, os botões Salvar/Cancelar apareciam fora do card, com
+o layout desconfigurado.
+
+**Causa:** o modal de Lançamento (`#fin-modal`) usa a classe `.modal`, que
+tem altura máxima de 85% da tela e é uma coluna flexível, mas -- diferente
+do modal genérico do Azimo (`#modal`/`#modal-body`) -- não tinha um
+contêiner interno com rolagem própria. Quando vários blocos condicionais do
+formulário aparecem juntos (categoria nova, parcelas, correção manual de
+parcela, etc.), o conteúdo passa da altura máxima do card, e sem rolagem
+interna o rodapé (Cancelar/Salvar) vaza pra fora dele.
+
+**Corrigido:** criado um wrapper com rolagem própria (`#fin-modal-body`)
+envolvendo todo o conteúdo do formulário, entre o cabeçalho (título + toggle
+Receita/Despesa, que fica fixo no topo) e o rodapé (Cancelar/Salvar, que
+fica fixo embaixo) -- o mesmo padrão que o modal genérico do Azimo já usa.
+Agora o card nunca estica além do limite da tela; quando o conteúdo é maior
+que o espaço disponível, só a área do meio rola.
+
+Commit `8d0c9b0` em `azimo-site`.
