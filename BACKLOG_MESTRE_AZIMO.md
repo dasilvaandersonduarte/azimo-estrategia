@@ -7796,3 +7796,17 @@ Agora o card nunca estica além do limite da tela; quando o conteúdo é maior
 que o espaço disponível, só a área do meio rola.
 
 Commit `8d0c9b0` em `azimo-site`.
+
+## Item 192 (10/10/2026) -- Total do Controle fica cinza quando tudo está pago
+
+Anderson pediu que o valor total exibido no card de cada Controle de
+Despesas ficasse na cor "apagado" (cinza) quando todos os itens da lista
+daquele controle já estivessem marcados como pagos -- mesma lógica visual
+do item 184 (despesa individual fica cinza quando paga).
+
+**Implementado:** o total do card de cada Controle, e também o total do
+pseudo-grupo "Sem controle definido", agora checam se 100% dos lançamentos
+daquele grupo estão pagos. Se sim, o total vai pra cinza (`var(--text3)`).
+Se sobrar pelo menos uma despesa pendente, continua vermelho, como já era.
+
+Commit `8f787e3` em `azimo-site`.
