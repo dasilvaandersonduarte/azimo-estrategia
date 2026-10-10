@@ -7924,3 +7924,30 @@ recorrência mensal, não parcela) não aparecia com card próprio nenhum.
   do ajuste).
 
 Commit `9651523` em `azimo-site`.
+
+## Item 196 (10/10/2026) -- Card do Nubank indo pra coluna errada no grid de Recorrentes
+
+Depois do item 195 ir pro ar, Anderson mandou print mostrando que o card de
+Despesas Recorrentes do Nubank apareceu do lado esquerdo da aba Recorrentes
+(lado das Receitas), em vez do lado direito (lado das Despesas) -- "não faz
+sentido, tem que ficar ao lado direito".
+
+**Causa:** a área de Recorrentes usa `.grid-2`, que é um grid CSS puro de
+2 colunas com posicionamento automático por linha (não é uma coluna "da
+esquerda" e uma "da direita" fixas -- cada filho direto do grid ocupa a
+próxima célula livre, alternando coluna a cada item). O código do item 195
+empurrava `cardsDespesaRec.join('')` -- uma concatenação de vários `<div>`
+de card, um por Controle -- direto como item do grid, sem envolvê-los num
+container único. Resultado: cada card de Controle de despesa entrava como
+um filho separado do grid e ia se alternando entre as duas colunas, em vez
+de ficar todo do lado direito.
+
+**Corrigido:** `cardsDespesaRec.join('')` agora é envolvido num único
+`<div>` antes de entrar no grid (`<div>${cardsDespesaRec.join('')}</div>`),
+igual ao padrão que já funcionava certo em Parcelamentos ativos
+(`colunasParc`, que envolve cada coluna -- receita e despesa -- no seu
+próprio `<div>` antes do grid). Agora o grid só vê dois filhos (a tabela de
+Receitas Recorrentes e o bloco inteiro de cards de Despesas Recorrentes),
+um por coluna, como deveria ser desde o início.
+
+Commit `f09c65c` em `azimo-site`.
