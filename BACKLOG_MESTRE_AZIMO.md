@@ -7810,3 +7810,53 @@ daquele grupo estão pagos. Se sim, o total vai pra cinza (`var(--text3)`).
 Se sobrar pelo menos uma despesa pendente, continua vermelho, como já era.
 
 Commit `8f787e3` em `azimo-site`.
+
+## Item 193 (10/10/2026) -- Dialogo customizado substitui prompt/confirm/alert nativos do navegador
+
+Anderson reportou, com print, que ao mudar o valor de uma parcela aparecia
+um dialogo nativo do navegador ("www.azimo.life diz"), fora do padrão visual
+do Azimo e com o texto fora do padrão de escrita (travessão e "pra"
+informal). Pediu pra analisar todos os casos parecidos no site e já deixar
+o padrão certo pros próximos que a gente criar.
+
+**O que existia antes:** o Azimo já tinha alguns modais de confirmação
+feitos sob medida (descartar alterações, remover hábito), mas cada um foi
+construído do zero pra aquele caso específico. O resto do site (45 pontos,
+em 23 funções diferentes) ainda usava os diálogos nativos do navegador
+(`prompt()`, `confirm()`, `alert()`), que aparecem com a barra "site diz" e
+quebram totalmente a identidade visual do Azimo.
+
+**Construído:** um dialogo genérico reutilizável, no mesmo padrão visual do
+resto do site (`.modal-overlay`/`.modal`, com o cabeçalho da logo Azimo.life
+já usado no modal de descartar alterações), com quatro formatos, todos
+baseados em Promise (mesmo mecanismo do `_confirmarDescarteAlteracoes` que já
+existia):
+
+- `azAlert(mensagem, titulo)` -- um botão "Entendi", substitui `alert()`.
+- `azConfirm(mensagem, titulo)` -- Cancelar/Confirmar, substitui `confirm()`
+  do tipo sim/não.
+- `azPrompt(mensagem, valorInicial, titulo)` -- campo de texto + Cancelar/
+  Salvar, substitui `prompt()` de texto livre.
+- `azEscolha(mensagem, opcoes, titulo)` -- uma lista de botões (uma opção por
+  linha, em vez de pedir pra digitar um número), substitui os `prompt()` de
+  "Digite 1 ou 2" -- inclusive o exato que o Anderson reportou no print
+  (mudar valor/total de uma parcela), e os outros dois iguais (mudar
+  recorrência, cancelar recorrência).
+
+**Migrado:** TODOS os 45 pontos do site que ainda usavam diálogo nativo (22
+confirm, 14 alert, 9 prompt, em 23 funções -- hábitos, Vio, produtividade,
+áreas de estudo, metas, contas, controles, despesas, importações, categorias
+personalizadas, convites/assinaturas no admin). Cada função que precisou
+chamar um desses virou `async`. Não sobrou nenhum `prompt()`/`confirm()`/
+`alert()` nativo no index.html.
+
+De quebra, duas mensagens que estavam fora do padrão de escrita do Azimo
+(travessão, "pra" informal) foram corrigidas nos dois únicos lugares que
+ainda tinham isso.
+
+**Padrão pra daqui pra frente:** qualquer diálogo novo que a gente criar deve
+usar `azAlert`/`azConfirm`/`azPrompt`/`azEscolha`, nunca `prompt()`/
+`confirm()`/`alert()` nativos.
+
+Commits `ea1e45a` (núcleo + os 3 "Digite 1 ou 2") e `da5df50` (todo o resto)
+em `azimo-site`.
