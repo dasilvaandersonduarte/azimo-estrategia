@@ -7860,3 +7860,33 @@ usar `azAlert`/`azConfirm`/`azPrompt`/`azEscolha`, nunca `prompt()`/
 
 Commits `ea1e45a` (núcleo + os 3 "Digite 1 ou 2") e `da5df50` (todo o resto)
 em `azimo-site`.
+
+## Item 194 (10/10/2026) -- Correção: aba Recorrentes duplicando lançamentos + alinhamento do título do card
+
+Anderson reportou, com print, a aba Recorrentes mostrando 232 "despesas
+recorrentes" (um número claramente irreal), e pediu também pra ajustar o
+alinhamento dos títulos dos cards com a informação abaixo.
+
+**Causa da duplicação:** `_finGerarRecorrenciasAteAgora` materializa, para
+cada despesa/receita recorrente, um lançamento real por mês já passado
+(usados de verdade em Despesas/Receitas e no cálculo de Saldo), todos
+marcados com `recorrenciaId` apontando para a origem da série. A aba
+Recorrentes (e o widget "Próximos Movimentos" da Visão Geral) filtravam só
+pelo tipo de recorrência, sem excluir esses "filhos" já gerados -- então uma
+única despesa recorrente (ex: condomínio do Apto 906) aparecia uma vez para
+cada mês já materializado desde que foi criada.
+
+**Corrigido:** os dois pontos agora filtram só a ORIGEM de cada série
+(`!recorrenciaId`). A função que calcula a "Próxima" data (`_finProximaOcorrencia`)
+já projeta a data certa sozinha a partir da data-âncora do lançamento, então
+a origem sozinha já basta para mostrar a série corretamente -- os "filhos"
+mensais continuam existindo normalmente por trás, só não duplicam mais a
+visualização.
+
+**Alinhamento:** o ícone decorativo ao lado do título de cada card
+("Receitas Recorrentes" / "Despesas Recorrentes") tinha 22x22px, diferente
+do ícone de cada linha de item logo abaixo (26x26px) -- isso deixava o
+título com um recuo de texto ligeiramente diferente do texto das linhas.
+Igualei os dois tamanhos.
+
+Commit `2f91c65` em `azimo-site`.
