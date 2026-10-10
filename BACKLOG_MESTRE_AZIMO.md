@@ -7596,3 +7596,38 @@ irreversível -- mas é bom o Anderson saber que esse caminho específico ficou
 com uma etapa extra.
 
 Commit `eefbe1f` em `azimo-site`.
+
+## Item 186 (10/10/2026) -- Lembrete automático na Agenda por Controle + Data
+
+**Pedido do Anderson:** como Despesas/Receitas já têm Data, usar isso pra
+gerar sozinho uma tarefa na Agenda lembrando de pagar as pendências de um
+Controle. Exemplo real: hoje (10/10) existem despesas no controle "Pagamento
+Prestadoras" -- então deve existir uma tarefa hoje "Pagamento Despesas |
+Pagamento Prestadoras". Como ele também tem uma despesa desse mesmo controle
+caindo em 29/10, deve existir OUTRA tarefa igual nesse dia. A partir do
+momento que a pessoa cadastra 1 controle e 1 despesa com data, a tarefa já
+tem que estar alinhada na Agenda, sem nenhuma ação manual.
+
+**Implementado:** nova função `_finSincronizarTarefasControle()`, chamada
+dentro de `renderFinancas()` (mesmo ponto onde a geração de recorrências já
+roda a cada render -- por isso cobre automaticamente qualquer cadastro,
+edição, exclusão ou marcação de pago, sem precisar instrumentar cada função
+separadamente).
+
+Lógica: agrupa TODAS as despesas pendentes (`pago===false`) que têm Controle
+E Data preenchidos, por par (Controle, Data) -- não por despesa. Pra cada par
+necessário, garante que existe uma tarefa `"Pagamento Despesas | <nome do
+Controle>"` na Agenda naquele dia (cria só se ainda não existir uma com essa
+mesma marca). Se um par deixa de ser necessário (todas as despesas daquele
+controle+dia foram pagas, editadas pra outra data, ou excluídas), a tarefa
+correspondente é removida automaticamente -- MAS só se ainda não tiver sido
+marcada como feita pelo usuário (uma tarefa já concluída nunca é apagada
+sozinha). Tarefas comuns do usuário (sem a marca interna `controleTarefa`)
+nunca são tocadas por essa sincronização.
+
+Uma despesa atrasada (data no passado, ainda não paga) gera a tarefa na data
+real dela, e o mecanismo que já existe na Agenda pra mostrar tarefas
+atrasadas cuida de trazer ela pra atenção -- não precisei duplicar essa
+lógica.
+
+Commit `95cf238` em `azimo-site`.
