@@ -7541,3 +7541,29 @@ na agenda -- fica solta, sem decisão explícita pedida; (2) "próximo dia útil
 não considera feriados nacionais, só fins de semana.
 
 Commit `d7408a6` em `azimo-site`.
+
+## Item 183 (10/10/2026) -- confirmado: tarefa agendada fica independente
+
+Anderson confirmou a decisão em aberto do item 183: excluir uma despesa
+agendada NÃO remove a tarefa já criada na agenda. Lógica: se a despesa for
+apagada mas a pendência real ainda existir, a tarefa na agenda continua
+"lembrando" a pessoa dela, mesmo sem a despesa que a originou. Nenhum código
+mudou aqui -- já estava implementado assim, só fechando o registro da decisão.
+
+## Item 184 (10/10/2026) -- Recorrência e Valor sem cor própria, só o Responsável
+
+**Pedido do Anderson:** retirar a cor que os campos de Recorrência e Valor
+usavam por padrão (cor por tipo de recorrência, vermelho no valor), deixando
+só o cinza padrão da escrita. Cor como diferenciador visual deve ficar
+reservada só pro Responsável.
+
+**Implementado:** removida a chamada a `_finRecTipoCor(t)` e o `var(--red-text)`
+fixo do Valor na linha de Despesas/Receitas (`_finDespRowHtml`) -- os dois
+campos agora usam sempre `var(--text3)` (o mesmo cinza que a Categoria já
+usava), independente do tipo de recorrência ou do status de pago. O
+Responsável continua sendo o único campo com cor própria (ponto colorido +
+texto). `_finRecTipoCor` continua existindo e sendo usada nos chips de filtro
+de recorrência (dropdown), que não fazem parte do pedido -- só a cor dentro da
+linha da tabela foi removida.
+
+Commit `7293b55` em `azimo-site`.
