@@ -8027,3 +8027,53 @@ automaticamente pra qualquer Controle novo que passar a ter recorrência,
 sem precisar de ajuste caso a caso.
 
 Commit `594051e` em `azimo-site`.
+
+## Item 199 (10/10/2026) -- Resumo das Contas: título fora do padrão, gráfico quebrado e saldo não debitando sozinho
+
+Anderson reportou três problemas na aba Contas: o título "Resumo das
+Contas" estava "apagado", sem chamar atenção pro nome como os outros
+títulos de card; o que deveria ser um gráfico de evolução só mostrava um
+ponto verde solto, sem cara de barra de evolução ou infográfico; e o
+saldo das contas não foi debitado conforme ele marcou itens como pagos
+na seção de Despesas, pedindo pra alinhar isso automaticamente.
+
+**Título:** "Resumo das Contas" usava `font-size:11px` e
+`color:var(--text3)` (tom apagado de rótulo secundário), diferente do
+título "Contas e Saldo Consolidado" logo abaixo, que já segue o padrão
+real de título de card (13px, `var(--text)`). Igualado.
+
+**Gráfico:** `_finEvolucaoSaldoSvg` desenhava uma linha com área
+preenchida (estilo "evolução contínua"). Com histórico real de só 1 mês
+(caso do Anderson, conta cadastrada recentemente), isso virava
+literalmente um ponto verde solto no meio do SVG com "sem dados"
+escritos do lado — sem nenhuma cara de gráfico. Reescrito pra barras
+verticais, uma por mês, crescendo a partir de uma linha de base no zero:
+fica legível com um mês só de dado e continua fazendo sentido conforme
+os outros meses forem ganhando histórico real. Mês sem base real
+continua sem inventar barra nenhuma (princípio que já existia antes) —
+agora vira um traço tracejado no zero com "sem dados" embaixo, em vez de
+um espaço vazio ambíguo.
+
+**Saldo não debitando:** `_finSaldoEstimado` só debita um lançamento
+"direto" (fora de cartão de crédito) se ele tiver uma Conta (`contaId`)
+escolhida manualmente em cada lançamento — e o campo "Conta de pagamento
+padrão" só existia pro tipo de Controle "Cartão de crédito"
+(`contaPagamentoId`), nunca pro tipo "Pagamento direto". Resultado: toda
+despesa paga em controles como Pagamento Prestadoras ou Nubank (tipo
+Pagamento direto) ficava fora do cálculo, porque raramente alguém
+escolhe a Conta em cada lançamento, um por um.
+
+**Corrigido** estendendo o mesmo campo "Conta de pagamento" (já existia
+só pra Cartão) também pro tipo Pagamento direto, no modal de editar
+Controle — com uma explicação própria avisando que despesas pagas desse
+controle vão debitar dessa conta automaticamente, e que a Conta
+escolhida dentro de um lançamento específico sempre tem prioridade sobre
+o padrão do Controle. `_finSaldoEstimado` passa a usar essa conta do
+Controle como "conta efetiva" quando o lançamento não tem Conta própria
+marcada. Nenhum dado antigo foi alterado — é um cálculo, não uma
+migração: basta o Anderson configurar a Conta de pagamento em cada
+Controle de Pagamento direto que já tiver despesas pagas (Pagamento
+Prestadoras, Nubank etc) que elas passam a debitar corretamente sem
+precisar editar lançamento por lançamento.
+
+Commit `7b98fa3` em `azimo-site`.
