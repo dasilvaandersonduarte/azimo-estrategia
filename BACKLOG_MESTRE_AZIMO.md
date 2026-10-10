@@ -7488,3 +7488,17 @@ de saída indesejada pra reativar várias por engano, dá pra alinhar e aplicar
 a mesma regra ali.
 
 Commit `bd3b376` em `azimo-site`.
+
+## Item 182b (10/10/2026) -- Confirmação também no lote "Marcar como não paga"
+
+Fechando o gap deixado aberto no item 182: a ação em lote (seleção múltipla,
+item 148) de "Marcar como não paga" revertia `pago=true` de várias despesas de
+uma vez, sem nenhuma confirmação -- era uma porta de saída que furava a trava
+recém-criada na edição individual. Anderson confirmou que faz sentido perguntar
+antes também aqui.
+
+Agora, se algum dos lançamentos selecionados já está pago, o lote pergunta
+"Isso vai reativar N despesa(s) já paga(s), voltando pra pendente. Confirma?"
+antes de executar. Também passou a gravar/limpar `pagoEm` no fluxo em lote
+(tanto marcar quanto desmarcar), pra manter o tooltip de data (item 182)
+consistente independente de qual caminho foi usado. Commit `9a87f36`.
