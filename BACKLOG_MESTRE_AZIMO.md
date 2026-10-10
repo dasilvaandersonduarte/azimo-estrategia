@@ -7567,3 +7567,32 @@ de recorrência (dropdown), que não fazem parte do pedido -- só a cor dentro d
 linha da tabela foi removida.
 
 Commit `7293b55` em `azimo-site`.
+
+## Item 184 (correção, 10/10/2026) -- cor volta a desligar junto com o pago
+
+Anderson corrigiu o item 184: a intenção não era deixar Recorrência e Valor
+sempre cinzas, e sim manter o comportamento do item 181 (desligar visualmente
+quando marcado como pago) -- só que sem a cor por tipo de recorrência nem o
+vermelho no valor, que continuam fora. Ajustado: os dois campos usam
+`var(--text)` (branco padrão, igual a Descrição) quando a despesa não está
+paga, e `var(--text3)` (cinza) quando está, exatamente como Descrição já faz.
+Responsável continua sendo o único campo com cor própria.
+
+## Item 185 (10/10/2026) -- Confirmação antes de excluir um lançamento
+
+**Pedido do Anderson:** ao clicar em Excluir, tem que perguntar se realmente
+quer, não existia confirmação nenhuma.
+
+**Implementado:** `removerFinTransacao` (usada pelo botão Excluir de
+Despesas e Receitas, e também pelo fluxo `abrirFinCancelarRecorrente`, que já
+usa um prompt pra escolher "cancelar recorrência" vs "excluir") agora pede
+confirmação explícita (`confirm()`) com o nome do lançamento antes de apagar.
+Ponto único no código, cobre os dois fluxos de uma vez.
+
+**Observação:** no fluxo de cancelar recorrência, quem escolhe "2. Excluir"
+no prompt agora passa por uma segunda confirmação (a nova). São dois cliques
+em vez de um pra excluir por ali, intencional dado que é uma ação
+irreversível -- mas é bom o Anderson saber que esse caminho específico ficou
+com uma etapa extra.
+
+Commit `eefbe1f` em `azimo-site`.
