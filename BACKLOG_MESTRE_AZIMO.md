@@ -7456,3 +7456,35 @@ texto com `<>`, sem mudar nenhuma lógica. `validate.py` voltou a passar limpo
 evitar colocar nomes de tag HTML entre `<>` (ex: `<select>`, `<div>`) -- usar
 "elemento select", "campo select" etc. O validador de tags é ingênuo e escaneia
 o arquivo inteiro, comentário incluso.
+
+## Item 182 (10/10/2026) -- Pago: data no tooltip e reativação só pela edição
+
+**Pedido do Anderson:**
+1. Ao passar o mouse na etiqueta de "Pago", mostrar a data (e hora) em que foi
+   marcada como paga, pra ficar registrado.
+2. Uma vez marcada como concluída, não pode desmarcar direto no check -- precisa
+   abrir Editar, e lá sim perguntar se quer reativar a despesa. "Não pode ficar
+   livre esse conclui e volta."
+
+**Implementado:**
+- Novo campo `pagoEm` (timestamp ISO) gravado em `toggleFinPago` no momento em
+  que o lançamento passa de não-pago pra pago.
+- Tooltip (`title`) do check de Pago agora mostra "Pago em DD/MM/AAAA às
+  HH:MM. Pra desmarcar, use Editar." Lançamentos que já estavam pagos antes
+  desse campo existir mostram "data não registrada" (fallback, sem quebrar).
+- `toggleFinPago` agora bloqueia a desmarcação direta: se o item já está pago,
+  o clique no check não faz nada além de re-renderizar (pra resetar o check
+  nativo de volta pra "marcado") e mostrar um toast explicando que precisa
+  usar Editar.
+- Novo bloco no modal de edição (`fin-pago-reativar-wrap`), visível só quando
+  o lançamento editado já está pago: mostra a data/hora do pagamento e um
+  botão "Reativar despesa", que pede confirmação (`confirm()`) antes de voltar
+  `pago` para `false` e limpar `pagoEm`.
+
+**Gap aberto, não implementado (fora do pedido original):** a ação em lote
+"Marcar como não paga" (seleção múltipla de despesas, item 148) continua
+desmarcando direto, sem a mesma trava/confirmação. Se isso for uma porta
+de saída indesejada pra reativar várias por engano, dá pra alinhar e aplicar
+a mesma regra ali.
+
+Commit `bd3b376` em `azimo-site`.
