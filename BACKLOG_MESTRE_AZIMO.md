@@ -7890,3 +7890,37 @@ título com um recuo de texto ligeiramente diferente do texto das linhas.
 Igualei os dois tamanhos.
 
 Commit `2f91c65` em `azimo-site`.
+
+## Item 195 (10/10/2026) -- Despesas Recorrentes em cards por Controle + recolher/total em todos
+
+Anderson pediu pra alinhar os títulos da aba Recorrentes seguindo a mesma
+ideia já usada dentro dos Controles de Despesas, e notou que alguns
+controles (Bradesco | Infinite, Pagamento Prestadoras) já ganhavam um card
+próprio para os gastos recorrentes, mas o Nubank não -- pedindo que TODO
+controle com pagamento recorrente tenha seu próprio card, todos com o
+sistema de recolher e total visível ao recolher.
+
+**Causa:** só os Parcelamentos ativos (despesas do tipo "parcela") já
+tinham esse agrupamento por Controle, com card individual, recolher e
+total. As despesas recorrentes "de verdade" (mensal, anual, semanal, etc.)
+ainda estavam todas juntas numa tabela única (card "Despesas Recorrentes"),
+sem distinção por Controle -- por isso um controle como o Nubank (que tem
+recorrência mensal, não parcela) não aparecia com card próprio nenhum.
+
+**Implementado:**
+- Despesas Recorrentes agora segue o mesmo padrão das Despesas normais e
+  dos Parcelamentos ativos: um card por Controle, cada um só aparecendo
+  quando aquele controle tem pelo menos uma despesa recorrente.
+- Todos os cards da aba (Receitas Recorrentes e cada card de Controle em
+  Despesas Recorrentes) ganharam o botão de recolher/expandir. O badge
+  "X itens · Total mensal: R$ Y" no cabeçalho continua visível mesmo
+  recolhido -- é o "total aparece quando recolhido" que o Anderson pediu,
+  igual já funciona nos cards de Controle de Despesas.
+- De quebra: a mensagem de "Nenhum parcelamento de receita/despesa ativo
+  esse mês" (Parcelamentos ativos) ganhou moldura própria de card -- antes
+  era só texto solto, sem fundo nem borda, o que fazia parecer que
+  pertencia ao card de cima (Receitas Recorrentes), mesmo quando esse card
+  tinha receita cadastrada normal (observação que o Anderson trouxe no meio
+  do ajuste).
+
+Commit `9651523` em `azimo-site`.
