@@ -8104,3 +8104,21 @@ completa, só que agora ele só destrava a possibilidade de pedir --
 ninguém gera nada por trás das cortinas até a pessoa clicar.
 
 Commit `254a0a7` em `azimo-site`.
+
+## Item 201 (11/10/2026) | Refinamento visual da aba Contas
+
+Anderson forneceu briefing e referencia visual aprovada, autorizando implementar, validar e publicar somente Contas. Card de dicas rejeitado; busca, filtros, extrato e variacao percentual historica foram omitidos.
+
+**Implementado:** duas colunas no desktop. Esquerda com Resumo das Contas (consolidado destacado e cinco indicadores), Evolucao do Saldo Total e Distribuicao por Tipo de Conta em cards separados. Direita com contas individuais, identificacao, principal, saldo, data clicavel e acoes textuais Editar/Definir ou Remover como principal/Excluir. Aviso de saldo estimado preservado integralmente. SVGs e CSS locais; nenhuma outra aba redesenhada.
+
+**Adaptacoes:** SVGs de tipo de conta em vez de logos bancarios artificiais. Evolucao em barras no desktop e barras por periodo com valores em texto no mobile. Periodos sem base continuam Sem dados; zero real e negativo possuem valores explicitos. Mesmas fontes de saldo/historico. Distribuicao inclui tipos personalizados existentes; rosca e percentuais representam somente saldos positivos, com nota quando ha negativos. Negativos constam na legenda e no consolidado, com sinal. Fixtures utilizadas somente no teste local, sem valores de demonstracao no produto.
+
+**Preservacao conferida por comparacao com a base:** `_finSaldoEstimado`, `_finEvolucaoSaldoPontos`, `_finGetContas`, `toggleContaPrincipal`, `excluirConta`, `abrirModalConta`, `saveModal`, `saveState`, `renderFinancas` e renderizadores das demais abas identicos. Sem alteracao de banco, Worker ou regras de vinculo/persistencia.
+
+**Validacoes executadas:** script oficial `.github/scripts/validate.py` passou (7 blocos JS, node --check e tags balanceadas); git diff --check passou. Testes isolados executaram funcoes reais de renderizacao em cenarios vazio, zero, negativo, misto e nomes/valores longos; verificaram consolidado, quantidade de contas, falta de historico, tipo personalizado, ausencia de mutacao no render, exclusividade de principal, encaminhamento de Editar ao modal, exclusao cancelada/confirmada e vinculo de receita/despesa a conta com fallback do Controle. Nenhum dado de teste enviado ao Supabase.
+
+**Limites:** sem teste autenticado de cadastro/edicao/persistencia no Supabase. A previa local no Cloud Browser foi bloqueada pela politica de protocolo; nao houve inspecao visual real de desktop/mobile. Responsividade conferida no codigo e cenarios isolados, sem declarar teste visual. Anderson deve confirmar desktop/mobile, saldos, principal e acoes ao vivo.
+
+**Publicacao:** commit `c225065b637fb5a528df46d0d0605621144b2191`, apenas `index.html`, na main de azimo-site. Vercel retornou success. Blob remoto corresponde ao arquivo local validado (`a3d58c4549a19670f702d002f3edf06160c05bc1`). STATUS e backlog atualizados apos releitura para evitar conflito.
+
+**Proxima etapa:** avaliacao do Anderson em Contas. Metas sera tratada separadamente, sem avanco automatico.
