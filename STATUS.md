@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> Atualizado em 08/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 162-175 (recorrencia financeira, destaque visual acende-e-apaga em Despesas/Receitas/Metas Financeiras/Habitos/Estudos, tour de Controles, ajustes de Importacao de fatura). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
+> Atualizado em 11/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 190-200 (sistema proprio de dialogo do Azimo substituindo TODOS os prompt/confirm/alert nativos -- padrao obrigatorio daqui pra frente -- cards de Recorrentes unificados ao padrao de Parcelamentos ativos, modal Nova Tarefa redesenhado, Resumo das Contas com grafico de barras e saldo debitando automatico em Controle tipo Pagamento direto, Analise Semanal do Vio sem disparo automatico). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
 >
 > Ler integralmente no inicio da sessao tecnica, junto dos ultimos itens do Backlog (daqui pra tras, nao so dos itens antigos abaixo nesta secao). O historico operacional permanente esta no [BACKLOG_MESTRE_AZIMO.md](BACKLOG_MESTRE_AZIMO.md); responsabilidades e precedencia documental estao no [_INDICE_DOCUMENTOS.md](_INDICE_DOCUMENTOS.md).
 
@@ -8,7 +8,30 @@
 
 > Coordenacao entre agentes (Claude <-> GPT). O proximo agente deve conferir este bloco, Git e os ultimos itens do Backlog antes de assumir.
 
-**Agente ativo:** CLAUDE (09/10/2026). Teste de handoff pro GPT ja confirmado com sucesso (item 175, 08/10, validado ao vivo por Anderson). GPT esta pronto e disponivel no chat `🛠️ | Desenvolvimento` do projeto Azimo no ChatGPT, com `AZIMO_HANDOFF_GPT.md` atualizado nas Fontes. Troca de agente so acontece quando Anderson pedir Handoff explicitamente aqui; ate la, Claude segue como executor de qualquer mudanca no site/Worker/documentacao.
+**Agente ativo:** GPT (11/10/2026, handoff pedido pelo Anderson pra continuar com o ChatGPT). De CLAUDE para GPT.
+
+**Alteracoes desde o ultimo handoff (itens 190-200 do Backlog Mestre, detalhes e commits la):**
+- Item 190: corrigido falso-positivo do validate.py (tags HTML literais dentro de comentarios em portugues confundiam a contagem de tags).
+- Item 191: `#fin-modal` ganhou scroll interno proprio (`#fin-modal-body`) -- blocos condicionais empilhados empurravam Salvar/Cancelar pra fora do card visivel. Auditoria confirmou que nenhum outro modal do site tinha o mesmo problema.
+- Item 192: total do card de Controle de Despesas fica cinza ("apagado", `var(--text3)`) quando todas as despesas daquele controle ja estao pagas.
+- Item 193 (importante pra qualquer trabalho futuro): criado sistema proprio de dialogo do Azimo -- `azAlert`, `azConfirm`, `azPrompt`, `azEscolha` (Promise-based, `#az-dialog-overlay`, visual com a logo Azimo.life) -- e TODOS os 45 pontos do codigo que usavam `prompt()`/`confirm()`/`alert()` nativos do navegador foram substituidos. Virou padrao obrigatorio: nenhum dialogo novo pode usar os nativos do browser de novo.
+- Item 194: aba Recorrentes duplicava cada serie recorrente uma vez por mes ja materializado (ex: "232 itens"). Fix: filtrar so a origem da serie (`!recorrenciaId`). Tambem corrigido o alinhamento do icone do titulo do card com as linhas da tabela.
+- Itens 195/196: Despesas Recorrentes deixou de ser uma tabela unica e passou a ter um card por Controle (igual Parcelamentos ativos ja tinha), com recolher/expandir e total visivel mesmo recolhido. Corrigido tambem um bug de `.grid-2` (CSS grid com auto-placement) que jogava um dos cards pra coluna errada quando varios cards de Controle eram concatenados sem wrapper.
+- Item 197: modal "Nova Tarefa" ganhou formulario proprio (`_tarefaRapidaFormHtml`), separado do componente de linha compacta das listas -- sem check/excluir (nao fazem sentido numa tarefa que ainda nao existe), campos reorganizados um por linha, Manutencao/Evolucao com legenda, habito/recorrencia em linha propria, as 4 prioridades na ordem real de prioridade.
+- Item 198: unificado o visual dos cards de Despesas/Receitas Recorrentes com o padrao ja aprovado de Parcelamentos ativos (`blocoParcHtml`) -- titulo simples sem icone, Total fixo no rodape (visivel aberto ou recolhido).
+- Item 199: "Resumo das Contas" -- titulo corrigido pro padrao de titulo de card (estava "apagado"); grafico de Evolucao do Saldo trocado de linha/ponto solto pra barras mensais (le bem com pouco historico); Controle tipo "Pagamento direto" ganhou campo de Conta de pagamento padrao (mesmo mecanismo que ja existia so' pra Cartao de credito) -- saldo da Conta passa a debitar sozinho quando a despesa e marcada paga, sem precisar escolher Conta em cada lancamento. Exige acao do Anderson: configurar a Conta de pagamento em cada Controle de Pagamento direto que ja tiver despesa paga.
+- Item 200: removido o disparo automatico da Analise Semanal do Vio (rodava sozinho todo domingo via `setTimeout` + guarda no `localStorage`) -- agora so gera quando a pessoa clica em "Gerar Minha Analise" de proposito. O botao continua liberando sozinho quando a semana completa (domingo).
+
+**Arquivos afetados:** `Empresa/index.html` (todos os itens acima, commits `5a1ab1f` ate `254a0a7` em `azimo-site`); `Estrategia/BACKLOG_MESTRE_AZIMO.md` (um item novo por entrega, ja commitado em `azimo-estrategia`).
+
+**Decisoes importantes pro proximo agente:**
+- Dialogo novo (confirmacao, prompt, escolha, aviso) = sempre `azAlert`/`azConfirm`/`azPrompt`/`azEscolha`. Nunca os nativos do browser (item 193).
+- Logica nova envolvendo saldo de Conta deve considerar o fallback de Conta de pagamento padrao do Controle (so' existia pra Cartao, agora existe tambem pra Pagamento direto -- ver `_finSaldoEstimado`, item 199).
+- Card com recolher/expandir e total (Despesas, Receitas Recorrentes, Parcelamentos ativos) agora tem um padrao visual unico -- replicar esse padrao (titulo simples + Total fixo no rodape) em qualquer agrupamento por Controle novo que vier a existir.
+
+**Pendencias:** nenhum item 190-200 ficou pela metade -- todos entregues completos e publicados. Ponto em aberto, nao e' bug: a ordem das 4 prioridades de tarefa so' foi corrigida (pra ordem real de prioridade) no modal novo "Nova Tarefa" (item 197); as linhas normais de tarefa nas listas do dia a dia ainda usam a ordem antiga. So' mudar ali se o Anderson pedir explicitamente, pra nao alterar o habito de quem ja usa a lista.
+
+**Alertas:** nenhum.
 
 **Bloco de handoff detalhado anterior (26/09, GPT -> Claude) preservado abaixo, historico, nao reflete mais o estado atual:**
 
