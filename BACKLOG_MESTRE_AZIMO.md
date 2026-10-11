@@ -8077,3 +8077,30 @@ Prestadoras, Nubank etc) que elas passam a debitar corretamente sem
 precisar editar lançamento por lançamento.
 
 Commit `7b98fa3` em `azimo-site`.
+
+## Item 200 (11/10/2026) -- Análise Semanal do Vio deixa de disparar sozinha, só gera quando a pessoa clica
+
+Anderson abriu o app num domingo e já foi recebido com a análise semanal
+completa pronta e respondida pelo Vio, sem ter clicado em nada. Esse era
+um comportamento que ele mesmo tinha pedido em 28/09 (disparo automático
+uma vez por semana), mas na prática achou desalinhado: ser confrontado
+com números (às vezes baixos, como "Consistência geral: 4%") assim que
+abre o app, sem ter escolhido o momento de encarar esse resultado.
+
+Decisão tomada em conversa: a geração deve acontecer só quando a pessoa
+clica em "Gerar Minha Análise" de propósito, alinhada pra aquele
+momento, em vez de automática e silenciosa em segundo plano. Confirmado
+junto com o Anderson que a condição de liberar o botão já está correta:
+`posicao = diaSemanaRaw===0 ? 7 : diaSemanaRaw` faz domingo (getDay()===0)
+virar posição 7, que é exatamente quando o card considera a semana
+completa e libera o "Gerar Minha Análise" -- não precisou mudar nada
+nessa parte.
+
+**Implementado:** removido o bloco de `renderAnaliseSemanalDash` que
+chamava `gerarAnaliseSemanalVio()` sozinho via `setTimeout`, guardado por
+ano+semana no `localStorage` pra não repetir a cada render. O botão
+"Gerar Minha Análise" continua destravando sozinho quando a semana
+completa, só que agora ele só destrava a possibilidade de pedir --
+ninguém gera nada por trás das cortinas até a pessoa clicar.
+
+Commit `254a0a7` em `azimo-site`.
