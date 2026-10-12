@@ -8426,3 +8426,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** compilação sintática dos 12 scripts inline. Simulação isolada confirmou que a etapa 4 não libera a próxima na escolha inicial, libera após confirmação, bloqueia alteração casual, permite “Alterar escolha” e pede nova confirmação antes de voltar a contar como completa. Inspeção estática confirmou a remoção do limite de 300 caracteres, as dimensões de ícones e o uso do SVG oficial. Não houve inspeção visual autenticada dos tooltips ou das abas financeiras nesta sessão.
 
 **Publicação:** commits `4f6a1239b4da3127f96711e76f5807e219f32148` e `8527eb7e420d9ba638ea608a08bdd79ba57a5005` em azimo-site/main, ambos com Vercel success.
+
+
+## Item 224 | Resumo Financeiro do Dashboard e linhas de Recorrentes (Anderson, 12/10/2026)
+
+**Direção aprovada:** Anderson validou a proposta de harmonizar o Dashboard, começando pelo Resumo Financeiro e mantendo a Análise Semanal do Vio como destaque. Em Recorrentes, aprovou o tamanho dos tópicos e títulos, mas pediu que os lançamentos internos sigam a compactação das linhas de Despesas, como no controle “Financiamento | Máquina Laser | Carro”. Os demais pontos da rodada anterior foram validados, sem alterações neste item.
+
+**Implementação:** Resumo Financeiro recebeu fundo em azul profundo, borda, luz e grafismo discretos, maior hierarquia do saldo, métricas de receita e despesa, divisória para próximos movimentos e comportamento empilhado no mobile. As fontes de dados, janela de sete dias, limite de quatro movimentos e botão Ver Finanças foram mantidos. Os três cards de apoio do Dashboard receberam borda e superfície mais cuidadas, sem reorganização. Nos lançamentos internos de Recorrentes, ícone de 44/22px foi reduzido a 28/15px e espaçamento interno de 10 a 8px; títulos e símbolos dos grupos permanecem em 44/22px, com os tamanhos já aprovados.
+
+**Validação:** oito scripts inline não vazios compilados sintaticamente sem erros (12 tags script no documento). Simulação isolada das renderizações conferiu saldo, receita, despesa e movimento com seus sinais. Inspeção estática confirmou os tamanhos separados dos ícones de grupo e de lançamento. O ambiente não possui sessão autenticada do painel, então a revisão visual em desktop e mobile e o clique no botão ainda dependem de conferência no site.
+
+**Publicação:** commit `73063254b834f5ff31e3d22b89502f022a05e2f1` em azimo-site/main. Vercel reportou success para o commit.
