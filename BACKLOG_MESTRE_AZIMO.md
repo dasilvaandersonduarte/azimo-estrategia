@@ -8369,3 +8369,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline passaram em compilação sintática; inspeção estrutural confirmou um botão de Foco, um card Início do Dia independente, o mesmo evento de abertura, CSS responsivo e estado de foco. A imagem publicada respondeu no domínio Azimo; Vercel reportou success. A sessão pública no navegador mostrou a landing page sem autenticação, então não foi possível afirmar inspeção visual do banner renderizado, teste real de clique ou navegação por teclado dentro do painel autenticado. Esses testes permanecem pendentes.
 
 **Publicação:** commit `8e9152638e6f7e51313a59771fc24f1e876aff79` em azimo-site/main, Vercel success.
+
+
+## Item 219 | Aviso de atualização e duplo clique na barra recolhida (Anderson, 12/10/2026)
+
+**Pedido:** dar ao aviso de nova versão uma apresentação mais personalizada e permitir a expansão por duplo clique na barra inteira dos cards recolhidos, com destaque para Início do Dia, Afirmações e Mentalizações após o Foco.
+
+**Implementação:** o aviso `#pwa-update-banner` usa um card compacto em azul e índigo, símbolo oficial em SVG, hierarquia tipográfica, botão destacado e fechamento em SVG. A detecção da nova versão, `location.reload()` e `fecharPwaUpdateBanner()` foram preservados. O duplo clique em qualquer região não interativa de um dos sete cards recolhidos chama o mesmo `_alternarColapsoRotina(id)` já usado pelo ícone. Duplo toque móvel trata o mesmo gesto sem duplicar o evento `dblclick`. Botões, links e campos no cabeçalho ficam fora do atalho. O ícone conserva duplo clique e teclado Enter/Espaço. A barra expandida mantém o comportamento anterior; não há mudança nos dados ou no Foco.
+
+**Validação:** os oito scripts inline passaram em compilação sintática. Teste isolado dos eventos confirmou expansão no duplo clique da barra recolhida, ausência de interferência ao clicar em botão e preservação do gesto no ícone. A validação visual e o gesto real dentro do painel autenticado continuam pendentes nesta sessão. Anderson aprovou visualmente o banner panorâmico publicado no item 218.
+
+**Publicação:** commit `5c1aba76556d2e3eaf8244a89695f8af01c9187b` em azimo-site/main. Vercel reportou success.
