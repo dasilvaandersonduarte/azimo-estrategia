@@ -8250,3 +8250,20 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Publicação:** commit `ecab38abdb52e880dfb8e1feb5acae1aa586ab62` em azimo-site/main, apenas `index.html`; blob `8b1e8c9d239bf8a4c2577584a16b5521bb4dabd2` confere com o local. Vercel success. STATUS.md atualizado no commit `32f201144c4183131c99f073542e7cd7cba8ee5c`.
 
 **Próximo passo:** Anderson conferir as três abas ao vivo. Não avançar automaticamente para Visão Geral.
+
+
+## Item 210 | Finanças: Visão Geral consolidada e saldo pendente dos Controles (Anderson, 12/10/2026)
+
+**Pedido:** reorganizar a Visão Geral em panorama mensal, evolução, categorias, contas, metas e próximos compromissos, sem dados fictícios ou operações novas. Anderson acrescentou que pagamentos em Despesas devem abater o valor em destaque do respectivo Controle até zerar e ficar cinza.
+
+**Implementação:** panorama com Receitas do Mês, Despesas do Mês e Saldo do Mês, usando os totais já calculados por `renderFinancas`. Gráfico SVG de seis meses reutiliza `_finTotaisDoMes`, mostra barras de receitas/despesas e linha do resultado, distingue mês sem transação de resultado zero e não exibe percentuais sem base confiável. Rosca e legenda usam transações e categorias existentes, inclusive personalizadas e IDs ainda presentes em lançamentos antigos. Resumo de Contas usa `_finSaldoEstimado`, com saldo, quantidade e até três contas. Metas mostram até três metas reais com `_finMetaPct` e seus estados. Próximos compromissos exibem até quatro recorrências ou parcelas pendentes nos próximos 90 dias, reutilizando `_finProximaOcorrencia` e ignorando a origem quando o lançamento da mesma ocorrência já está materializado. Links usam `finSwitchTab`. O painel anterior de Saldo do Mês e Metas, redundante com a nova Visão Geral, fica oculto apenas na apresentação. Não houve alteração de persistência ou das outras abas operacionais, exceto o ajuste pedido nos cartões de Despesas.
+
+**Saldo pendente dos Controles:** o valor do cartão de cada Controle soma somente despesas não pagas do mês selecionado; o total pendente consolidado soma esses cartões, sem o pseudo grupo Sem Controle. Subtotais por responsável acompanham as pendências. Parcialmente pago continua vermelho; totalmente quitado mostra R$ 0,00 em cinza. As transações pagas continuam na lista, no histórico e nos totais financeiros do mês. Nenhuma regra de pagamento ou saldo bancário foi alterada.
+
+**Validação executada:** `validate.py` passou (oito scripts verificados por `node --check`, tags balanceadas), diff sem erro de espaço. Testes isolados dos renderizadores verificaram totais mensais, histórico esparso, categorias personalizadas, saldo estimado de conta, progresso de meta, compromissos sem duplicação, navegação, estados vazios e pagamentos parcial/total nos Controles. Testes de regressão isolados passaram para Receitas e Recorrentes. Nenhum dado real foi modificado nos testes.
+
+**Limitações:** navegador Chromium local indisponível; não houve inspeção visual autenticada em desktop/tablet/mobile nem testes de cadastro, edição, exclusão ou persistência real no Supabase. Os compromissos mostram as próximas ocorrências seguras dentro de 90 dias a partir da data atual; itens sem data válida não aparecem. Anderson deve conferir o resultado no site com dados próprios, inclusive a escala do gráfico e o valor pendente após marcar uma despesa de teste como paga.
+
+**Publicação:** commit `8228d46ea9d45b46fe9ac9932aad679f0c172b36` em azimo-site/main, apenas `index.html`. Blob `b55d7af436f89b813f1376c1ea78fa295ada1d96` corresponde ao arquivo local. STATUS.md atualizado no commit `b3a325596f92009a0e030559522d3cd094267a62`. Verificar o estado da Vercel antes de concluir.
+
+**Próximo passo:** Anderson conferir Visão Geral e Controles de Despesas ao vivo.
