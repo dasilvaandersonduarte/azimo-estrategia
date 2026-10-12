@@ -8347,3 +8347,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** compilação sintática dos oito scripts inline passou. Teste isolado executou a lógica de estados: sem Foco, cards abertos; após iniciar, três recolhidos; reabertura individual respeitada; no dia seguinte, nenhum recolhimento automático. Inspeção visual autenticada e toque real no celular ainda pendentes.
 
 **Publicação:** commit `0a3f59babfa27069f3e9d0350aaf16ad067a35f9` em azimo-site/main, blob `2559f8e8c5020d79a7618ead2d31387245411785`. Vercel retornou success.
+
+
+## Item 217 | Foco em bloco separado do Início do Dia (Anderson, 12/10/2026)
+
+**Correção solicitada após ver a publicação do item 216:** Anderson aprovou o visual do botão do Foco, mas queria que ele ocupasse uma seção própria, sem estar dentro do card Início do Dia. O card Início do Dia deve continuar independente e em largura total.
+
+**Implementação:** o botão e a logo foram movidos para um bloco próprio imediatamente acima de Início do Dia, com superfície, borda e espaçamento próprios. Início do Dia volta a ter como primeiro elemento seu cabeçalho, sem o botão do Foco. As regras de recolhimento do card escondem apenas o conteúdo desse card; o bloco de Foco permanece visível. O destaque após iniciar a sequência é aplicado ao bloco de Foco. Sem alterações em dados, registro de energia, intenção, afirmações, mentalizações, ações de minimizar ou lógica dos passos.
+
+**Validação:** os oito scripts inline passaram em verificação sintática; inspeção estrutural confirmou um botão e um card Início do Dia, em blocos irmãos na ordem Foco > Início. Visual autenticado ainda depende de avaliação de Anderson.
+
+**Publicação:** commit `50b9684bd4718f6d1ebe31c95c0115e964d7ebc7` em azimo-site/main, blob `41140d45cb3c7a7e2c32426b46a54c067fb3a31a`. Vercel pendente na consulta inicial.
