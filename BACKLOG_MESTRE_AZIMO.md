@@ -8202,3 +8202,21 @@ Anderson observou que os títulos dos blocos em Contas não tinham o tamanho de 
 **Publicação:** commit `43ab6fdf5f8ed8ba984c304d154170248f0ac00a` em azimo-site/main, somente `index.html`. Blob `b7c652cce3d515e851ece1653fff91d15b2d214f` corresponde ao arquivo local validado. Vercel retornou success.
 
 **Próximo passo:** Anderson conferir títulos de Contas no desktop/celular e a diferença visual entre cabeçalhos dos grupos e nomes dos lançamentos em Recorrentes. Não avançar para outras abas automaticamente.
+
+## Item 207 (11/10/2026) | Refinamento final e compactação da aba Recorrentes
+
+Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espaço entre os agrupamentos e um cartão vazio grande para parcelas de receita inexistentes no mês. A nova imagem aprovada orienta densidade, contraste e hierarquia, sem copiar lançamentos ou ações ilustrativas.
+
+**Interface:** reduziu padding do painel, distância do cabeçalho, separação das seções, altura dos cabeçalhos de cartão, ícones e espaçamento das linhas. Fontes principais e legibilidade permanecem no padrão aprovado de Metas; no mobile, os controles e valores continuam reorganizados sem altura fixa. Os cartões de parcelamentos agora usam a largura disponível em sequência vertical, conservando receitas e despesas como grupos separados e Controles originais nas despesas.
+
+**Estados vazios:** `montarColunaParc` devolve conteúdo vazio quando não há parcelas de um tipo, sem renderizar o cartão “Nenhum parcelamento de receita ativo esse mês”. Quando os filtros não encontram uma recorrência, a aba mostra uma única mensagem compacta. Grupos com dados não são ocultados por esse aviso; a seção de parcelamentos continua visível independentemente dos filtros de recorrência. Quando toda a aba está vazia, há uma mensagem curta.
+
+**Preservação:** nenhuma mudança em `_finProximaOcorrencia`, `_finRecParcUIGet`, `_finRecParcToggleAberto`, `_finGetControles`, `_finCalcProximosMovimentos`, `_finRecResumoHtml`, `_finRenderContas`, `_finRenderMetas`, `saveModal` e `renderFinancas`, confirmada por comparação literal com a base. Mantidos critérios de origem recorrente, agrupamento por controle, ordenação, total, número de parcela, filtros, edição, cancelamento e gerenciamento. Sem alteração de banco, valores ou persistência.
+
+**Validação executada:** validador oficial `.github/scripts/validate.py` passou (8 blocos de JS, `node --check` e tags balanceadas); diff sem erro de espaço. Teste isolado executou os renderizadores reais com receitas, despesas em dois Controles, parcelas de receita/despesa, filho já materializado, filtros e expansão. Conferiu totais, datas, sequência, handlers presentes, ausência de duplicação, mensagem compacta para filtro vazio e ausência do cartão vazio de parcela de receita quando só há parcelas de despesa. Dados originais não foram enviados nem modificados em produção.
+
+**Limitações:** não houve inspeção visual autenticada no navegador ou persistência real no Supabase. A responsividade foi conferida no CSS, sem declarar teste visual mobile concluído. Anderson deve conferir a altura e a leitura dos cartões no desktop e no celular, bem como os Controles e as ações com dados de teste.
+
+**Publicação:** commit `7913526962ac1986e6ff3958f5b62babe269c481` em azimo-site/main, alterando apenas `index.html`. Blob `672dfb44d08d3e73cc1ccd44ff4021ec396e59bc` corresponde ao arquivo local validado. Vercel retornou success. Documentos relidos antes da atualização, sem divergência concorrente detectada.
+
+**Próximo passo:** Anderson avaliar Recorrentes ao vivo. Não avançar automaticamente para outra aba.
