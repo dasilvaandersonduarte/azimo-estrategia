@@ -8380,3 +8380,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** os oito scripts inline passaram em compilação sintática. Teste isolado dos eventos confirmou expansão no duplo clique da barra recolhida, ausência de interferência ao clicar em botão e preservação do gesto no ícone. A validação visual e o gesto real dentro do painel autenticado continuam pendentes nesta sessão. Anderson aprovou visualmente o banner panorâmico publicado no item 218.
 
 **Publicação:** commit `5c1aba76556d2e3eaf8244a89695f8af01c9187b` em azimo-site/main. Vercel reportou success.
+
+
+## Item 220 | Duplo clique também recolhe pelo cabeçalho (Anderson, 12/10/2026)
+
+**Correção do item 219:** Anderson pediu que o gesto na barra funcionasse para recolher o card aberto, além de expandir o recolhido.
+
+**Implementação:** o mesmo `_alternarColapsoRotina(id)` responde ao duplo clique na barra inteira quando o card está recolhido e no cabeçalho quando aberto, para os sete cards da Rotina. A área de conteúdo do card aberto não recebe o atalho, evitando recolhimento enquanto a pessoa interage com textos ou controles internos. Botões, links, campos e ícone mantêm suas próprias ações. O duplo toque móvel segue as mesmas áreas e evita duplo acionamento por `dblclick`. Dica de uso e cursor aplicados ao cabeçalho. Dados e lógica do Foco preservados.
+
+**Validação:** sintaxe dos oito scripts inline passou. Teste isolado confirmou quatro casos: barra recolhida abre; cabeçalho aberto recolhe; conteúdo aberto não recolhe; botões não recolhem. Gesto real no painel autenticado ainda pendente.
+
+**Publicação:** commit `8f1da579845b26121a3c87448b5c2941590256e7` em azimo-site/main. Vercel reportou success.
