@@ -8391,3 +8391,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** sintaxe dos oito scripts inline passou. Teste isolado confirmou quatro casos: barra recolhida abre; cabeçalho aberto recolhe; conteúdo aberto não recolhe; botões não recolhem. Gesto real no painel autenticado ainda pendente.
 
 **Publicação:** commit `8f1da579845b26121a3c87448b5c2941590256e7` em azimo-site/main. Vercel reportou success.
+
+
+## Item 221 | Ajustes do teste ao vivo e propostas de Dashboard (Anderson, 12/10/2026)
+
+**Escopo implementado:** oito observações da Parte 1 do registro de ajustes. Frase motivacional do banner reposicionada para o meio em linha única no desktop, mantendo o sublinhado e a regra móvel; lista da Agenda diária/semanal agora cresce sem rolagem interna; perfil permite múltiplos desafios e focos, com confirmação explícita nas etapas 2 e 3 e texto opcional salvo antes da progressão. O campo `focos` conserva `foco` como primeiro valor para compatibilidade e o contexto do Vio passa a listar todos. Perfil já ativo continua editável sem travamento. Hierarquia de títulos, subtítulos e ícones equivalentes de Finanças foi alinhada à aba Contas; ícones das contas usam cores associadas aos bancos selecionados, com fallback para tipo de conta e sem logotipos. Navegação do calendário de Revisões usa SVG de seta esquerda/direita. Diário de Produtividade permite pausar e reativar cada uma das 24 horas; a lista persistida de horas inativas suprime o lembrete no horário correspondente, sem apagar registros anteriores. Células concluídas da consistência de hábitos usam roxo Azimo; não concluídas permanecem vazias. A proteção do Escudo conserva seu marcador próprio.
+
+**Propostas para aprovação:** criados conceitos visuais separados para Análise Semanal do Vio, com planeta e distribuição atual de título, progresso e bloqueio, e Resumo Financeiro, com saldo/receitas/despesas e próximos movimentos em duas colunas. São imagens de proposta no contexto da conversa; nenhum dos dois cards foi alterado no site. Valores da proposta financeira são ilustrativos.
+
+**Validação:** compilação sintática dos 12 scripts inline. Testes isolados confirmaram seleção de dois desafios e dois focos sem progressão até confirmar, persistência do texto da etapa 3, alternância/validação das horas inativas e mapeamento de cores Bradesco, Inter, Nubank e fallback. Inspeção estática confirmou a troca de setas, o estado da agenda sem limite de altura, a cor dos hábitos e a condição de supressão do lembrete. A sessão de navegador disponível não estava autenticada no painel; visual responsivo real, clique, teclado e integração de dados permanecem pendentes de validação pelo usuário no Azimo.
+
+**Publicação:** commit `bae65a57d07bd52edbfe729a9bf9718d454513d6` em azimo-site/main; status Vercel success. Documentação atualizada após a publicação.
