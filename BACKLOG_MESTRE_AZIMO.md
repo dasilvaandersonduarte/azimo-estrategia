@@ -8267,3 +8267,18 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Publicação:** commit `8228d46ea9d45b46fe9ac9932aad679f0c172b36` em azimo-site/main, apenas `index.html`. Blob `b55d7af436f89b813f1376c1ea78fa295ada1d96` corresponde ao arquivo local. STATUS.md atualizado e posteriormente corrigido para registrar o status pendente. O commit chegou ao GitHub, mas a consulta de status do commit ainda não retornou uma implantação da Vercel; publicação ao vivo não confirmada.
 
 **Próximo passo:** Anderson conferir Visão Geral e Controles de Despesas ao vivo.
+
+
+## Item 211 | Pagamento agendado em lote nas Despesas (Anderson, 12/10/2026)
+
+**Pedido:** depois de selecionar todas as despesas de um Controle, aplicar “Pagamento Agendado” com a data correta a todos os itens elegíveis, sem editar cada despesa separadamente.
+
+**Implementação:** nova opção “Marcar como Pagamento Agendado” no modal de ações em lote. O campo de data usa o calendário próprio do Azimo e sugere o próximo dia útil, como o agendamento individual. Antes de salvar, o resumo mostra quantas tarefas serão criadas ou movidas. Cada despesa pendente selecionada recebe uma tarefa “Conferir | Nome” na data escolhida, mantendo o status pendente. Agendamentos simples anteriores são substituídos sem duplicação. A confirmação leva à Agenda na data selecionada, preservando o comportamento individual.
+
+**Proteções:** despesas já pagas são ignoradas. Uma despesa que já tem uma série ativa de várias tarefas futuras é ignorada e deve ser reagendada individualmente, para não apagar tarefas futuras existentes. Se nenhuma despesa for elegível, o modal avisa e não salva. Quando várias parcelas são selecionadas, o lote agenda somente cada parcela selecionada na data indicada, sem criar antecipadamente as parcelas futuras, o que duplicaria tarefas; o agendamento individual continua propagando futuras parcelas como antes. O resumo no modal e o toast indicam os itens ignorados. Nenhuma transação é marcada como paga, nem muda valor ou conta.
+
+**Validação:** sintaxe dos oito scripts inline verificada; teste isolado do ramo real com duas pendentes, uma paga e uma série já agendada criou duas tarefas na mesma data, salvou uma vez, preservou o status pago e a série, e navegou à Agenda. Teste do helper confirmou reagendamento sem duplicação e preservação do comportamento individual de gerar tarefas mensais futuras. Sem teste autenticado ou inspeção visual no navegador.
+
+**Publicação:** commit `2da0faaaf4764a40129156b41b711a25b05d1a43` em azimo-site/main, arquivo `index.html`. Status Vercel ainda precisa ser confirmado.
+
+**Próximo passo:** conferir no site, com dados de teste, seleção de todas as despesas de um Controle, escolha da data, tarefas na Agenda, itens pagos ignorados e persistência após recarregar. Conferir também no celular. Evitar usar todos os lançamentos reais para a primeira verificação.
