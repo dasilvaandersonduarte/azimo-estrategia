@@ -8358,3 +8358,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** os oito scripts inline passaram em verificação sintática; inspeção estrutural confirmou um botão e um card Início do Dia, em blocos irmãos na ordem Foco > Início. Visual autenticado ainda depende de avaliação de Anderson.
 
 **Publicação:** commit `50b9684bd4718f6d1ebe31c95c0115e964d7ebc7` em azimo-site/main, blob `41140d45cb3c7a7e2c32426b46a54c067fb3a31a`. Vercel pendente na consulta inicial.
+
+
+## Item 218 | Banner panorâmico do Foco Nível Azimo (Anderson, 12/10/2026)
+
+**Escopo:** refinamento exclusivamente visual do bloco independente acima de Início do Dia, seguindo a imagem aprovada. Mantido o card Início do Dia separado e de largura total.
+
+**Implementação:** botão original `#btn-foco-nivel-azimo` agora ocupa todo o banner, com símbolo SVG oficial existente, rótulo “Sua rotina diária”, título “Foco Nível Azimo”, subtítulo e frase motivacional aprovados. O fundo local `assets/foco-azimo-banner.webp` (2172 × 724, 34 KB) apresenta montanhas, horizonte azul e roxo e bússola à direita; gradiente garante contraste. Regras de responsividade para desktop, tablet e celular, área clicável total e foco visível por teclado. Foi preservado o `onclick="abrirRotinaGuiada()"`, os eventos de dica e o ID do botão. Nenhum card inferior, fluxo, temporizador, dado ou integração foi alterado.
+
+**Validação:** oito scripts inline passaram em compilação sintática; inspeção estrutural confirmou um botão de Foco, um card Início do Dia independente, o mesmo evento de abertura, CSS responsivo e estado de foco. A imagem publicada respondeu no domínio Azimo; Vercel reportou success. A sessão pública no navegador mostrou a landing page sem autenticação, então não foi possível afirmar inspeção visual do banner renderizado, teste real de clique ou navegação por teclado dentro do painel autenticado. Esses testes permanecem pendentes.
+
+**Publicação:** commit `8e9152638e6f7e51313a59771fc24f1e876aff79` em azimo-site/main, Vercel success.
