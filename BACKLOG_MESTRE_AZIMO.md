@@ -8264,6 +8264,6 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Limitações:** navegador Chromium local indisponível; não houve inspeção visual autenticada em desktop/tablet/mobile nem testes de cadastro, edição, exclusão ou persistência real no Supabase. Os compromissos mostram as próximas ocorrências seguras dentro de 90 dias a partir da data atual; itens sem data válida não aparecem. Anderson deve conferir o resultado no site com dados próprios, inclusive a escala do gráfico e o valor pendente após marcar uma despesa de teste como paga.
 
-**Publicação:** commit `8228d46ea9d45b46fe9ac9932aad679f0c172b36` em azimo-site/main, apenas `index.html`. Blob `b55d7af436f89b813f1376c1ea78fa295ada1d96` corresponde ao arquivo local. STATUS.md atualizado no commit `b3a325596f92009a0e030559522d3cd094267a62`. Verificar o estado da Vercel antes de concluir.
+**Publicação:** commit `8228d46ea9d45b46fe9ac9932aad679f0c172b36` em azimo-site/main, apenas `index.html`. Blob `b55d7af436f89b813f1376c1ea78fa295ada1d96` corresponde ao arquivo local. STATUS.md atualizado e posteriormente corrigido para registrar o status pendente. O commit chegou ao GitHub, mas a consulta de status do commit ainda não retornou uma implantação da Vercel; publicação ao vivo não confirmada.
 
 **Próximo passo:** Anderson conferir Visão Geral e Controles de Despesas ao vivo.
