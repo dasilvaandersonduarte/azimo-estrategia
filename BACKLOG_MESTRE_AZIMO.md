@@ -8188,3 +8188,17 @@ Anderson aprovou a referência conceitual para uma aba Recorrentes minimalista e
 **Publicação:** commit `f9b94fe0c10e7ce5f752ed6c85deabfd66bcd978` em azimo-site/main, somente `index.html`. Blob remoto `96a473d9c46aa023840bf9cf680c93ced96684b4` confere com o arquivo local validado. Vercel retornou success. Documentos relidos antes da atualização, sem divergência concorrente detectada.
 
 **Próximo passo:** Anderson conferir Recorrentes no desktop e no celular, grupos por Controle, filtros, parcelas, recolhimento e ações com dados de teste. Não avançar automaticamente para Despesas.
+
+## Item 206 (11/10/2026) | Padronização tipográfica de Contas e Recorrentes
+
+Anderson observou que os títulos dos blocos em Contas não tinham o tamanho de “Metas Financeiras”, e que o nome de cada lançamento recorrente competia visualmente com o cabeçalho do seu grupo.
+
+**Implementado:** os títulos “Saldo Total das Contas” e “Suas Contas” receberam a capitalização aprovada. A classe local `.fin-contas-layout .fc-heading` passou a usar 20 px, peso 700 e entrelinha 1,25 no desktop, com 18 px no mobile, equivalentes aos títulos de Metas e Recorrentes. O subtítulo de Contas foi mantido. O nome individual de lançamento e parcela em Recorrentes, pela classe `.fin-rec-item-name`, passou de 14 px/peso 700 para 13 px/peso 650; os cabeçalhos dos grupos continuam em 14 px/peso 700. Outros títulos financeiros consultados já estavam capitalizados como “Metas Financeiras”, “Lançamentos Recorrentes”, “Receitas Recorrentes”, “Despesas Recorrentes” e “Parcelamentos Ativos”. Nomes cadastrados por usuários não foram alterados.
+
+**Preservação:** somente duas regras CSS locais, um ajuste CSS mobile e dois textos estáticos em `_finRenderContas`. Saldos, grupos, renderizadores de lançamentos, callbacks e persistência não foram alterados. O diff com a base publicada confirma o escopo.
+
+**Validação:** o validador oficial `.github/scripts/validate.py` passou (8 scripts, `node --check` e tags balanceadas), e `git diff --no-index --check` não encontrou erros. Não houve inspeção visual interativa ou teste autenticado de dados; a revisão de desktop/mobile foi feita nos estilos responsivos e deve ser confirmada no site ao vivo.
+
+**Publicação:** commit `43ab6fdf5f8ed8ba984c304d154170248f0ac00a` em azimo-site/main, somente `index.html`. Blob `b7c652cce3d515e851ece1653fff91d15b2d214f` corresponde ao arquivo local validado. Vercel retornou success.
+
+**Próximo passo:** Anderson conferir títulos de Contas no desktop/celular e a diferença visual entre cabeçalhos dos grupos e nomes dos lançamentos em Recorrentes. Não avançar para outras abas automaticamente.
