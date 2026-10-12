@@ -8158,3 +8158,15 @@ Cada meta agora aparece numa linha horizontal compacta em telas largas: icone SV
 **Publicacao:** commit `6041d7b68a21ca1d24cb2e920b3b7427faea8e88` em azimo-site/main, alterando apenas index.html. Blob `d740da6d364c7761564c4758bd512e3f6da66dd2` corresponde ao arquivo local validado. Vercel retornou success. STATUS e backlog relidos antes das escritas, sem divergencia concorrente observada.
 
 **Proximo passo:** Anderson conferir Metas ao vivo em desktop, tablet e mobile, filtros/paginacao, valores, estados e operacoes com conta de teste. Nao avancar automaticamente para Recorrentes.
+
+## Item 204 (12/10/2026) | Calendario personalizado em todos os campos de data
+
+Anderson pediu que todos os campos que abrem o calendario nativo usem o visual do Azimo. A captura mostrou o seletor branco do navegador no modal Editar Meta. Escopo transversal de UX/UI, sem mudanca de regras financeiras ou banco.
+
+**Implementado:** os 11 inputs `type="date"` identificados em tarefas, Metas/objetivos, lancamentos financeiros, compra em lote, faturas, planejamento e agendamento foram substituidos por campos ISO internos e botoes visuais com SVG. Um seletor reutilizavel em tema Azimo exibe mes e ano, navegacao, dias, data de hoje, limpar e selecao; adapta o posicionamento a viewport e permite fechar com Escape ou clique externo. Mantidos IDs, valores dinamicos, callbacks e eventos `input`/`change`. Atualizacoes programaticas dos campos de tarefas e lancamentos sincronizam o rotulo visivel. Nenhum dado ficticio nem alteracao de persistencia.
+
+**Validacoes executadas:** o validador oficial `.github/scripts/validate.py` passou para o arquivo final (8 blocos de script, `node --check` e tags HTML balanceadas). Varredura comparativa confirmou 11 campos antigos e 11 substituidos, com IDs mantidos e nenhum `type="date"` ou `showPicker()` remanescente. Teste isolado das funcoes reais conferiu ano bissexto, datas invalidas, formatacao, selecao e disparo dos eventos existentes. O blob publicado `8ef0c7d6395617e3753809a1511411aabd3daf4a` corresponde ao hash local.
+
+**Limites:** sem navegador local com Chromium, nao houve inspeção visual nem clique em cada formulario no browser ou teste autenticado de persistencia no Supabase. Anderson deve conferir a abertura em Metas e nos demais formularios, mobile e desktop, antes de considerar a experiencia visual aprovada. Nenhuma operacao destrutiva foi feita em dados reais.
+
+**Publicacao:** commit `e2d9da0d2580cdce20e4d2765c64555dd8ee360b` em azimo-site/main, somente `index.html`. Vercel retornou success para este commit.
