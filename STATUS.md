@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> Atualizado em 11/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 190-202 (aba Contas minimalista com saldo consolidado e listagem operacional em dois blocos verticais, sistema proprio de dialogo do Azimo substituindo TODOS os prompt/confirm/alert nativos -- padrao obrigatorio daqui pra frente -- cards de Recorrentes unificados ao padrao de Parcelamentos ativos, modal Nova Tarefa redesenhado, Resumo das Contas com grafico de barras e saldo debitando automatico em Controle tipo Pagamento direto, Analise Semanal do Vio sem disparo automatico). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
+> Atualizado em 11/10/2026. Infraestrutura migrada: codigo (azimo-site, azimo-worker) e documentacao (azimo-estrategia, este arquivo incluso) agora tem copia completa e versionada no GitHub, independente do Mac. Backup do banco automatico via GitHub Actions. Ultimos itens de produto implementados: 190-203 (aba Metas compacta em lista operacional, aba Contas minimalista com saldo consolidado e listagem operacional em dois blocos verticais, sistema proprio de dialogo do Azimo substituindo TODOS os prompt/confirm/alert nativos -- padrao obrigatorio daqui pra frente -- cards de Recorrentes unificados ao padrao de Parcelamentos ativos, modal Nova Tarefa redesenhado, Resumo das Contas com grafico de barras e saldo debitando automatico em Controle tipo Pagamento direto, Analise Semanal do Vio sem disparo automatico). Ver Backlog para o historico completo e mais recente, este topo resume so o essencial.
 >
 > Ler integralmente no inicio da sessao tecnica, junto dos ultimos itens do Backlog (daqui pra tras, nao so dos itens antigos abaixo nesta secao). O historico operacional permanente esta no [BACKLOG_MESTRE_AZIMO.md](BACKLOG_MESTRE_AZIMO.md); responsabilidades e precedencia documental estao no [_INDICE_DOCUMENTOS.md](_INDICE_DOCUMENTOS.md).
 
@@ -25,6 +25,8 @@
 
 - Item 202: Contas refinada para dois blocos verticais: Saldo total das contas (valor, quantidade e aviso original) e Suas contas (Nova conta no cabecalho, lista horizontal e mesmas acoes). Graficos e indicadores adicionais retirados somente da apresentacao desta aba. Commit `a1e3135`. Validacao oficial e testes locais de cadastro/edicao/principal/exclusao/saldos/vinculos passaram. Blob publicado confere com o local. Inspecao visual desktop/mobile bloqueada por Chromium indisponivel e download falho; persistencia autenticada ainda depende de conferencia ao vivo.
 
+- Item 203: Metas Financeiras compactada em um painel operacional com filtro por categoria, abas de estado, lista responsiva e paginacao preservados. Quatro indicadores superiores retirados apenas da apresentacao; calculos e funcoes compartilhadas mantidos. Commit `6041d7b` publicado na Vercel com status success. Validacao de scripts/tags e testes locais de estados, filtros, paginacao, cadastro, edicao, aporte, pausa/reativacao e exclusao com confirmacao passaram. Inspecao visual desktop/tablet/mobile e teste autenticado com Supabase ainda pendentes.
+
 **Arquivos afetados:** `Empresa/index.html` (todos os itens acima, commits `5a1ab1f` ate `254a0a7` em `azimo-site`); `Estrategia/BACKLOG_MESTRE_AZIMO.md` (um item novo por entrega, ja commitado em `azimo-estrategia`).
 
 **Decisoes importantes pro proximo agente:**
@@ -32,7 +34,7 @@
 - Logica nova envolvendo saldo de Conta deve considerar o fallback de Conta de pagamento padrao do Controle (so' existia pra Cartao, agora existe tambem pra Pagamento direto -- ver `_finSaldoEstimado`, item 199).
 - Card com recolher/expandir e total (Despesas, Receitas Recorrentes, Parcelamentos ativos) agora tem um padrao visual unico -- replicar esse padrao (titulo simples + Total fixo no rodape) em qualquer agrupamento por Controle novo que vier a existir.
 
-**Pendencias:** Anderson confirmou o resultado do item 201. Item 202 enviado a main, aguardando confirmacao visual desktop/mobile e persistencia autenticada ao vivo. Itens 190-200 entregues e publicados. Ponto em aberto, nao e' bug: a ordem das 4 prioridades de tarefa so' foi corrigida (pra ordem real de prioridade) no modal novo "Nova Tarefa" (item 197); as linhas normais de tarefa nas listas do dia a dia ainda usam a ordem antiga. So' mudar ali se o Anderson pedir explicitamente, pra nao alterar o habito de quem ja usa a lista.
+**Pendencias:** Itens 202 e 203 publicados. Anderson ainda precisa conferir visual e persistencia autenticada ao vivo em Contas e Metas, incluindo desktop/mobile e tablet em Metas. Itens 190-200 entregues e publicados. Ponto em aberto, nao e' bug: a ordem das 4 prioridades de tarefa so' foi corrigida (pra ordem real de prioridade) no modal novo "Nova Tarefa" (item 197); as linhas normais de tarefa nas listas do dia a dia ainda usam a ordem antiga. So' mudar ali se o Anderson pedir explicitamente, pra nao alterar o habito de quem ja usa a lista.
 
 **Alertas:** nenhum.
 
