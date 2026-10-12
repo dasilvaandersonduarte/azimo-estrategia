@@ -8235,3 +8235,18 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Publicação:** commit `6a774a2141594c9f4b70f12d6f527d783a0a3f6b` em azimo-site/main, somente `index.html`; blob `3e8c99f56840646745f2a0e55cbb9f2c16990bbd` corresponde ao arquivo local. Vercel retornou success. STATUS.md atualizado no commit `37617183cb2bf6a9d0447fef69adad9d6b489cfb` após verificar ausência de edição concorrente.
 
 **Próximo passo:** Anderson conferir Despesas ao vivo em desktop e celular. Não avançar automaticamente para Receitas.
+
+
+## Item 209 | Finanças: tabela de Receitas e espaçamento de Recorrentes e Despesas (Anderson, 11/10/2026)
+
+**Pedido:** refinar a aba Receitas com sua tabela atual, sem criar Controles ou agrupamentos artificiais; ajustar a hierarquia entre grupos e lançamentos recorrentes, colocar Ativo ao lado da frequência e melhorar a separação dos cartões e da tabela de Despesas, conforme prints enviados.
+
+**Implementação:** Receitas recebeu painel compacto, cabeçalho tipográfico alinhado às demais abas, tabela com larguras mínimas para fonte, tipo, data, recorrência, ações e valor, linhas com contraste e espaçamento moderado, valor e total verdes destacados e botões SVG existentes com área de interação maior. Os filtros por tipo e recorrência, ordenação, paginação e ações continuam nos mesmos handlers. Recorrentes agora apresenta “Mensal · Ativo” na mesma linha, com o estado textual e colorido, e distingue visualmente cabeçalho de grupo e itens. Em Despesas, a separação entre cartões, cabeçalho e linhas da tabela foi ajustada. CSS responsivo mantém as ações e permite rolagem localizada da tabela quando as seis colunas não cabem no celular. Nenhum dado, cálculo, vínculo ou persistência foi modificado.
+
+**Validação executada:** validador oficial passou (oito scripts verificados por `node --check`, tags balanceadas) e diff sem erros de whitespace. Teste isolado dos renderizadores reais confirmou as nove receitas de teste em duas páginas, total, filtros por tipo e recorrência, ordenação e handlers de editar/excluir; testes isolados de Recorrentes e Despesas confirmaram grupos, valores, datas, parcelas, filtros, expansão, ações e imutabilidade dos dados. Nenhuma operação destrutiva foi executada em dados reais.
+
+**Limitações:** não houve teste autenticado no navegador, conferência visual efetiva em desktop, tablet ou celular, nem execução de cadastro, edição, exclusão ou persistência no Supabase. Essas regras e handlers não foram alterados. Anderson deve verificar no site a distância entre cabeçalho e lançamento recorrente, a posição “Ativo” junto de “Mensal”, os cartões de Despesas e a tabela de Receitas com dados próprios.
+
+**Publicação:** commit `ecab38abdb52e880dfb8e1feb5acae1aa586ab62` em azimo-site/main, apenas `index.html`. Blob `8b1e8c9d239bf8a4c2577584a16b5521bb4dabd2` confere com o arquivo local. STATUS.md atualizado no commit `32f201144c4183131c99f073542e7cd7cba8ee5c`. Aguardar confirmação do status Vercel antes da entrega.
+
+**Próximo passo:** Anderson conferir ao vivo as três abas; não avançar automaticamente para Visão Geral.
