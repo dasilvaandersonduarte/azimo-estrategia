@@ -8140,3 +8140,21 @@ Anderson confirmou o resultado anterior (item 201) e aprovou nova direcao: Visao
 **Publicacao:** commit `a1e3135d6c10ffb8f8abea5890c7eac8e8befb18`, apenas index.html, na main de azimo-site. Vercel retornou success. Blob remoto `cccb3bbdc5b4444e8ef43ec929170aca266feb2c` identico ao hash do arquivo local validado. Documentos relidos antes das atualizacoes, sem alteracao concorrente detectada.
 
 **Proximo passo:** Anderson conferir Contas ao vivo em desktop/mobile, consolidado, lista e operacoes. Nao avancar automaticamente para Metas.
+
+## Item 203 (11/10/2026) | Metas Financeiras compacta e operacional
+
+Anderson aprovou a direcao minimalista, sofisticada, pratica e compacta para Financas. A referencia conceitual mostra metas e valores ficticios; nenhum desses dados entrou no produto. Escopo exclusivo da aba Metas. Recorrentes e demais abas nao foram alteradas.
+
+**Interface:** um painel principal com titulo e descricao existentes, filtro por categoria e botao Nova Meta no cabecalho, seguido das quatro abas de estado e da listagem. Removidos da apresentacao os quatro cards superiores: Metas ativas, Progresso medio, Total economizado, Previsto para metas neste mes. A funcao _finMetaStatsHtml e os calculos foram preservados para eventual uso futuro em Visao Geral, sem migracao agora.
+
+Cada meta agora aparece numa linha horizontal compacta em telas largas: icone SVG da categoria, nome/descricao, barra e percentual, valores acumulado/alvo, prazo, valor necessario por mes quando derivavel, ritmo, situacao textual e acoes Aportar/Editar/Pausar ou Reativar/Excluir. O valor necessario por mes continua calculado de valor restante e prazo pela funcao existente, sem campo planejado novo. Concluidas seguem sem Aportar, como antes. Categoria personalizada usa icone generico SVG. Estado pausado nao reduz opacidade da linha, melhorando leitura. CSS local de Metas adapta a grade em tablet/mobile sem altura fixa; nomes e valores permitem quebra de linha. Paginacao existente de cinco metas e ordenacao por prazo mantidas; filtro por categoria e abas Todas/Em andamento/Concluidas/Pausadas intactos.
+
+**Preservacao:** somente CSS especifico de Metas, _finMetaRowHtml, _finRenderMetas e novos helpers SVG foram alterados. Comparacao literal confirmou _finGetMetas, funcoes de percentual, conclusao, prazo, valor mensal, ritmo, tabs, categoria, paginacao, renderizadores das outras abas, persistencia, saveModal, abrirModalMeta, abrirModalMetaAporte, toggleMetaPausada, excluirMeta e vinculos financeiros iguais a base. Nenhuma alteracao de banco, Worker, valores ou regras.
+
+**Validacao:** .github/scripts/validate.py passou (7 scripts, node --check e tags HTML balanceadas); diff sem erros de espaco. Teste isolado executou as funcoes reais em VM para quatro abas, categoria, seis metas com pagina 1/2, prazo, percentual, valor mensal, status, pausa e reativacao, chamada de modais, exclusao cancelada/confirmada, criacao/edicao e aporte pelo saveModal real com campos locais. Transacoes/Contas fixtures permaneceram identicas; nenhuma operacao em dados reais. A criacao manteve o flashHighlightEl existente.
+
+**Limites:** navegador local indisponivel (Chromium ausente; tentativa anterior de download falhou). Nao houve inspecao visual executada em desktop/tablet/mobile, teste de interacao real do browser nem persistencia autenticada no Supabase. Responsividade foi revisada em CSS e precisa de conferencia ao vivo; nao tratar isso como validacao visual concluida. O aporte financeiro permanece um valor isolado da meta, sem debito automatico de Conta, conforme arquitetura existente.
+
+**Publicacao:** commit `6041d7b68a21ca1d24cb2e920b3b7427faea8e88` em azimo-site/main, alterando apenas index.html. Blob `d740da6d364c7761564c4758bd512e3f6da66dd2` corresponde ao arquivo local validado. Vercel retornou success. STATUS e backlog relidos antes das escritas, sem divergencia concorrente observada.
+
+**Proximo passo:** Anderson conferir Metas ao vivo em desktop, tablet e mobile, filtros/paginacao, valores, estados e operacoes com conta de teste. Nao avancar automaticamente para Recorrentes.
