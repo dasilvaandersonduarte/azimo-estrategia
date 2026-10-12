@@ -8282,3 +8282,20 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Publicação:** commit `2da0faaaf4764a40129156b41b711a25b05d1a43` em azimo-site/main, arquivo `index.html`. Status Vercel ainda precisa ser confirmado.
 
 **Próximo passo:** conferir no site, com dados de teste, seleção de todas as despesas de um Controle, escolha da data, tarefas na Agenda, itens pagos ignorados e persistência após recarregar. Conferir também no celular. Evitar usar todos os lançamentos reais para a primeira verificação.
+
+
+## Item 212 | Calendário opaco e tarefa única para cartão completo (Anderson, 12/10/2026)
+
+**Relato ao vivo:** no modal de agendamento em lote, o calendário do Azimo deixava o conteúdo de trás visível e dificultava a leitura. Ao selecionar 109 despesas de um Controle de cartão e agendar todas na mesma data, a Agenda recebeu 109 tarefas, embora a conferência da fatura devesse ser uma só. As capturas confirmaram os dois efeitos. O lote do item 211 funcionava tecnicamente, mas a granularidade da tarefa estava errada para a seleção integral de um cartão.
+
+**Calendário:** a superfície do popup agora é opaca no tema escuro e no claro. Mantidos seletor, botões SVG, posição, interação e datas; nenhum calendário nativo foi reintroduzido. O ajuste vale para todos os campos que usam o seletor unificado.
+
+**Agendamento:** a barra de ações da tabela carrega o Controle e o conjunto completo de IDs do mês. Se todos os lançamentos desse Controle estão selecionados e ele é do tipo cartão, o modal anuncia uma tarefa única “Pagamento do cartão [Nome do Controle]” para as despesas pendentes elegíveis na data escolhida. Seleção parcial, Controle de outro tipo, Controle sem vínculo ou filtro que esconde itens continuam criando tarefas por despesa. Despesas pagas e séries futuras ativas continuam excluídas conforme item 211. O grupo guarda a mesma tarefa vinculada em cada despesa, para que a indicação de agendamento individual permaneça visível.
+
+**Integridade:** ao reagendar ou cancelar uma despesa do grupo, só o vínculo dela é removido; a tarefa compartilhada permanece enquanto houver outras despesas vinculadas. Quando a última sai por cancelamento/reagendamento, a tarefa é removida. Marcar como pago individualmente ou em lote limpa o vínculo financeiro; a tarefa permanece na Agenda, como no comportamento individual anterior. Reaplicar o lote completo após a implantação remove as tarefas individuais criadas pelo item 211 para os lançamentos selecionados e cria uma tarefa única, sem apagar tarefas manuais que não estejam vinculadas a essas despesas. Não houve migração automática em dados de usuários, pois não é possível distinguir com segurança uma seleção em lote anterior de agendamentos individuais criados de propósito.
+
+**Validação:** sintaxe dos oito scripts inline passou. Testes isolados do ramo real com 109 despesas selecionadas e tarefas antigas produziram uma tarefa e uma gravação, com 109 vínculos; seleção parcial de 2/5 manteve tarefas individuais. Testes dos helpers confirmaram que a separação de um item preserva a tarefa do cartão para os demais e que ela some quando o último vínculo é removido. A opacidade foi conferida pela regra CSS e pelas cores sólidas dos dois temas; inspeção visual autenticada ainda pendente.
+
+**Publicação:** commit `3f1e5fd9ae17b34d0ffe4186a7d5f2c02e0a1d0d` em azimo-site/main, somente `index.html`. Status da Vercel ainda não retornado na consulta.
+
+**Próximo passo:** Anderson recarregar o site após a implantação e repetir a ação de agendamento em lote no mesmo Controle e data para consolidar as tarefas anteriores. Conferir que a Agenda mostra uma única tarefa do cartão e que o calendário não deixa aparecer conteúdo atrás em desktop e celular. Os vínculos antigos serão substituídos apenas na ação deliberada de reaplicar, sem migração silenciosa.
