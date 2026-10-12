@@ -48,7 +48,7 @@
 - Logica nova envolvendo saldo de Conta deve considerar o fallback de Conta de pagamento padrao do Controle (so' existia pra Cartao, agora existe tambem pra Pagamento direto -- ver `_finSaldoEstimado`, item 199).
 - Card com recolher/expandir e total (Despesas, Receitas Recorrentes, Parcelamentos ativos) agora tem um padrao visual unico -- replicar esse padrao (titulo simples + Total fixo no rodape) em qualquer agrupamento por Controle novo que vier a existir.
 
-**Pendencias:** Itens 202-210 publicados. Anderson ainda precisa conferir visual e persistencia autenticada ao vivo em Contas, Metas, calendario e Recorrentes, incluindo desktop/mobile e tablet em Metas. Itens 190-200 entregues e publicados. Ponto em aberto, nao e' bug: a ordem das 4 prioridades de tarefa so' foi corrigida (pra ordem real de prioridade) no modal novo "Nova Tarefa" (item 197); as linhas normais de tarefa nas listas do dia a dia ainda usam a ordem antiga. So' mudar ali se o Anderson pedir explicitamente, pra nao alterar o habito de quem ja usa a lista.
+**Pendencias:** Itens 202-209 publicados e item 210 commitado em azimo-site/main; Vercel ainda sem status de implantação reportado para o commit 8228d46. Anderson ainda precisa conferir visual e persistencia autenticada ao vivo em Contas, Metas, calendario e Recorrentes, incluindo desktop/mobile e tablet em Metas. Itens 190-200 entregues e publicados. Ponto em aberto, nao e' bug: a ordem das 4 prioridades de tarefa so' foi corrigida (pra ordem real de prioridade) no modal novo "Nova Tarefa" (item 197); as linhas normais de tarefa nas listas do dia a dia ainda usam a ordem antiga. So' mudar ali se o Anderson pedir explicitamente, pra nao alterar o habito de quem ja usa a lista.
 
 **Alertas:** nenhum.
 
