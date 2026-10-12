@@ -8336,3 +8336,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Publicação:** commit `1ffcb816f49b6f897d9823ec30007d7fa8b02556` em azimo-site/main, blob `160562bb34fb4769e7b76a4857513ed47f6bb16b`. Vercel estava pendente na primeira consulta.
 
 **Ainda a conferir:** comportamento real do Vio ao formatar o texto e ao usar o perfil ativo, fluxo completo Foco/Vio/Foco com uma conta autenticada, aparência do card no celular e se os 60 segundos escolhidos para a mentalização se ajustam à experiência desejada. Não presumir que todos os 26 pontos do teste estejam concluídos.
+
+
+## Item 216 | Rotina Diária recolhível e Foco em destaque (Anderson, 12/10/2026)
+
+**Pedido:** recolher e expandir cards pelo duplo clique no ícone, trocar o hífen de `Não usarei essa seção` por X vermelho, dar destaque central ao Foco com logo e recolher Início do Dia, Afirmações e Mentalizações ao escolher o Foco.
+
+**Implementação:** os sete cards da Rotina Diária têm recolhimento independente com cabeçalho no lugar. Há suporte a duplo toque e teclado Enter/Espaço. A escolha manual fica local ao aparelho. O comando `Não usarei` continua separado, com confirmação e chip de recuperação, e ganhou X SVG vermelho nos cinco cards que o oferecem. A ação Foco foi movida para um botão central acima do cabeçalho de Início do Dia, usando o SVG da marca também no card introdutório. O Foco ativo no dia recolhe por padrão somente Início do Dia, Afirmações e Mentalizações; reabrir um deles prevalece naquele dia. No dia seguinte o recolhimento automático não permanece sem uma nova escolha de Foco. Registros, hábitos e textos não mudam.
+
+**Validação:** compilação sintática dos oito scripts inline passou. Teste isolado executou a lógica de estados: sem Foco, cards abertos; após iniciar, três recolhidos; reabertura individual respeitada; no dia seguinte, nenhum recolhimento automático. Inspeção visual autenticada e toque real no celular ainda pendentes.
+
+**Publicação:** commit `0a3f59babfa27069f3e9d0350aaf16ad067a35f9` em azimo-site/main, blob `2559f8e8c5020d79a7618ead2d31387245411785`. Vercel retornou success.
