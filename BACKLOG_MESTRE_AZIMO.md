@@ -8122,3 +8122,21 @@ Anderson forneceu briefing e referencia visual aprovada, autorizando implementar
 **Publicacao:** commit `c225065b637fb5a528df46d0d0605621144b2191`, apenas `index.html`, na main de azimo-site. Vercel retornou success. Blob remoto corresponde ao arquivo local validado (`a3d58c4549a19670f702d002f3edf06160c05bc1`). STATUS e backlog atualizados apos releitura para evitar conflito.
 
 **Proxima etapa:** avaliacao do Anderson em Contas. Metas sera tratada separadamente, sem avanco automatico.
+
+## Item 202 (11/10/2026) | Contas minimalista, sofisticada e operacional
+
+Anderson confirmou o resultado anterior (item 201) e aprovou nova direcao: Visao Geral concentra analises; as demais abas sao operacionais. Esta entrega altera exclusivamente Contas. Metas nao foi alterada.
+
+**Implementado:** dois blocos verticais em largura total. Saldo total das contas com consolidado dinamico, quantidade real de contas e aviso original integral. Suas contas com descricao, Nova conta no cabecalho e todas as contas na ordem original. Identificacao/tipo/principal a esquerda, saldo/data ao centro e acoes a direita no desktop amplo; disposicao adaptada em telas menores, mantendo todos os botoes e a data clicavel para conferir saldo. SVGs de tipos existentes, sem logos bancarios inventados nem seta de extrato ficticia. Saldo positivo verde, negativo vermelho e zero neutro. Paleta existente, foco visivel e botoes com altura minima de 44px.
+
+**Removido da apresentacao de Contas:** Evolucao do Saldo Total, Distribuicao por Tipo de Conta e indicadores Maior conta, Conta principal, Em bancos, Em carteiras e Em investimentos. Helpers de historico, distribuicao e calculos preservados. Nenhuma migracao para Visao Geral. Nova conta, Editar, Definir/Remover como principal, Excluir e atualizacao clicavel continuam chamando os handlers originais.
+
+**Preservacao:** alteracoes apenas no CSS local de Contas e nos renderizadores _finRenderContas/_finContaRowHtml (neste ultimo, somente cor positiva). _finSaldoEstimado, _finEvolucaoSaldoPontos, _finGetContas, toggleContaPrincipal, excluirConta, abrirModalConta, saveModal, saveState, renderFinancas e renderizadores das demais abas comparados com a base, identicos. Sem banco/Worker/migracao nem alteracao de vinculos, navegacao, regras financeiras ou historico.
+
+**Testes executados:** validacao oficial .github/scripts/validate.py passou (7 blocos JS, node --check e tags balanceadas), git diff --check passou. Testes isolados de vazio, zero, negativo, misto, tipo personalizado e nome/valor longo; total consolidado, quantidade de linhas, ausencia de paineis analiticos e render sem mutacao. Principal definido/removido com exclusividade; Editar encaminhado ao modal; exclusao cancelada/confirmada respeitando azConfirm existente. Handler real saveModal executado para adicionar e editar com campos locais, valor decimal brasileiro, principal e data; persistencia simulada, transacoes/controles intactos. Receita/despesa explicita e fallback da Conta de pagamento do Controle conferidos. Nenhum dado de teste enviado ao Supabase nem operacao destrutiva em dados reais.
+
+**Limites reais:** Playwright disponivel, mas Chromium ausente. Tentativa de instalacao falhou (download sem ZIP valido); nao houve teste visual desktop/mobile, contraste medido, interacao entre abas no navegador ou persistencia autenticada em Supabase. CSS responsivo revisado no codigo; isso nao equivale a teste visual. Anderson deve conferir esses pontos ao vivo, sem excluir contas reais apenas para testar.
+
+**Publicacao:** commit `a1e3135d6c10ffb8f8abea5890c7eac8e8befb18`, apenas index.html, na main de azimo-site. Vercel retornou success. Blob remoto `cccb3bbdc5b4444e8ef43ec929170aca266feb2c` identico ao hash do arquivo local validado. Documentos relidos antes das atualizacoes, sem alteracao concorrente detectada.
+
+**Proximo passo:** Anderson conferir Contas ao vivo em desktop/mobile, consolidado, lista e operacoes. Nao avancar automaticamente para Metas.
