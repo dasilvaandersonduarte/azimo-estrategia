@@ -8402,3 +8402,16 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** compilação sintática dos 12 scripts inline. Testes isolados confirmaram seleção de dois desafios e dois focos sem progressão até confirmar, persistência do texto da etapa 3, alternância/validação das horas inativas e mapeamento de cores Bradesco, Inter, Nubank e fallback. Inspeção estática confirmou a troca de setas, o estado da agenda sem limite de altura, a cor dos hábitos e a condição de supressão do lembrete. A sessão de navegador disponível não estava autenticada no painel; visual responsivo real, clique, teclado e integração de dados permanecem pendentes de validação pelo usuário no Azimo.
 
 **Publicação:** commit `bae65a57d07bd52edbfe729a9bf9718d454513d6` em azimo-site/main; status Vercel success. Documentação atualizada após a publicação.
+
+
+## Item 222 | Publicação da Análise Semanal, posição da frase e sincronização da Agenda (Anderson, 12/10/2026)
+
+**Correção de comunicação:** no item 221, a imagem da Análise Semanal do Vio era apenas proposta visual e não havia sido integrada ao site. A resposta final anterior informou essa distinção, mas a entrega dos oito pontos e das duas propostas no mesmo fluxo não ficou suficientemente evidente para a conferência no produto. O Resumo Financeiro continua como proposta, sem alteração no Dashboard.
+
+**Implementação:** nova arte panorâmica local `assets/vio-weekly-planet.webp` (1600 × 533, aproximadamente 30 KB), sem texto e otimizada para o navegador, aplicada ao card real da Análise Semanal do Vio com gradientes de contraste. A estrutura atual do card, o indicador de semana, a contagem dinâmica de dias, a timeline, o bloqueio e o botão `Gerar Minha Análise` mantêm as mesmas fontes e eventos. Regras específicas garantem legibilidade no tema claro, tablet e celular. Frase motivacional do Foco começa em 38% no desktop amplo e 43% até 1100px, mantendo a versão móvel e o detalhe inferior. A integração da Agenda com feeds Google/iCal antes buscava sempre de hoje -3 até hoje +21 e não refazia a busca ao navegar; agora solicita a semana, o mês ou a vizinhança diária exibida, com margem de fuso, evita buscas redundantes, ignora respostas antigas de requisições concorrentes e informa falhas parciais com botão para tentar novamente. Sem mudança no Worker nem nas URLs privadas.
+
+**Validação:** 12 scripts inline passaram em compilação sintática; simulação isolada da Agenda confirmou janela semanal de 15 a 23/11 ao abrir 18/11, janela mensal de 25/10 a 07/12 para novembro, fusão de resposta bem-sucedida e aviso quando uma de duas agendas falha. Arte e HTML constam no mesmo commit e Vercel reportou success. A sessão não dispõe do estado autenticado nem das URLs privadas do usuário, portanto não foi possível comprovar que os feeds específicos de Anderson responderam ou fazer inspeção visual do card renderizado no painel.
+
+**Publicação:** commit `d830c28eca3a1f56432206188aade4b3d3130ea0` em azimo-site/main; Vercel success.
+
+**Padrão de entrega solicitado por Anderson:** nas próximas entregas, apresentar lista numerada ponto a ponto de tudo que foi implementado, diferenciando propostas ainda não aplicadas, testes executados, publicação e conferência pendente no site. Evitar a expressão genérica "tudo feito" sem essa correspondência.
