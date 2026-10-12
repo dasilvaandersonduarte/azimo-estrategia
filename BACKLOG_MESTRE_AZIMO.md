@@ -8170,3 +8170,21 @@ Anderson pediu que todos os campos que abrem o calendario nativo usem o visual d
 **Limites:** sem navegador local com Chromium, nao houve inspeção visual nem clique em cada formulario no browser ou teste autenticado de persistencia no Supabase. Anderson deve conferir a abertura em Metas e nos demais formularios, mobile e desktop, antes de considerar a experiencia visual aprovada. Nenhuma operacao destrutiva foi feita em dados reais.
 
 **Publicacao:** commit `e2d9da0d2580cdce20e4d2765c64555dd8ee360b` em azimo-site/main, somente `index.html`. Vercel retornou success para este commit.
+
+## Item 205 (11/10/2026) | Refinamento visual compacto da aba Recorrentes
+
+Anderson aprovou a referência conceitual para uma aba Recorrentes minimalista e compacta, com a exigência principal de manter a organização financeira real. Os valores e ações ilustrativos da imagem não foram reproduzidos.
+
+**Interface:** painel principal com título “Lançamentos Recorrentes”, descrição e os filtros de frequência e tipo existentes. Receitas Recorrentes permanecem agrupadas numa seção; Despesas Recorrentes continuam em cartões separados por Controle real, incluindo “Sem controle” quando aplicável. Cada cartão mostra nome, quantidade, total calculado pela mesma soma e comando de recolher/expandir. Linhas compactas mostram descrição, categoria, valor, frequência, próxima ocorrência, estado já existente e os comandos Editar e Cancelar. Cores para receitas/despesas, SVGs e tipografia alinhada à aba Metas. Não foi criado comando de pausa.
+
+**Parcelamentos:** continuam separados entre receitas e despesas e agrupados pelos Controles originais, com total e subtotais por responsável calculados pelas expressões anteriores. Cada linha mostra a sequência da parcela, valor, data registrada, responsável e ação Gerenciar existente. O período exibido e a seleção de uma linha por grupo no mês seguem a lógica original. O layout se adapta para uma coluna em telas menores, sem alturas fixas.
+
+**Preservação:** somente CSS específico de Recorrentes e as funções de apresentação `_finRecRowHtml`, `_finRecTabelaHtml` e `_finRenderRecorrentes` foram modificados; um helper local gera os SVGs. Comparação com a base confirmou `_finProximaOcorrencia`, `_finRecParcUIGet`, `_finRecParcToggleAberto`, `_finGetControles`, `_finCalcProximosMovimentos`, `_finRecResumoHtml`, `_finGetMetas`, `saveModal` e `renderFinancas` idênticos. Sem alteração de Supabase, Worker, outras abas, cálculos financeiros ou dados.
+
+**Testes executados:** validador oficial `.github/scripts/validate.py` passou no arquivo final (8 scripts, `node --check` e tags balanceadas); diff sem problemas de espaços. Teste isolado executou funções reais com receitas, despesas em dois Controles, parcela de receita e de despesa, filho materializado e filtros de frequência e tipo. Conferiu totais, datas, sequência, exclusão do filho duplicado, grupos e ações presentes, expansão/recolhimento, valores imutáveis e casos de filtro sem recorrência. Nenhuma operação destrutiva foi feita em dados reais.
+
+**Limites:** não houve navegação visual autenticada em desktop/mobile, cliques reais nos modais de editar/cancelar/gerenciar ou teste de persistência no Supabase; Chromium local indisponível. O CSS foi revisado, mas a validação visual e de contraste depende da conferência no site ao vivo. A referência ilustrava pausas e botão Nova recorrente, que não foram adicionados porque não existem como ações específicas nesta aba.
+
+**Publicação:** commit `f9b94fe0c10e7ce5f752ed6c85deabfd66bcd978` em azimo-site/main, somente `index.html`. Blob remoto `96a473d9c46aa023840bf9cf680c93ced96684b4` confere com o arquivo local validado. Vercel retornou success. Documentos relidos antes da atualização, sem divergência concorrente detectada.
+
+**Próximo passo:** Anderson conferir Recorrentes no desktop e no celular, grupos por Controle, filtros, parcelas, recolhimento e ações com dados de teste. Não avançar automaticamente para Despesas.
