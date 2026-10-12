@@ -8220,3 +8220,18 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Publicação:** commit `7913526962ac1986e6ff3958f5b62babe269c481` em azimo-site/main, alterando apenas `index.html`. Blob `672dfb44d08d3e73cc1ccd44ff4021ec396e59bc` corresponde ao arquivo local validado. Vercel retornou success. Documentos relidos antes da atualização, sem divergência concorrente detectada.
 
 **Próximo passo:** Anderson avaliar Recorrentes ao vivo. Não avançar automaticamente para outra aba.
+
+
+## Item 208 | Finanças: refinamento visual compacto da aba Despesas (Anderson, 11/10/2026)
+
+**Pedido:** aplicar a direção minimalista, sofisticada e compacta à aba Despesas, preservando Controles, lançamentos, vínculos, filtros, ordenação, valores e ações existentes. A imagem conceitual serviu apenas como referência visual, sem dados fictícios.
+
+**Implementação:** o painel de Despesas e os cartões de Controle receberam espaçamento menor, ícones SVG, identidade visual escura e cabeçalhos horizontais com tipo, datas, quantidade e total. O Controle recolhido mostra o resumo sem uma linha interna redundante. A tabela aberta conserva as sete colunas, filtros por categoria, responsável e recorrência, ordenação por valor/data e ações de seleção, pagamento, agendamento, edição e exclusão. Em largura menor, os cabeçalhos dos cartões se reorganizam e a tabela mantém rolagem horizontal localizada para preservar valores e comandos. O total consolidado, total por Controle e subtotais por responsável continuam derivados das transações existentes. Sem alteração nas demais abas, persistência ou regras financeiras.
+
+**Validação executada:** `validate.py` passou com oito scripts JS verificados por `node --check` e tags balanceadas; `git diff --no-index --check` sem erros. Teste isolado dos renderizadores reais com dois Controles e três despesas verificou totais consolidados e por grupo, expansão, recolhimento, filtro, ordenação, presença dos comandos de importação, cadastro, edição, exclusão, pagamento e agendamento, e dados de entrada imutáveis. Nenhuma operação destrutiva foi feita em dados reais.
+
+**Limitações:** não foi possível testar interação visual autenticada em navegador, dimensões reais de desktop/mobile, importação, edição/exclusão com Supabase e vínculos financeiros end to end. As funções desses fluxos não foram modificadas; Anderson deve conferir no site com dados de teste e inspecionar o rolamento localizado da tabela em celular.
+
+**Publicação:** commit `6a774a2141594c9f4b70f12d6f527d783a0a3f6b` em azimo-site/main, somente `index.html`; blob `3e8c99f56840646745f2a0e55cbb9f2c16990bbd` corresponde ao arquivo local. Vercel retornou success. STATUS.md atualizado no commit `37617183cb2bf6a9d0447fef69adad9d6b489cfb` após verificar ausência de edição concorrente.
+
+**Próximo passo:** Anderson conferir Despesas ao vivo em desktop e celular. Não avançar automaticamente para Receitas.
