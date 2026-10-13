@@ -8791,3 +8791,19 @@ Nenhuma mudança estrutural, de agrupamento ou de dado, apenas reordenação de 
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life nas 3 telas: em Contas, ícone do aviso maior e centralizado, valores das 4 contas centralizados sobre a data; em Metas, seta do select com respiro; em Recorrentes, todos os cards (Receitas Recorrentes, Bradesco, Pagamento Prestadoras, Nubank, e os dois grupos de Parcelamentos Ativos) vêm recolhidos ao carregar a tela. Observação registrada durante a verificação: a limpeza de cache do service worker precisou ser repetida mais de uma vez pra essa última mudança realmente aparecer no navegador testado (comportamento só de teste, confirmado via `curl` direto que o código publicado já estava correto desde o primeiro deploy); não afeta o uso normal do Anderson.
 
 **Publicação:** Commit `4563fec` em azimo-site, push `3b27005..4563fec main -> main`.
+
+## 254. Padrão noturno em Diário de Produtividade e Foco (Pomodoro)
+
+**Pedido:** Anderson aprovou a continuidade do rollout do padrão noturno pela sidebar ("Perfeito então, seguimos!"), depois de Dashboard, Rotina Diária, Vio e as 6 abas de Finanças. As próximas telas sem o tratamento eram Diário de Produtividade e Foco Nível Azimo (Pomodoro).
+
+**Implementação:** Aplicado o mesmo mecanismo usado em Rotina Diária (item 238, por id de card, não por tela inteira, já que essas telas usam `.rotina-card`/`.rotina-card-full` como base): sobrescrita dos tokens de cor locais, borda arredondada de 18px, glow radial e sombra noturna. 4 cards receberam o tratamento:
+- Diário de Produtividade (`#diario-produtividade-card`): padrão cheio, glow índigo.
+- Tarefas de Hoje (`#foco-tarefas-card`): padrão cheio, glow azul (combina com o ícone `.ri-task`).
+- Anotações da Sessão (`#foco-notas-card`): padrão cheio, glow violeta, incluindo o fundo da textarea.
+- Foco Nível Azimo / Pomodoro (`#foco-pomodoro-card`): tratamento diferente dos demais, porque esse card já tinha um efeito próprio de glow pulsante animado (`.foco-pomodoro-protagonista`), que usa `var(--bg2)` como camada de base. Em vez de sobrescrever a propriedade `background` (o que apagaria a animação), só trocamos o tom de `--bg2` pro navy escuro padrão e adicionamos sombra/borda arredondada, preservando o efeito original.
+
+Nenhum dado, ação ou script alterado, apenas CSS.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo (node --check e balanceamento de tags). Verificado ao vivo em azimo.life (cache do service worker limpo antes de testar): no Diário de Produtividade, todos os slots de horário com o fundo escuro e borda do padrão noturno; em Foco, os 3 cards (Tarefas de Hoje, Pomodoro, Anotações da Sessão) com o mesmo tratamento lado a lado, e o cronômetro do Pomodoro mantendo seu glow pulsante original sobre o novo fundo escuro.
+
+**Publicação:** Commit `7ae76e1` em azimo-site, push `4563fec..7ae76e1 main -> main`.
