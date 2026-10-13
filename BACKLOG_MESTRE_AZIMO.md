@@ -8621,3 +8621,17 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual ao vivo confirmou os cards de categoria de Estudos e o calendário/progresso de Revisão renderizando corretamente. Anderson não tem nenhuma área de estudo nem revisão pendente cadastrada no momento, então os cards `.est-area-row` e `.rev-card` (com dados reais) ainda não foram vistos ao vivo — fica como pendência de conferência assim que houver conteúdo real para mostrar neles.
 
 **Publicação:** commit `4e1049a` em azimo-site/main.
+
+## Item 241 | Padrão noturno do Dashboard estendido à Visão Geral de Finanças, com correção de escopo (Anderson, 13/10/2026)
+
+**Pedido:** continuação de "ir descendo a sidebar" aplicando o padrão visual noturno (ver itens 237-240), agora para a tela de Finanças.
+
+**Implementação:** a primeira tentativa (commit `2436012`) mirou `#fin-resumo-card` e `#fin-metas-topo-card`, elementos que existem no HTML dentro de `.fin-top-split` e que, pela leitura do código-fonte, pareciam ser o resumo sempre visível no topo da tela. Na conferência visual ao vivo, porém, esses elementos não apareceram — eles ficam com `display:none` permanente, aplicado sem condição em `renderFinancas()` (o próprio comentário do código, referente ao item 98, explica que esse resumo foi substituído e o componente "continua no DOM, só escondido"). Ou seja, o primeiro commit estilizou elementos mortos, que nenhum usuário jamais vê.
+
+Corrigido no commit `9a2c13b`: removido o CSS morto e reaplicado o padrão nos elementos que de fato renderizam na aba Visão Geral, gerados por `_finRenderGeral()`: os 3 cards do painel (`.fin-geral-stat` — Receitas do Mês, Despesas do Mês, Saldo do Mês) e os 5 cards de conteúdo (`.fin-geral-card` — Evolução Financeira, Despesas por Categoria, Contas e Saldos, Metas Financeiras, Próximos Compromissos). Mesmo conjunto de tokens dos itens anteriores (texto, bordas, bg, indigo/green/red/amber/rose/blue/violet), glow verde (cor já associada a saldo positivo no site). Escopo deliberadamente limitado à Visão Geral — as outras 5 abas de Finanças (Receitas, Despesas, Recorrentes, Metas, Contas) são uma superfície bem maior e ainda não foram tocadas.
+
+**Validação:** `validate.py` passou limpo nos dois commits. Inspeção visual ao vivo em produção (com dados reais de Anderson) confirmou os 8 cards da Visão Geral renderizando corretamente: valores, gráfico de evolução, donut de categorias, contas cadastradas, meta "Reserva Para Paz" e os 4 próximos compromissos financeiros, todos legíveis e sem quebra visual.
+
+**Risco identificado (Modo Desafio):** este episódio expõe um ponto geral de atenção para o restante do rollout — ler o código-fonte não é suficiente para confirmar que um elemento está de fato visível ao usuário; `display:none` condicional (ou, como aqui, incondicional) pode esconder elementos que o código ainda referencia ativamente. A partir daqui, antes de escrever o CSS de cada novo item, vale conferir rapidamente ao vivo qual elemento está realmente na tela, não só qual a função/ID que a sintaxe aponta.
+
+**Publicação:** commits `2436012` (tentativa inicial, mirou elementos ocultos) e `9a2c13b` (correção, aplicado aos elementos reais) em azimo-site/main.
