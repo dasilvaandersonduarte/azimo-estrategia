@@ -2,7 +2,7 @@
 
 > **Onde colocar:** nos Arquivos do Projeto "Azimo" no ChatGPT (não precisa anexar direto num chat específico). Uma vez lá, fica disponível automaticamente para qualquer conversa dentro do projeto, incluindo o chat "Desenvolvedor | Layout" e qualquer chat novo que você abrir ali pra gerar imagem, post ou peça visual. Documento único e completo: logo, avatar do Vio, paleta, tipografia e estrutura de Instagram. Não precisa complementar com mais nada nem mandar informação por partes.
 
-Atualizado em: 02/09/2026 — manual fechado, sem pendências em aberto.
+Atualizado em: 13/10/2026. Padrão de cards do Dashboard acrescentado; logo, paleta e demais regras de marca preservadas.
 
 ---
 
@@ -187,6 +187,19 @@ Nunca usar itálico decorativo, nunca fonte serifada (com serifa, tipo Times), n
 - **Ícones:** sempre SVG line/outline (traço, não preenchido), nunca emoji. A biblioteca usada no produto é a **Tabler Icons**. Qualquer ícone gerado para peças de marca deve seguir essa mesma linguagem: traço fino, cantos levemente arredondados, monocromático (geralmente branco ou indigo).
 - **Formas:** geometria simples, cantos arredondados (raio consistente, nunca cantos 100% retos nem excessivamente arredondados/pill em tudo). A logo em si é feita de losangos, então formas de diamante/losango podem aparecer como elemento gráfico secundário de marca (padrão de fundo, moldura, divisor).
 - **Nunca usar:** emojis como elemento gráfico ou de UI, travessão (—) em qualquer texto de marca, fotos de banco de imagem genéricas de "empreendedor sorrindo com laptop" (foge do tom sério/consultivo da marca), ilustrações fofas/cartoon (o produto é sério, consultivo, não lúdico).
+
+---
+
+## 5.1. Padrão dos cards do Dashboard (validado em 13/10/2026)
+
+O Dashboard combina uma mesma linguagem de produto sem repetir a mesma imagem em todos os cards. A referência aprovada por Anderson é o Resumo Financeiro com paisagem noturna e rota luminosa (versão 1). Sua linguagem comum é azul profundo, texto claro, contorno índigo discreto, luz suave e hierarquia legível.
+
+- **Cards de informação diária:** usar fundo limpo em azul noturno, gradiente sutil e um acento luminoso proporcional ao significado do card. Sem ilustração, montanhas, planetas ou mapas repetidos. Preservar espaço de leitura para números, datas, legendas, barras e ações.
+- **Cards de destaque:** uma imagem só quando sua metáfora reforçar o conteúdo. Exemplos atuais: rota e direção no Resumo Financeiro; arte da Análise Semanal do Vio. Arte panorâmica local, leve e otimizada, composição que reserve área livre para textos e sobreposição de contraste. Evitar imagem apenas como enfeite.
+- **Variação com coerência:** a base noturna, tipografia, arredondamento e borda conectam os cards. O brilho e o acento variam conforme a função, sem alterar a cor reservada aos cinco pilares nem o significado das cores de estado. Não clonar fundos ilustrados nem acrescentar informação visual que concorra com os dados.
+- **Aplicação:** manter as ações, os dados e a resposta em desktop e celular. Conferir legibilidade nos temas claro e escuro, contraste, foco por teclado e alinhamento dos conteúdos antes de replicar o padrão em outra área do produto. Ícones continuam vetoriais em SVG.
+
+A aplicação inicial aos seis cards restantes do Dashboard é uma proposta publicada para avaliação visual de Anderson; o uso desse mesmo tratamento fora do Dashboard depende de avaliação própria.
 
 ---
 
