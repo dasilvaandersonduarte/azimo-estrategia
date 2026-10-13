@@ -8565,4 +8565,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** oito scripts inline compilaram sem erro; conferidos dez atalhos com `data-tip` e as quatro ocorrências do texto da logo. A verificação visual autenticada no site não foi executada.
 
-**Publicação:** commit `7ee2d7722c7e6fd4f33f4885a1bb8aa13b665524` em azimo-site/main; Vercel pendente no momento deste registro.
+**Publicação:** commit `7ee2d7722c7e6fd4f33f4885a1bb8aa13b665524` em azimo-site/main; Vercel success.
