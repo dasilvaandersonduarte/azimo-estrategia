@@ -8576,4 +8576,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** oito scripts inline compilaram sem erro e os três blocos de estilo têm chaves equilibradas; referência antiga à imagem financeira removida da folha de estilo. Ainda não houve inspeção visual autenticada ou teste de interação no site real.
 
-**Publicação:** commit `89f7db238fdbbc2fca102d47d6af5c78a4549df5` em azimo-site/main; Vercel pendente no momento do registro.
+**Publicação:** commit `89f7db238fdbbc2fca102d47d6af5c78a4549df5` em azimo-site/main; Vercel success.
