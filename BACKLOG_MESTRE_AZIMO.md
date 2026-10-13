@@ -8681,3 +8681,13 @@ Na aba Receitas, o cabeçalho (`.fin-receitas-header`) ganhou o mesmo layout de 
 **Validação:** `validate.py` passou limpo. Conferido ao vivo: o popup do Vio renderiza com o gradiente/glow noturno (nota técnica: a primeira checagem mostrou a versão antiga por causa do service worker do PWA, que cacheia a página — precisei limpar o cache/SW no navegador de teste pra ver a versão publicada; isso é só um detalhe da minha verificação, não deveria afetar o Anderson no uso normal, mas se ele notar algo desatualizado por um instante, um recarregar resolve). Receitas com o Total R$ 11.390,00 agora no topo, no mesmo layout de Despesas.
 
 **Publicação:** commit `7784ad6` em azimo-site/main.
+
+## Item 246 | Ajuste fino: Total de Receitas na mesma altura do total de Despesas (Anderson, 13/10/2026)
+
+**Pedido:** no item 245, o Total de Receitas tinha ido pra linha do título "Receitas" (H2), ficando alto demais, perto do teto do card. Anderson pediu pra alinhar na mesma altura vertical do "Total pendente dos Controles" em Despesas.
+
+**Implementação:** o Total saiu da linha do H2 e voltou pro cabeçalho simples (H2 + subtítulo, sem grid). Foi reinserido na linha "Todas as Receitas" — a linha equivalente a "Controles de Despesas" em Despesas — usando o mesmo grid de 3 colunas (título à esquerda, total à direita).
+
+**Validação:** `validate.py` passou limpo. Conferido ao vivo: o Total R$ 11.390,00 agora aparece na mesma altura visual do "Total pendente dos Controles" de Despesas.
+
+**Publicação:** commit `34f6ce9` em azimo-site/main.
