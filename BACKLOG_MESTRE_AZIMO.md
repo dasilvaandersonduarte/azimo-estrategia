@@ -8647,3 +8647,25 @@ Na sequência, o padrão noturno foi estendido à aba Despesas: `.fin-desp-panel
 **Validação:** `validate.py` passou limpo. Inspeção visual ao vivo confirmou os 3 Controles reais de Anderson (Bradesco | Infinite, Pagamento Prestadoras, Nubank | Platinum) renderizando corretamente, incluindo a tabela expandida do Bradesco | Infinite com 109 itens reais, filtros, ícones de categoria e valores, sem quebra visual.
 
 **Publicação:** commits `4bf644d` (ajuste de vermelho na Visão Geral) e `384ef36` (padrão noturno na aba Despesas) em azimo-site/main.
+
+## Item 243 | Vermelho vivo padronizado em todos os cards + tooltip customizado da Evolução Financeira (Anderson, 13/10/2026)
+
+**Pedido:** dois alinhamentos sobre o item 241/242. (1) manter o vermelho vivo (`#f87171`) escolhido para Finanças em todos os lugares onde o padrão noturno usa vermelho, não só lá. (2) no card "Evolução Financeira" (Visão Geral), o tooltip que aparece ao passar o mouse nas barras era a caixa cinza nativa do navegador — pedido pra virar um card no nosso padrão, com as linhas separadas (Mês do Ano / Receita / Despesa / Resultado).
+
+**Implementação:** o vermelho `#f9a8a8` (usado desde o item 237) foi trocado por `#f87171` nos 4 blocos de CSS que ainda estavam com o tom antigo: Início do Dia, os 6 cards restantes de Rotina Diária, Vio e Estudos/Revisão. Itens 241-242 (Finanças) já estavam certos desde o ajuste anterior.
+
+O tooltip nativo (`<title>` do SVG) foi substituído por um componente customizado: um `<div id="fin-evo-tooltip">` posicionado de forma absoluta dentro do card do gráfico, preenchido e movido via JS (`_finEvoTipShow`/`_finEvoTipMove`/`_finEvoTipHide`) a cada passagem do mouse nas barras e nos pontos da linha de Resultado. O card mostra o mês no topo e as 3 linhas pedidas (Receita em verde, Despesa em vermelho, Resultado colorido conforme positivo/negativo), sempre no padrão visual noturno, independente do tema claro/escuro do site (mesma lógica das demais superfícies noturnas fixas).
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo: o tooltip aparece corretamente ao passar o mouse na barra de Despesas de outubro/2026, com os valores reais (Receita R$ 11.390,00 / Despesa R$ 26.927,31 / Resultado -R$ 15.537,31) organizados em linhas, cores certas, posicionamento acompanhando o cursor. Vermelho vivo conferido nos cards atualizados.
+
+**Publicação:** commit `741939f` em azimo-site/main.
+
+## Item 244 | Padrão noturno na aba Receitas, corrigindo ordem pulada no rollout (Anderson, 13/10/2026)
+
+**Pedido:** Anderson notou que a aba Receitas tinha ficado pra trás — o rollout foi direto de Visão Geral pra Despesas sem passar por ela.
+
+**Implementação:** mesmo molde dos itens 237-242, aplicado ao painel de Receitas (`.fin-receitas-panel`), que vira a própria superfície noturna. A tabela "Todas as Receitas" (filtros por Tipo/Recorrente, ordenação por Data/Valor, paginação) renderiza por cima usando os mesmos componentes compartilhados com Despesas (`.fin-col-chip`, `.fin-col-reset`). Glow verde, por ser a tela de entradas. Vermelho no tom vivo padrão.
+
+**Validação:** `validate.py` passou limpo. Conferido ao vivo com os 2 lançamentos reais de Anderson (Casa 1965, Floripa Podcast), filtros e total renderizando corretamente.
+
+**Publicação:** commit `e382b94` em azimo-site/main.
