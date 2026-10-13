@@ -8773,3 +8773,21 @@ Nenhuma mudança estrutural, de agrupamento ou de dado, apenas reordenação de 
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life nas 3 telas afetadas (Recorrentes: itens normais e Parcelamentos ativos; Receitas: tabela "Todas as Receitas"), confirmando que o valor ficou colado nos botões de ação nas três, replicando o padrão já usado em Contas.
 
 **Publicação:** Commit `3b27005` em azimo-site, push `a39d739..3b27005 main -> main`.
+
+## 253. 4 ajustes finos após validação (aviso de Contas, valor centralizado, seta do select, cards de Recorrentes recolhidos)
+
+**Pedido:** Anderson enviou 4 prints com observações pontuais depois de validar os itens anteriores:
+1. O ícone do Azimo no aviso "O saldo de cada conta é estimado..." (aba Contas) estava pequeno demais, só alinhado com a primeira linha de um texto de 3 linhas.
+2. Na listagem de Contas, preferia o valor de cada conta centralizado acima do "Atualizado em DD/MM/AAAA", em vez de alinhado à direita.
+3. A seta do select "Todas as metas" (aba Metas) estava quase saindo da caixa de filtro.
+4. Os cards de Recorrentes (Receitas/Despesas Recorrentes e Parcelamentos Ativos) vinham abertos por padrão, obrigando a fechar um por um pra rolar até as partes de baixo da tela.
+
+**Implementação:**
+1. Ícone do aviso em Contas aumentado de 22px para 38px, e o alinhamento do bloco trocado de `flex-start` para `center`, deixando o ícone visualmente mais alinhado com a altura do parágrafo de 3 linhas.
+2. `.fc-account-balance` (valor + "Atualizado em" de cada conta) trocado de `text-align:right` para `text-align:center`.
+3. Adicionado `padding-right:28px` ao select de filtro de categoria em Metas, reservando espaço pra seta nativa do navegador.
+4. `_finRecParcUIGet()` (estado de aberto/fechado dos cards de Recorrentes e Parcelamentos Ativos) passou o valor padrão de `aberto:true` para `aberto:false`, no mesmo espírito do item 164 já aplicado em Despesas.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life nas 3 telas: em Contas, ícone do aviso maior e centralizado, valores das 4 contas centralizados sobre a data; em Metas, seta do select com respiro; em Recorrentes, todos os cards (Receitas Recorrentes, Bradesco, Pagamento Prestadoras, Nubank, e os dois grupos de Parcelamentos Ativos) vêm recolhidos ao carregar a tela. Observação registrada durante a verificação: a limpeza de cache do service worker precisou ser repetida mais de uma vez pra essa última mudança realmente aparecer no navegador testado (comportamento só de teste, confirmado via `curl` direto que o código publicado já estava correto desde o primeiro deploy); não afeta o uso normal do Anderson.
+
+**Publicação:** Commit `4563fec` em azimo-site, push `3b27005..4563fec main -> main`.
