@@ -8555,3 +8555,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline compilaram, chaves CSS equilibradas. Simulação isolada confirmou padrão inicial travado, desbloqueio persistido, rótulos/estado acessível, ausência de troca no mobile e novo bloqueio. O HTML contém um único botão de logo. Não houve teste com ponteiro real nem inspeção autenticada em desktop/mobile; Anderson avaliará a transição e o contraste no site.
 
 **Publicação:** commit `88d4fb34cbd1bd3a26bdf95a6295a7554f37e229` em azimo-site/main; Vercel success.
+
+
+## Item 235 | Dicas da sidebar no padrão visual Azimo (13/10/2026)
+
+**Solicitação:** aplicar aos cards de dica de Dashboard, Rotina Diária, Vio, Estudos e demais atalhos o mesmo visual personalizado já usado na dica da logo. Corrigir a redação para “Clique para bloquear a sidebar” e “Clique para desbloquear a sidebar”.
+
+**Implementação:** as dicas existentes da navegação, feedback e perfil no desktop receberam o fundo azul noturno, texto claro, borda índigo, arredondamento, tipografia e sombra da dica da logo. Mantidos os rótulos, posições e interações da sidebar. Texto inicial, dica dinâmica e `aria-label` da logo corrigidos. Mobile preserva os rótulos e o drawer.
+
+**Validação:** oito scripts inline compilaram sem erro; conferidos dez atalhos com `data-tip` e as quatro ocorrências do texto da logo. A verificação visual autenticada no site não foi executada.
+
+**Publicação:** commit `7ee2d7722c7e6fd4f33f4885a1bb8aa13b665524` em azimo-site/main; Vercel pendente no momento deste registro.
