@@ -8543,4 +8543,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** oito scripts inline compilaram. Simulação isolada cobriu Foco ontem/hoje, início manual hoje sobre Foco ontem, rotina manual ontem, ausência de sinal, tarefa pendente e hábito pendente. Os três textos e as três rotas do botão foram conferidos isoladamente. Não houve execução com sessão autenticada de Anderson, então a preferência inferida deve ser confirmada no site.
 
-**Publicação:** commit `0dc2061a0d342951d63b3447bad3c8c44420cc6f` em azimo-site/main; Vercel a confirmar.
+**Publicação:** commit `0dc2061a0d342951d63b3447bad3c8c44420cc6f` em azimo-site/main; Vercel success.
