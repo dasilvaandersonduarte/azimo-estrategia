@@ -8463,3 +8463,16 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline não vazios passaram em compilação sintática; inspeção do HTML confirmou ícone nos sete cards e três formas de cabeçalho. Simulação isolada confirmou a atualização da dica ativa e seu desaparecimento ao expandir o card. Não houve teste visual autenticado ou interação física nos sete cards nesta sessão.
 
 **Publicação:** commit `7cf6bec58cf919be8d834f99d3c2cef9fe59c216` em azimo-site/main; Vercel success.
+
+
+## Item 227 | Convite de fechamento após reflexão e prévia visual de rota (Anderson, 12/10/2026)
+
+**Pedido:** após escrever e enviar a Reflexão do Dia, oferecer escolha para marcar Escrita · Reflexão do Dia no Mínimo Diário e ir ao Salvar Dia. O fechamento não deve acontecer automaticamente. Anderson aprovou o azul noturno e o neon do Resumo Financeiro, mas rejeitou a repetição da mesma arte de planeta da Análise Semanal. Pediu uma identidade visual ligada a navegação, rota e direção e sugeriu prévia antes da publicação.
+
+**Implementação funcional publicada:** após Enviar no Fim do Dia, a reflexão consolidada e seu histórico continuam salvos como antes. Um convite no card oferece “Marcar no Mínimo Diário” quando o hábito `escrita-reflexao` está cadastrado e ainda não foi feito. Essa ação atualiza `STATE.tracker`, persiste o estado e atualiza tracker, estatísticas e consistência. “Revisar e Salvar Dia” abre o modal já existente, sem marcar nem encerrar automaticamente. A dica reaparece após recarga se há reflexão válida no dia e o dia ainda não está concluído; desaparece após Salvar Dia. O envio automático de um rascunho dentro de Salvar Dia não cria novo convite transitório. O card mantém a linguagem visual da plataforma, SVG e acessibilidade `role=status`.
+
+**Prévia visual separada:** duas explorações de background foram geradas, e a segunda, com mapa abstrato e pontos luminosos de rota, foi apresentada como direção recomendada. A arte não foi adicionada ao repositório e o Resumo Financeiro publicado mantém o background vigente até validação do Anderson. A futura implementação deve usar versão otimizada local e preservar os dados e interação do card.
+
+**Validação:** oito scripts inline não vazios passaram em sintaxe. Simulação isolada confirmou registro da reflexão, convite visível, marcação opcional do hábito e abertura do modal de Salvar Dia. Não houve inspeção autenticada do fluxo nem da renderização visual.
+
+**Publicação:** commit `27217fbde0351465e0ec462a8aaf709337a6e527` em azimo-site/main, Vercel success. Publicada somente a parte funcional do Fim do Dia.
