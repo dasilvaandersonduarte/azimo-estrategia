@@ -8703,3 +8703,15 @@ Aplicado bloco CSS escopado a `#screen-financas .fin-rec-panel`, reutilizando o 
 **Validação:** `python3 .github/scripts/validate.py` passou limpo (node --check ok, balanceamento de tags ok). Verificado ao vivo em azimo.life (limpando cache do service worker antes, por precaução): Visão Geral e popup do Vio confirmados ainda corretos, e a aba Recorrentes conferida em zoom mostrando Receitas Recorrentes, Despesas Recorrentes (incluindo o card "Pagamento Prestadoras" com 11 lançamentos expandido) e Parcelamentos ativos (lista completa até os totais por Controle no rodapé) todos legíveis, com o vermelho no tom padrão `#f87171` e nenhuma quebra visual.
 
 **Publicação:** Commit `4156840` em azimo-site, push `34f6ce9..4156840 main -> main`. Rollout de Finanças chega a 4 de 6 abas concluídas (Visão Geral, Despesas, Receitas, Recorrentes). Faltam Metas e Contas.
+
+## 248. Padrão noturno na aba Finanças > Metas
+
+**Pedido:** Anderson aprovou o item 247 (Recorrentes) e pediu para seguir direto para Metas, mantendo o rollout "1 por 1" pela sidebar de Finanças.
+
+**Implementação:** Auditada a função `_finRenderMetas()` e `_finMetaRowHtml()`. Todas as classes (`.fin-metas-panel`, `.fin-metas-header`, `.fin-metas-controls`, `.fin-meta-row`, `.fin-meta-icon`, `.fin-meta-progress*`, `.fin-meta-track`, `.fin-meta-fill`, `.fin-meta-details`, `.fin-meta-side`, `.fin-meta-state`, `.fin-meta-action*`) já usavam exclusivamente tokens `var(--...)`. As categorias de meta (viagem, reserva, imóvel, educação, outros) usam os tokens rose/green/blue/violet/amber, já incluídos no conjunto padrão desde o item 241 (não foi necessário criar tokens novos).
+
+Aplicado bloco CSS escopado a `#screen-financas .fin-metas-panel`, com o conjunto padrão de tokens e glow rose (`rgba(244,114,182,.14)`), referência ao tom mais associado a conquista pessoal entre as categorias de meta. Cabeçalho (h2/p) ajustado para as cores do tema escuro.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: aba Metas conferida em zoom, card "Reserva Para Paz" com superfície em gradiente, ícone verde legível, barra de progresso em amber, prazo e botões de ação (Aportar/Editar/Pausar/Excluir) todos no padrão, sem quebra visual. Confirmado via DOM que a classe `.fin-metas-panel` recebeu o gradiente e borda corretos.
+
+**Publicação:** Commit `02677f4` em azimo-site, push `4156840..02677f4 main -> main`. Rollout de Finanças chega a 5 de 6 abas concluídas (Visão Geral, Despesas, Receitas, Recorrentes, Metas). Falta apenas Contas.
