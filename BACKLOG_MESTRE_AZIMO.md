@@ -8487,3 +8487,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** inspeção do recurso WebP e do CSS confirmou as duas referências no Resumo Financeiro e as duas referências anteriores na Análise Semanal. Não houve inspeção visual autenticada do Dashboard no site; Anderson avaliará o resultado publicado antes de qualquer expansão para outros cards. O fluxo do Fim do Dia não foi retestado nesta rodada.
 
 **Publicação:** commit `717dda74e6947f8900aa3ebaeee26ecc8e3ed87f` em azimo-site/main; Vercel success.
+
+
+## Item 229 | Versão 1 da arte no Resumo Financeiro (Anderson, 13/10/2026)
+
+**Pedido:** após a versão 2 de rota abstrata, Anderson solicitou aplicar a versão 1 no site para comparar visualmente.
+
+**Implementação:** a primeira prévia, paisagem noturna azul e roxa com rota iluminada e ponto de direção à direita, foi otimizada em `assets/resumo-financeiro-paisagem-v1.webp` (1536 × 576 px, 18,3 KB). O CSS do Resumo Financeiro troca somente as referências do background para esse novo arquivo em desktop e mobile. A sobreposição, tipografia, conteúdo, dados e ações do card não mudaram. A versão 2 permanece no repositório para comparação ou retorno, sem afetar os outros cards.
+
+**Validação:** a imagem WebP foi inspecionada e as duas referências do Resumo Financeiro foram conferidas no HTML. As duas referências da Análise Semanal permanecem com sua arte anterior. Não houve teste visual autenticado do Dashboard; Anderson fará a avaliação no site. O convite do Fim do Dia não foi retestado.
+
+**Publicação:** commit `006b1936090729874fd5a9e080e820f3cd72620a` em azimo-site/main; Vercel a confirmar.
