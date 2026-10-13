@@ -8742,3 +8742,17 @@ O CSS de `[data-theme="light"]` em todo o arquivo foi mantido intacto (sem uso),
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: forcei `localStorage.setItem('azimo_theme','light')` manualmente e recarreguei a página, confirmando via DOM que o atributo `data-theme` continua ausente (tela permanece escura, comportamento correto mesmo com valor antigo salvo). Conferido também que a tela Meu Perfil > Conta não ficou com buraco visual no lugar do seletor removido.
 
 **Publicação:** Commit `14f5db1` em azimo-site, push `7ba6d05..14f5db1 main -> main`.
+
+## 251. Ajustes de validação: Total de Despesas dentro de caixa (padrão Receitas) + redução de tamanho em Contas
+
+**Pedido:** Depois de validar os itens 246-249 ao vivo, Anderson apontou duas inconsistências: (1) em Despesas, o "Total pendente dos Controles" ficava solto, fora de qualquer caixa, flutuando acima do primeiro card de Controle (Bradesco | Infinite), enquanto em Receitas o "Total de Receitas no mês" mora dentro da mesma caixa de "Todas as Receitas" que envolve a tabela inteira; (2) na aba Contas, os ícones, fontes e tamanho dos cards estavam grandes demais, fora do padrão das demais abas. Pediu os dois ajustes antes de seguir para as próximas áreas.
+
+**Implementação:**
+
+1) Despesas: o cabeçalho da seção (título "Controles de Despesas", navegação entre Controles e o total consolidado) passou a morar dentro de uma caixa própria (`.fin-controles-resumo-box`, mesmo acabamento de `.fin-receitas-table`: fundo `var(--bg3)`, borda, `border-radius:12px`), replicando a lógica do item 246. Os cards individuais de cada Controle (Bradesco, Pagamento Prestadoras, Nubank) continuam como estavam, intocados — a mudança foi só no cabeçalho/total.
+
+2) Contas: medi ao vivo via DOM antes de mexer e confirmei que o ícone de cada conta (44px) já batia com o padrão usado em Despesas/Receitas/Recorrentes, mas o espaço ao redor era bem maior: padding do card de conta 18px contra 11-12px nas demais abas, gap 24px contra 12px, nome da conta 15px contra 14px, saldo da linha 18px contra ~15px, e o número grande do "Saldo Total das Contas" em até 48px contra no máximo 26px usado no "Saldo do Mês" da Visão Geral (mesmo padrão de número grande da Finanças). Reduzidos todos esses valores para a mesma escala das demais abas, sem mexer no ícone em si (já estava correto).
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: em Despesas, o total de R$ 15.650,04 agora aparece dentro da mesma caixa do título "Controles de Despesas" e dos atalhos de navegação, igual à estrutura de Receitas. Em Contas, as 4 contas (Bradesco, Caixa Econômica, Nubank, Santander) agora cabem todas na tela sem rolagem, com cards visivelmente mais compactos e na mesma proporção das demais abas, confirmado em zoom.
+
+**Publicação:** Commit `a39d739` em azimo-site, push `14f5db1..a39d739 main -> main`. Aguardando validação de Anderson antes de seguir para as próximas áreas (Produtividade/Foco).
