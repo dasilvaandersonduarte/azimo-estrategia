@@ -8577,3 +8577,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline compilaram sem erro e os três blocos de estilo têm chaves equilibradas; referência antiga à imagem financeira removida da folha de estilo. Ainda não houve inspeção visual autenticada ou teste de interação no site real.
 
 **Publicação:** commit `89f7db238fdbbc2fca102d47d6af5c78a4549df5` em azimo-site/main; Vercel success.
+
+
+## Item 237 | Padrão noturno do Dashboard levado ao card Início do Dia, na Rotina Diária (Anderson, 13/10/2026)
+
+**Pedido:** Anderson gostou do resultado do padrão visual noturno criado pelo GPT para o Dashboard e pediu, como teste, levar a mesma linguagem para o card Início do Dia dentro da Rotina Diária, para avaliar se o padrão foi compreendido antes de estender a outras telas.
+
+**Implementação:** `#inicio-dia-card` passou a usar exatamente a mesma superfície dos cards do Dashboard (fundo azul noturno em gradiente, borda índigo discreta, sombra luminosa, texto claro), com o mesmo mecanismo de sobrescrever localmente os tokens de cor (`--text`, `--border`, `--bg3`, `--indigo-*`) em vez de reescrever cada elemento. Glow em âmbar, combinando com o ícone de sol do card (mesma cor já usada nele). Também foram sobrescritos `--red-*` (usados pelo botão "não usarei essa seção") para manter legibilidade no fundo escuro independente do tema claro/escuro do site, já que o padrão força a superfície noturna como identidade própria do card, igual ao Dashboard. Como todos os elementos internos (escala de energia, campo de Intenção do Dia, botão Enviar, botão minimizar) já usam essas variáveis via CSS, nenhum deles precisou de alteração individual. Nenhum dado, ação ou script foi alterado.
+
+**Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual autenticada no site ainda não foi feita; é justamente o próximo passo, para Anderson avaliar se o padrão foi bem aplicado antes de decidir estender a mais cards.
+
+**Publicação:** commit `be674cf` em azimo-site/main.
