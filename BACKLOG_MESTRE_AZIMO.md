@@ -8533,3 +8533,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline compilaram. Simulação cobriu reflexão primeiro, primeiro registro ontem, pendência singular e plural, três subfocos do Início do Dia, ação de tarefa com HTML escapado e estado sem pendências. Não houve inspeção autenticada do Dashboard com os dados reais de Anderson.
 
 **Publicação:** commit `943f91771f9adc822926a5fe404a574692685ccc` em azimo-site/main; Vercel success.
+
+
+## Item 233 | Primeira orientação do Vio respeita o modo de Rotina (Anderson, 13/10/2026)
+
+**Feedback:** a mensagem do item 232 ainda mandava para Início do Dia mesmo quando Anderson usa Foco Nível Azimo, que já reúne energia, silêncio, intenção, afirmações e mentalizações e deixa os cards manuais recolhidos. A orientação também deve funcionar para quem usa a rotina manual ou prioriza outro hábito.
+
+**Decisão e implementação:** `STATE.focoAzimoDias` registra uso por dia, mas não contém uma preferência permanente. A escolha do briefing usa primeiro uso de Foco hoje; se houve início manual hoje, preserva a via manual; senão, usa o Foco registrado ontem; depois, evidência manual de ontem. Se nenhuma dessas evidências existir e energia ou intenção ainda estiverem pendentes, a mensagem apresenta Foco e cards manuais como opções, sem presumir preferência. Cada texto nomeia o caminho correspondente. O botão “Entendido, vamos nessa!” abre a sequência guiada quando ela foi recomendada, focaliza Início do Dia no caminho manual e mostra o topo da Rotina para a escolha aberta. Quando energia e intenção já estão feitas, a prioridade existente de tarefa e hábito continua. Não foram alterados persistência, conclusão do Foco, cards ou marcação de hábitos.
+
+**Validação:** oito scripts inline compilaram. Simulação isolada cobriu Foco ontem/hoje, início manual hoje sobre Foco ontem, rotina manual ontem, ausência de sinal, tarefa pendente e hábito pendente. Os três textos e as três rotas do botão foram conferidos isoladamente. Não houve execução com sessão autenticada de Anderson, então a preferência inferida deve ser confirmada no site.
+
+**Publicação:** commit `0dc2061a0d342951d63b3447bad3c8c44420cc6f` em azimo-site/main; Vercel a confirmar.
