@@ -8522,3 +8522,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline compilaram. Simulação isolada do briefing cobriu primeiro dia ontem, dois dias até ontem, primeiro dia hoje e ausência de registros. Reflexão maior que 80 caracteres com tags e quebra de linha permaneceu completa e escapada; CSS da reflexão e a margem de 1rem foram conferidos. Não houve execução com os dados privados de Anderson ou conferência autenticada do resultado visual.
 
 **Publicação:** commit `857747f6272b53edaf49ec80fbfdf1c477a3b0b1` em azimo-site/main; Vercel success.
+
+
+## Item 232 | Abertura contextual e acolhedora do Vio (Anderson, 13/10/2026)
+
+**Feedback:** Anderson aprovou o espaçamento dos cards e pediu que a mensagem inicial do Vio não comece direto com “Primeiro o Início do Dia”, pois usuários novos podem não reconhecer as áreas do app. Preferiu português completo em lugar de “pra”, reflexão de ontem como primeiro conteúdo, pendências reais em Sua Agenda e ausência de contagem “0/7” do Mínimo Diário ao abrir o dia.
+
+**Implementação:** o título usa uma de quatro aberturas acolhedoras, estáveis por data, sem antecipar o nome da primeira ação. No corpo, a reflexão integral de ontem aparece primeiro quando existe; em seguida vem o progresso da sequência quando houver, a quantidade singular/plural de tarefas abertas hoje e uma orientação contextual para a primeira ação. Quando Início do Dia está pendente, a mensagem diz que ele fica na Rotina Diária e explica energia e Intenção do Dia conforme o subfoco. As instruções para tarefas e hábitos usam o nome de suas áreas e escapam o texto da ação. O botão continua abrindo a primeira ação escolhida pela regra existente. A contagem do Mínimo Diário e a duplicação de tarefas migradas saíram do briefing, sem alterar cards ou dados.
+
+**Validação:** oito scripts inline compilaram. Simulação cobriu reflexão primeiro, primeiro registro ontem, pendência singular e plural, três subfocos do Início do Dia, ação de tarefa com HTML escapado e estado sem pendências. Não houve inspeção autenticada do Dashboard com os dados reais de Anderson.
+
+**Publicação:** commit `943f91771f9adc822926a5fe404a574692685ccc` em azimo-site/main; Vercel a confirmar.
