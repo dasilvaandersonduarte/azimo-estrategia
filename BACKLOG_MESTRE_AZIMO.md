@@ -8544,3 +8544,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline compilaram. Simulação isolada cobriu Foco ontem/hoje, início manual hoje sobre Foco ontem, rotina manual ontem, ausência de sinal, tarefa pendente e hábito pendente. Os três textos e as três rotas do botão foram conferidos isoladamente. Não houve execução com sessão autenticada de Anderson, então a preferência inferida deve ser confirmada no site.
 
 **Publicação:** commit `0dc2061a0d342951d63b3447bad3c8c44420cc6f` em azimo-site/main; Vercel success.
+
+
+## Item 234 | Sidebar recolhível e fundo noturno (Anderson, 13/10/2026)
+
+**Pedido:** trazer o visual mais sofisticado do Dashboard para a sidebar cinza e permitir que ela seja recolhível ou travada. Um clique simples na logo oficial Azimo deve alternar o bloqueio; a dica ao passar sobre a logo deve anunciar a ação disponível.
+
+**Implementação:** no desktop, a barra segue aberta com 76 px como padrão inicial. A logo virou botão acessível, mantendo o SVG oficial. Ao desbloquear, a barra recua para uma faixa de 20 px com marcador luminoso; passar o mouse ou focar por teclado expande a barra sobre o conteúdo sem reduzir a largura útil da tela. Novo clique fixa a barra aberta. Texto de dica, `aria-label` e `aria-pressed` acompanham o estado, salvo em `localStorage` somente para o navegador atual. Fundo azul noturno com gradiente contido, borda índigo e contraste claro aplica a linguagem aprovada aos dois temas. Em mobile, a barra continua um drawer de 240 px, controlado pelo menu e overlay existentes; o botão da logo fica desativado e o fundo visual é atualizado.
+
+**Validação:** oito scripts inline compilaram, chaves CSS equilibradas. Simulação isolada confirmou padrão inicial travado, desbloqueio persistido, rótulos/estado acessível, ausência de troca no mobile e novo bloqueio. O HTML contém um único botão de logo. Não houve teste com ponteiro real nem inspeção autenticada em desktop/mobile; Anderson avaliará a transição e o contraste no site.
+
+**Publicação:** commit `88d4fb34cbd1bd3a26bdf95a6295a7554f37e229` em azimo-site/main; Vercel success.
