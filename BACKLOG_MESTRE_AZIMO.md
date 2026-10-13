@@ -8566,3 +8566,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline compilaram sem erro; conferidos dez atalhos com `data-tip` e as quatro ocorrências do texto da logo. A verificação visual autenticada no site não foi executada.
 
 **Publicação:** commit `7ee2d7722c7e6fd4f33f4885a1bb8aa13b665524` em azimo-site/main; Vercel success.
+
+
+## Item 236 | Briefing do Vio em destaque e Resumo Financeiro sem imagem (13/10/2026)
+
+**Solicitação:** reservar as artes panorâmicas para comunicações diferenciadas do Vio, começando pelo briefing do Dashboard; fazer o Resumo Financeiro seguir o fundo padrão de Objetivos, Consistência de Hábito e Meta Financeira.
+
+**Implementação:** o briefing matinal do Dashboard recebeu a paisagem com bússola já aprovada no Foco Nível Azimo, aplicada pelo recurso local otimizado `assets/foco-azimo-banner.webp`. Gradiente escuro e largura de texto controlada preservam a leitura, com ajuste responsivo e foco de teclado visível nos botões. O emblema oficial existente recebeu moldura e luz no padrão da marca. O Resumo Financeiro usa gradiente azul noturno sem imagem inclusive no mobile. Conteúdo, dispensar, navegação e dados financeiros permanecem com a lógica existente. A análise semanal do Vio não foi alterada.
+
+**Validação:** oito scripts inline compilaram sem erro e os três blocos de estilo têm chaves equilibradas; referência antiga à imagem financeira removida da folha de estilo. Ainda não houve inspeção visual autenticada ou teste de interação no site real.
+
+**Publicação:** commit `89f7db238fdbbc2fca102d47d6af5c78a4549df5` em azimo-site/main; Vercel pendente no momento do registro.
