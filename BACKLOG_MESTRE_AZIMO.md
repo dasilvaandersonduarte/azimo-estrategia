@@ -8450,3 +8450,16 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline não vazios compilaram sem erro. Simulação isolada com cartão Bradesco e dois itens no mesmo mês confirmou uma fatura em 10/11; uma parcela direta manteve 29/10. Cenário de compra paga confirmou que o valor não entra na fatura pendente. A recorrência direta projetou meses seguintes sem duplicação na amostra. Inspeção estática confirmou a leitura de `parcelaN`. Não houve acesso à sessão autenticada e à base real do usuário; aparência e registros reais ainda precisam de conferência no site.
 
 **Publicação:** commit `b9c925731796666784cac77679f42186c5a2693d` em azimo-site/main. Vercel reportou success.
+
+
+## Item 226 | Linguagem visual do Resumo Financeiro e duplo clique bidirecional na Rotina (Anderson, 12/10/2026)
+
+**Referências aprovadas:** prints da Análise Semanal do Vio e do banner Foco Nível Azimo enviados por Anderson. O padrão a validar antes de replicar nos demais cards combina azul noturno quase preto, texto branco, borda índigo, brilho discreto e arte panorâmica concentrada à direita. A aprovação final dessa aplicação no Resumo Financeiro ainda cabe a Anderson; não expandir o tratamento para outros cards nesta rodada.
+
+**Causa do gesto:** o código de duplo clique dos sete cards procurava apenas `.rotina-header`; Afirmações e Mentalizações usam `.card-header`, enquanto Mínimo Diário, Objetivos e Agenda têm um cabeçalho dentro do primeiro bloco. Assim, o clique no card fechado expandia pela barra inteira, mas o clique no cabeçalho aberto desses cards não era reconhecido. O tooltip global também guardava o texto anterior em `data-tip-nativo` enquanto o cursor permanecia sobre a dica.
+
+**Implementação:** Resumo Financeiro agora utiliza a mesma arte local `assets/vio-weekly-planet.webp` da Análise Semanal, com sobreposição azul profunda, painel de conteúdo escuro, contraste branco, contorno índigo e neon contido. A aparência permanece escura nos temas claro e escuro, como os banners aprovados; receitas, despesas, saldo, compromissos e ação Ver Finanças conservam os dados e a estrutura. O duplo clique seleciona o cabeçalho direto quando existe, senão o primeiro bloco superior dos sete cards da Rotina. Ações internas com `onclick` não ativam o recolhimento; ícone, teclado e toque móvel continuam tratados. A dica de expandir/recolher é atualizada no `title` ou `data-tip-nativo` quando o tooltip está aberto.
+
+**Validação:** oito scripts inline não vazios passaram em compilação sintática; inspeção do HTML confirmou ícone nos sete cards e três formas de cabeçalho. Simulação isolada confirmou a atualização da dica ativa e seu desaparecimento ao expandir o card. Não houve teste visual autenticado ou interação física nos sete cards nesta sessão.
+
+**Publicação:** commit `7cf6bec58cf919be8d834f99d3c2cef9fe59c216` em azimo-site/main; Vercel success.
