@@ -8498,3 +8498,16 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** a imagem WebP foi inspecionada e as duas referências do Resumo Financeiro foram conferidas no HTML. As duas referências da Análise Semanal permanecem com sua arte anterior. Não houve teste visual autenticado do Dashboard; Anderson fará a avaliação no site. O convite do Fim do Dia não foi retestado.
 
 **Publicação:** commit `006b1936090729874fd5a9e080e820f3cd72620a` em azimo-site/main; Vercel success.
+
+
+## Item 230 | Linguagem visual limpa nos demais cards do Dashboard (Anderson, 13/10/2026)
+
+**Decisão:** Anderson gostou da versão 1 da paisagem com rota no Resumo Financeiro e pediu levar a linguagem aos demais cards do Dashboard. O padrão distingue cards informativos, sem desenho ou imagem, de destaques cuja arte ajuda a comunicar o conteúdo. Preservar coerência sem repetir a mesma ilustração.
+
+**Implementação:** os três indicadores superiores (Dias seguidos com hábitos, Insights salvos, Revisões pendentes) e os três cards seguintes (Objetivos, Consistência dos Hábitos, Metas Financeiras) receberam superfície azul noturno com gradiente discreto, texto claro, borda índigo suave e acentos luminosos próprios de cada função. Os tokens locais mantêm contraste de números, legendas, células, metas e badges nos temas claro e escuro. Ações, dados, layouts, estados e scripts não foram modificados. A imagem aprovada do Resumo Financeiro e a arte da Análise Semanal permanecem exclusivas aos respectivos cards.
+
+**Padrão permanente:** nova seção 5.1 em `AZIMO_BRANDING_CHATGPT.md` descreve base visual comum, critérios para fundos limpos e para imagem temática, variação semântica de cor, legibilidade, responsividade e verificação de acessibilidade. Não extrapolar automaticamente esse tratamento para outras telas sem avaliar o contexto de cada componente.
+
+**Validação:** os oito scripts inline compilam; CSS mantém chaves equilibradas. Inspeção estática confirmou os seis cards alvo, as duas referências existentes de cada arte de destaque e nenhuma mudança em lógica. Não houve captura autenticada dos temas e tamanhos de tela; a aparência final nesses contextos requer conferência no site.
+
+**Publicação:** commit `4d8f59f6fe1fc20d12d915290d62a1fc959346ce` em azimo-site/main; Vercel success.
