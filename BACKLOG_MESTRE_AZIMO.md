@@ -8715,3 +8715,15 @@ Aplicado bloco CSS escopado a `#screen-financas .fin-metas-panel`, com o conjunt
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: aba Metas conferida em zoom, card "Reserva Para Paz" com superfície em gradiente, ícone verde legível, barra de progresso em amber, prazo e botões de ação (Aportar/Editar/Pausar/Excluir) todos no padrão, sem quebra visual. Confirmado via DOM que a classe `.fin-metas-panel` recebeu o gradiente e borda corretos.
 
 **Publicação:** Commit `02677f4` em azimo-site, push `4156840..02677f4 main -> main`. Rollout de Finanças chega a 5 de 6 abas concluídas (Visão Geral, Despesas, Receitas, Recorrentes, Metas). Falta apenas Contas.
+
+## 249. Padrão noturno na aba Finanças > Contas (fecha o rollout de Finanças)
+
+**Pedido:** Anderson aprovou o item 248 (Metas) e pediu para seguir direto para Contas, última sub-aba do ciclo de Finanças.
+
+**Implementação:** Auditada a função `_finRenderContas()` e `_finContaRowHtml()`. A tela usa dois cards `.fc-card` (Saldo Total das Contas, com o aviso sobre saldo estimado/Open Finance embutido; e Suas Contas, com a listagem). Todas as classes (`.fc-summary`, `.fc-total`, `.fc-active`, `.fc-notice`, `.fc-list-header`, `.fc-account*`, `.fc-badge`, `.fc-action*`, `.fc-add`) já usavam exclusivamente tokens `var(--...)`. As cores dos ícones de banco (Bradesco, Caixa, Nubank, Santander) vêm de uma função própria de cor por instituição, independente de tema, e não precisaram de ajuste.
+
+Aplicado bloco CSS escopado a `#screen-financas .fin-contas-layout .fc-card`, com o conjunto padrão de tokens (texto, bordas, fundo, indigo, green, red `#f87171`, amber) e glow azul (`rgba(59,130,246,.16)`), remetendo ao tema bancário da aba. Cabeçalhos (`fc-heading`/`fc-subtitle`) ajustados para as cores do tema escuro.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: card de Saldo Total (R$ 11.968,10 em verde, selo de "4 contas ativas", aviso em indigo) e listagem de Suas Contas com as 4 contas reais de Anderson (Bradesco, Caixa Econômica, Nubank, Santander) conferidas em zoom, ícones de banco preservados e legíveis sobre o fundo escuro, saldos coloridos corretamente (verde para positivo, branco para zero), botões Editar/Definir principal/Excluir no padrão.
+
+**Publicação:** Commit `7ba6d05` em azimo-site, push `02677f4..7ba6d05 main -> main`. Com este item, o rollout completo das 6 sub-abas de Finanças está concluído (Visão Geral, Despesas, Receitas, Recorrentes, Metas, Contas), além do Vio (popup) e do Dashboard, Rotina Diária, Estudos e Revisão já concluídos em itens anteriores.
