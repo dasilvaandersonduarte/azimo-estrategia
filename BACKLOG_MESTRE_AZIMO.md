@@ -8437,3 +8437,16 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline não vazios compilados sintaticamente sem erros (12 tags script no documento). Simulação isolada das renderizações conferiu saldo, receita, despesa e movimento com seus sinais. Inspeção estática confirmou os tamanhos separados dos ícones de grupo e de lançamento. O ambiente não possui sessão autenticada do painel, então a revisão visual em desktop e mobile e o clique no botão ainda dependem de conferência no site.
 
 **Publicação:** commit `73063254b834f5ff31e3d22b89502f022a05e2f1` em azimo-site/main. Vercel reportou success para o commit.
+
+
+## Item 225 | Parcelas corretas, faturas por controle e padrão financeiro do Dashboard (Anderson, 12/10/2026)
+
+**Feedback real:** em Recorrentes, a linha Casa 297/02 do controle Pagamento Prestadoras mostrava “Parcela 1 de 420”, enquanto Despesas tinha “165 de 420”. O Dashboard dizia que não havia movimentos em sete dias, embora a Visão Geral de Finanças mostrasse compromissos futuros. Anderson pediu que cartão de crédito mostre a fatura no vencimento do controle, agrupando as compras internas, enquanto pagamento direto mostre a data do próprio lançamento. Pediu também que Resumo Financeiro acompanhe a hierarquia Receita, Despesa, Saldo e as cores e tonalidades da Visão Geral e da Análise Semanal, como base para futura harmonização do Dashboard.
+
+**Causa:** Recorrentes calculava a parcela pela posição entre registros encontrados no grupo, que pode estar incompleto. O Dashboard consultava somente séries recorrentes em sete dias, sem parcelas, e a Visão Geral apresentava itens de cartão pela data interna da compra.
+
+**Implementação:** a linha de Parcelamentos ativos usa `parcelaN` persistido. Criada fonte compartilhada `_finProximosCompromissos` para a Visão Geral no escopo ativo e o Dashboard nos escopos Pessoal/Empresarial, ambos com 90 dias e até quatro itens exibidos. Compras não pagas de um cartão são somadas por controle e mês da fatura, usando `controle.vencimento` (dia limitado ao último dia do mês), com uma linha da fatura; sem vencimento configurado, não se inventa uma data pela compra. Lançamentos parcelados/recorrentes de pagamento direto mantêm seu vencimento individual. Séries ainda não materializadas são projetadas sem duplicar filhos existentes ou pagos. O Dashboard passa a mostrar Receita, Despesa e Saldo em três painéis internos, com SVG financeiro, cores semânticas da Visão Geral, acentos roxos e adaptações de tema e tela.
+
+**Validação:** oito scripts inline não vazios compilaram sem erro. Simulação isolada com cartão Bradesco e dois itens no mesmo mês confirmou uma fatura em 10/11; uma parcela direta manteve 29/10. Cenário de compra paga confirmou que o valor não entra na fatura pendente. A recorrência direta projetou meses seguintes sem duplicação na amostra. Inspeção estática confirmou a leitura de `parcelaN`. Não houve acesso à sessão autenticada e à base real do usuário; aparência e registros reais ainda precisam de conferência no site.
+
+**Publicação:** commit `b9c925731796666784cac77679f42186c5a2693d` em azimo-site/main. Vercel reportou success.
