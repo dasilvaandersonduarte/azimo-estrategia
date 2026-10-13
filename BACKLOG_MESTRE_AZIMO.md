@@ -8588,3 +8588,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual autenticada no site ainda não foi feita; é justamente o próximo passo, para Anderson avaliar se o padrão foi bem aplicado antes de decidir estender a mais cards.
 
 **Publicação:** commit `be674cf` em azimo-site/main.
+
+
+## Item 238 | Padrão noturno do Dashboard estendido aos demais cards da Rotina Diária (Anderson, 13/10/2026)
+
+**Pedido:** Anderson aprovou o teste no card Início do Dia (item 237) e pediu para seguir com todos os cards restantes da Rotina Diária: Afirmações, Mentalizações, Mínimo Diário, Objetivos, Sua Agenda Azimo e Fim do Dia.
+
+**Implementação:** mesmo mecanismo do item 237 (sobrescrever localmente os tokens de cor que os componentes já usam, em vez de reescrever cada elemento), agora cobrindo um conjunto bem mais amplo de variáveis, levantado auditando o HTML da tela inteira e as funções de renderização (`renderTracker`, `_tarefaRowHtml`, lista de Afirmações/Mentalizações): texto, bordas, fundos, indigo, vermelho (botão "não usarei"), verde (ícone do Mínimo Diário), azul (ícone da Agenda) e uma dezena de tokens de opacidade auxiliares usados em elementos menores (botões de navegação da Agenda, chip "Atrasadas", barra de progresso do Mínimo Diário, borda tracejada de Excluir Hábito). Cada card recebeu um glow próprio, combinando com seu ícone: rosa em Afirmações, violeta em Mentalizações e Fim do Dia, verde em Mínimo Diário, índigo em Objetivos (mesmo tom do card Objetivos do Dashboard), azul em Sua Agenda. Nenhum dado, ação ou script foi alterado.
+
+**Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual ao vivo no site publicado confirmou os 7 cards da Rotina Diária (Início do Dia, Afirmações, Mentalizações, Mínimo Diário, Objetivos, Sua Agenda Azimo e Fim do Dia) renderizando de forma consistente, com os dados reais de Anderson (hábitos, agenda da semana, histórico de Intenção do Dia) legíveis e sem quebra visual. Não foram abertas as abas alternativas "Blocos" e "Foco Azimo" dentro de Sua Agenda nem testado o tema claro do site contra esses cards; como o padrão força a superfície noturna independente do tema, o risco é baixo, mas fica como pendência de conferência.
+
+**Publicação:** commit `5d8118c` em azimo-site/main.
