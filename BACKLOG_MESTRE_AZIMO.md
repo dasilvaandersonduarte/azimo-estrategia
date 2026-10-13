@@ -8532,4 +8532,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** oito scripts inline compilaram. Simulação cobriu reflexão primeiro, primeiro registro ontem, pendência singular e plural, três subfocos do Início do Dia, ação de tarefa com HTML escapado e estado sem pendências. Não houve inspeção autenticada do Dashboard com os dados reais de Anderson.
 
-**Publicação:** commit `943f91771f9adc822926a5fe404a574692685ccc` em azimo-site/main; Vercel a confirmar.
+**Publicação:** commit `943f91771f9adc822926a5fe404a574692685ccc` em azimo-site/main; Vercel success.
