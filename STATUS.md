@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> Atualizado em 13/10/2026. Item 229: Anderson pediu testar a versão 1 da prévia no Resumo Financeiro. O fundo do card usa agora paisagem noturna com rota luminosa, em WebP local de 18,3 KB; apenas as referências desktop e mobile foram trocadas. Versão 2 preservada no repositório para eventual retorno. Commit `006b193` em azimo-site/main; Vercel em verificação. Validação estética no site a cargo de Anderson. O convite do Fim do Dia permanece pendente de teste hoje.
+> Atualizado em 13/10/2026. Item 229: Anderson pediu testar a versão 1 da prévia no Resumo Financeiro. O fundo do card usa agora paisagem noturna com rota luminosa, em WebP local de 18,3 KB; apenas as referências desktop e mobile foram trocadas. Versão 2 preservada no repositório para eventual retorno. Commit `006b193` em azimo-site/main; Vercel success. Validação estética no site a cargo de Anderson. O convite do Fim do Dia permanece pendente de teste hoje.
 >
 > Atualizado em 13/10/2026. Item 228: a segunda prévia de rota abstrata foi aplicada exclusivamente ao background do Resumo Financeiro do Dashboard, em WebP local de 16,7 KB, com sobreposição ajustada para contraste. Análise Semanal e demais cards preservados. Commit `717dda7` em azimo-site/main; Vercel success. Anderson fará a validação visual no site e testará o convite do Fim do Dia mais tarde, quando houver nova reflexão. Diretriz: fundo limpo para a maioria dos cards; reservar arte temática para destaques relevantes.
 >
