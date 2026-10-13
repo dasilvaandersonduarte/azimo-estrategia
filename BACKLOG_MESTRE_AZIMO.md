@@ -8486,4 +8486,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** inspeção do recurso WebP e do CSS confirmou as duas referências no Resumo Financeiro e as duas referências anteriores na Análise Semanal. Não houve inspeção visual autenticada do Dashboard no site; Anderson avaliará o resultado publicado antes de qualquer expansão para outros cards. O fluxo do Fim do Dia não foi retestado nesta rodada.
 
-**Publicação:** commit `717dda74e6947f8900aa3ebaeee26ecc8e3ed87f` em azimo-site/main; status Vercel a verificar.
+**Publicação:** commit `717dda74e6947f8900aa3ebaeee26ecc8e3ed87f` em azimo-site/main; Vercel success.
