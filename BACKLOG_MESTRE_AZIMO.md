@@ -8691,3 +8691,15 @@ Na aba Receitas, o cabeçalho (`.fin-receitas-header`) ganhou o mesmo layout de 
 **Validação:** `validate.py` passou limpo. Conferido ao vivo: o Total R$ 11.390,00 agora aparece na mesma altura visual do "Total pendente dos Controles" de Despesas.
 
 **Publicação:** commit `34f6ce9` em azimo-site/main.
+
+## 247. Padrão noturno na aba Finanças > Recorrentes
+
+**Pedido:** Anderson aprovou a posição do Total em Receitas (item 246) e pediu para seguir direto para o ajuste visual da aba Recorrentes, continuando o rollout "1 por 1" pela sidebar de Finanças (Visão Geral → Receitas → Despesas → Recorrentes → Metas → Contas).
+
+**Implementação:** Auditada a função `_finRenderRecorrentes()` (gera Receitas Recorrentes, Despesas Recorrentes agrupadas por Controle, e Parcelamentos ativos agrupados por Controle). Todas as classes do componente (`.fin-rec-panel`, `.fin-rec-header`, `.fin-rec-filters`, `.fin-rec-card*`, `.fin-rec-row`, `.fin-rec-item-*`, `.fin-rec-action*`, `.fin-rec-parc-columns`) já usavam exclusivamente tokens `var(--...)` cobertos pelo conjunto padrão do night pattern, sem necessidade de tokens novos.
+
+Aplicado bloco CSS escopado a `#screen-financas .fin-rec-panel`, reutilizando o conjunto de tokens padrão (texto, bordas, fundo, indigo, green, red `#f87171`, amber), com glow indigo (`rgba(129,140,248,.16)`) por ser uma aba neutra de controle recorrente, no mesmo espírito do glow usado em Estudos. Superfície com gradiente radial + linear, borda `rgba(139,151,235,.34)`, `border-radius:16px`, sombra e glow interno padrão. Títulos `h2`/`p` do cabeçalho também ajustados para as cores do tema escuro.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo (node --check ok, balanceamento de tags ok). Verificado ao vivo em azimo.life (limpando cache do service worker antes, por precaução): Visão Geral e popup do Vio confirmados ainda corretos, e a aba Recorrentes conferida em zoom mostrando Receitas Recorrentes, Despesas Recorrentes (incluindo o card "Pagamento Prestadoras" com 11 lançamentos expandido) e Parcelamentos ativos (lista completa até os totais por Controle no rodapé) todos legíveis, com o vermelho no tom padrão `#f87171` e nenhuma quebra visual.
+
+**Publicação:** Commit `4156840` em azimo-site, push `34f6ce9..4156840 main -> main`. Rollout de Finanças chega a 4 de 6 abas concluídas (Visão Geral, Despesas, Receitas, Recorrentes). Faltam Metas e Contas.
