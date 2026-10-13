@@ -8497,4 +8497,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** a imagem WebP foi inspecionada e as duas referências do Resumo Financeiro foram conferidas no HTML. As duas referências da Análise Semanal permanecem com sua arte anterior. Não houve teste visual autenticado do Dashboard; Anderson fará a avaliação no site. O convite do Fim do Dia não foi retestado.
 
-**Publicação:** commit `006b1936090729874fd5a9e080e820f3cd72620a` em azimo-site/main; Vercel a confirmar.
+**Publicação:** commit `006b1936090729874fd5a9e080e820f3cd72620a` em azimo-site/main; Vercel success.
