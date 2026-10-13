@@ -8669,3 +8669,15 @@ O tooltip nativo (`<title>` do SVG) foi substituído por um componente customiza
 **Validação:** `validate.py` passou limpo. Conferido ao vivo com os 2 lançamentos reais de Anderson (Casa 1965, Floripa Podcast), filtros e total renderizando corretamente.
 
 **Publicação:** commit `e382b94` em azimo-site/main.
+
+## Item 245 | Padrão noturno no chat flutuante do Vio + Total de Receitas movido pro topo (Anderson, 13/10/2026)
+
+**Pedido:** dois ajustes. (1) o popup flutuante do Vio ("Seu perfil ainda não está preenchido...") continuava fora do padrão visual noturno. (2) na aba Receitas, o "Total" ficava no rodapé da tabela; Anderson pediu pra posicionar igual ao "Total pendente dos Controles" de Despesas (topo, alinhado à direita do título).
+
+**Implementação:** o popup do Vio (`#vio-popup`) e o chip minimizado (`#vio-popup-minimized-chip`) já tinham fundo fixo escuro (independente do tema do site), mas sem o glow/gradiente/sombra que as demais superfícies noturnas usam. Aplicado o mesmo tratamento visual, travando também os tokens de cor que o conteúdo interno referencia (avatar/bússola do Vio, campo de texto, botões), pra renderizar igual nos dois temas do site.
+
+Na aba Receitas, o cabeçalho (`.fin-receitas-header`) ganhou o mesmo layout de grid de 3 colunas usado em Despesas: título à esquerda, total à direita (valor + "Total de Receitas no mês"). O bloco de Total que ficava no rodapé da tabela foi removido, mantendo só a paginação ali.
+
+**Validação:** `validate.py` passou limpo. Conferido ao vivo: o popup do Vio renderiza com o gradiente/glow noturno (nota técnica: a primeira checagem mostrou a versão antiga por causa do service worker do PWA, que cacheia a página — precisei limpar o cache/SW no navegador de teste pra ver a versão publicada; isso é só um detalhe da minha verificação, não deveria afetar o Anderson no uso normal, mas se ele notar algo desatualizado por um instante, um recarregar resolve). Receitas com o Total R$ 11.390,00 agora no topo, no mesmo layout de Despesas.
+
+**Publicação:** commit `7784ad6` em azimo-site/main.
