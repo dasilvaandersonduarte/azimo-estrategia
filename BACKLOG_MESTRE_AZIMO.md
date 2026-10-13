@@ -8727,3 +8727,18 @@ Aplicado bloco CSS escopado a `#screen-financas .fin-contas-layout .fc-card`, co
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: card de Saldo Total (R$ 11.968,10 em verde, selo de "4 contas ativas", aviso em indigo) e listagem de Suas Contas com as 4 contas reais de Anderson (Bradesco, Caixa Econômica, Nubank, Santander) conferidas em zoom, ícones de banco preservados e legíveis sobre o fundo escuro, saldos coloridos corretamente (verde para positivo, branco para zero), botões Editar/Definir principal/Excluir no padrão.
 
 **Publicação:** Commit `7ba6d05` em azimo-site, push `02677f4..7ba6d05 main -> main`. Com este item, o rollout completo das 6 sub-abas de Finanças está concluído (Visão Geral, Despesas, Receitas, Recorrentes, Metas, Contas), além do Vio (popup) e do Dashboard, Rotina Diária, Estudos e Revisão já concluídos em itens anteriores.
+
+## 250. Desativação do tema claro (beta): Azimo fica só no padrão escuro
+
+**Pedido:** Anderson aprovou a avaliação de que manter o tema claro ativo, junto ao rollout do padrão noturno (cores fixas, sem variar por tema), quebraria a leitura das telas já atualizadas. Decidiu desativar o tema claro agora e reativar só se houver pedido recorrente de usuários, implementando antes de seguir para Produtividade/Foco.
+
+**Implementação:** Três mudanças, todas reversíveis via git:
+1. O script de boot que aplicava `data-theme="light"` antes do primeiro paint (lido do `localStorage`) foi neutralizado.
+2. `_aplicarTema()` passou a sempre remover o atributo `data-theme`, forçando o escuro mesmo que algum usuário ainda tenha `'light'`/`'system'` salvo de uma sessão anterior.
+3. O seletor de Aparência (Claro/Escuro/Sistema) foi removido da tela Meu Perfil > Conta.
+
+O CSS de `[data-theme="light"]` em todo o arquivo foi mantido intacto (sem uso), e as funções `definirTema()`/`_aplicarTema()` continuam existindo. Reativar no futuro é trazer a UI de volta e tirar o "force dark" da função, sem precisar recriar nada do zero.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: forcei `localStorage.setItem('azimo_theme','light')` manualmente e recarreguei a página, confirmando via DOM que o atributo `data-theme` continua ausente (tela permanece escura, comportamento correto mesmo com valor antigo salvo). Conferido também que a tela Meu Perfil > Conta não ficou com buraco visual no lugar do seletor removido.
+
+**Publicação:** Commit `14f5db1` em azimo-site, push `7ba6d05..14f5db1 main -> main`.
