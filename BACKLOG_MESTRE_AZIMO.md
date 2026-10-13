@@ -8599,3 +8599,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual ao vivo no site publicado confirmou os 7 cards da Rotina Diária (Início do Dia, Afirmações, Mentalizações, Mínimo Diário, Objetivos, Sua Agenda Azimo e Fim do Dia) renderizando de forma consistente, com os dados reais de Anderson (hábitos, agenda da semana, histórico de Intenção do Dia) legíveis e sem quebra visual. Não foram abertas as abas alternativas "Blocos" e "Foco Azimo" dentro de Sua Agenda nem testado o tema claro do site contra esses cards; como o padrão força a superfície noturna independente do tema, o risco é baixo, mas fica como pendência de conferência.
 
 **Publicação:** commit `5d8118c` em azimo-site/main.
+
+
+## Item 239 | Padrão noturno do Dashboard estendido à tela do Vio (chat) (Anderson, 13/10/2026)
+
+**Pedido:** Anderson aprovou o padrão no Dashboard e em toda a Rotina Diária e pediu para replicar na seção do Vio (chat).
+
+**Implementação:** diferente dos itens anteriores, a tela do Vio não é um grid de cards e sim um único ambiente contínuo (topbar com o emblema do Vio, chips de sugestão, histórico de mensagens, barra de digitação). Em vez de envolver um card isolado, a superfície noturna foi aplicada à tela inteira (`#screen-coach`), sobrescrevendo os tokens de cor locais (texto, borda, fundo, indigo, verde, vermelho e uma dezena de tokens auxiliares usados nas bolhas de confirmação de ação e no emblema do Vio). Como a topbar, a barra de chips e a barra de digitação já usam `var(--bg2)` diretamente, herdaram o visual automaticamente ao sobrescrever esse token no escopo da tela; a área de mensagens (sem fundo próprio) passou a mostrar o gradiente azul noturno com glow índigo por trás. Nenhum dado, ação ou script foi alterado.
+
+**Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual ao vivo confirmou topbar, chips, mensagem do Vio e barra de digitação legíveis e consistentes com o resto do produto. Observação: o emblema da bússola do Vio (ícone pequeno, 26-38px) fica visualmente sutil nesse tamanho, mas os valores de cor usados na sobrescrita foram calibrados para ficar o mais próximo possível dos valores originais do tema escuro do site (não houve mudança real de contraste introduzida por este item); Anderson pode avaliar se esse nível de detalhe do emblema em tamanho pequeno já era assim antes ou se vale ajustar.
+
+**Publicação:** commit `25ff90b` em azimo-site/main.
