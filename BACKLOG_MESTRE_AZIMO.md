@@ -8610,3 +8610,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual ao vivo confirmou topbar, chips, mensagem do Vio e barra de digitação legíveis e consistentes com o resto do produto. Observação: o emblema da bússola do Vio (ícone pequeno, 26-38px) fica visualmente sutil nesse tamanho, mas os valores de cor usados na sobrescrita foram calibrados para ficar o mais próximo possível dos valores originais do tema escuro do site (não houve mudança real de contraste introduzida por este item); Anderson pode avaliar se esse nível de detalhe do emblema em tamanho pequeno já era assim antes ou se vale ajustar.
 
 **Publicação:** commit `25ff90b` em azimo-site/main.
+
+
+## Item 240 | Padrão noturno do Dashboard estendido a Estudos e Revisão (Anderson, 13/10/2026)
+
+**Pedido:** Anderson pediu para seguir descendo a sidebar: Estudos e Revisão.
+
+**Implementação:** mesmo mecanismo dos itens anteriores, sobrescrevendo localmente os tokens de cor que os componentes já usam. Em Estudos, os cards de categoria (`.est-cat-card`) e cada linha de área de estudo (`.est-area-row`) receberam a superfície noturna com glow índigo, incluindo o estado ativo da categoria selecionada. Em Revisão, o card do calendário e o card de progresso (`.card`) seguem o mesmo padrão. Os cards individuais de revisão (`.rev-card`) são um caso à parte: eles já tinham uma identidade visual própria em tom âmbar (fundo amarelado, para se distinguir visualmente de um card comum e sinalizar "isto é uma revisão pendente"), então em vez de forçá-los para o tom índigo padrão, recalibrei essa mesma identidade âmbar para o tom noturno (fundo escuro com glow âmbar, texto em tons quentes), preservando a intenção de design original. Nenhum dado, ação ou script foi alterado.
+
+**Validação:** `validate.py` passou limpo (8 scripts, sintaxe ok, tags balanceadas). Inspeção visual ao vivo confirmou os cards de categoria de Estudos e o calendário/progresso de Revisão renderizando corretamente. Anderson não tem nenhuma área de estudo nem revisão pendente cadastrada no momento, então os cards `.est-area-row` e `.rev-card` (com dados reais) ainda não foram vistos ao vivo — fica como pendência de conferência assim que houver conteúdo real para mostrar neles.
+
+**Publicação:** commit `4e1049a` em azimo-site/main.
