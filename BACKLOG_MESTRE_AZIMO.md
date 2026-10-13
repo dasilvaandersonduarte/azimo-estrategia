@@ -8476,3 +8476,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** oito scripts inline não vazios passaram em sintaxe. Simulação isolada confirmou registro da reflexão, convite visível, marcação opcional do hábito e abertura do modal de Salvar Dia. Não houve inspeção autenticada do fluxo nem da renderização visual.
 
 **Publicação:** commit `27217fbde0351465e0ec462a8aaf709337a6e527` em azimo-site/main, Vercel success. Publicada somente a parte funcional do Fim do Dia.
+
+
+## Item 228 | Rota abstrata no Resumo Financeiro e critério de arte dos cards (Anderson, 13/10/2026)
+
+**Alinhamento:** Anderson autorizou publicar a segunda prévia de rota no Resumo Financeiro para avaliação no site. Propôs usar fundos limpos na maioria dos cards, deixando ilustrações somente em destaques cuja imagem converse com a informação. A validação do convite do Fim do Dia do item 227 fica para uma nova reflexão hoje, pois o dia virou.
+
+**Implementação:** a prévia aprovada foi otimizada em `assets/resumo-financeiro-rota.webp` (1536 × 576 px, 16,7 KB). Somente as declarações de background desktop e mobile de `#resumo-financeiro-dash-card` passaram a usar essa arte. A sobreposição desktop foi calibrada para deixar a rota visível mantendo o conteúdo legível; no mobile, o contraste forte permanece. Os dados, a estrutura, as ações e a imagem da Análise Semanal permanecem como antes.
+
+**Validação:** inspeção do recurso WebP e do CSS confirmou as duas referências no Resumo Financeiro e as duas referências anteriores na Análise Semanal. Não houve inspeção visual autenticada do Dashboard no site; Anderson avaliará o resultado publicado antes de qualquer expansão para outros cards. O fluxo do Fim do Dia não foi retestado nesta rodada.
+
+**Publicação:** commit `717dda74e6947f8900aa3ebaeee26ecc8e3ed87f` em azimo-site/main; status Vercel a verificar.
