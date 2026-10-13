@@ -8511,3 +8511,14 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 **Validação:** os oito scripts inline compilam; CSS mantém chaves equilibradas. Inspeção estática confirmou os seis cards alvo, as duas referências existentes de cada arte de destaque e nenhuma mudança em lógica. Não houve captura autenticada dos temas e tamanhos de tela; a aparência final nesses contextos requer conferência no site.
 
 **Publicação:** commit `4d8f59f6fe1fc20d12d915290d62a1fc959346ce` em azimo-site/main; Vercel success.
+
+
+## Item 231 | Mensagem inicial do Vio e espaçamento entre cards (Anderson, 13/10/2026)
+
+**Problemas observados:** com o dia de hoje ainda em aberto, `calcStreak()` retorna zero por começar no dia corrente. O briefing dizia que não havia sequência, mesmo tendo um primeiro dia registrado ontem. A reflexão de ontem era cortada em 80 caracteres e interpolada diretamente em HTML. A linha Objetivos/Consistência dos Hábitos/Metas Financeiras tinha margem inferior de 0,6rem, menor que o intervalo de 1rem entre Resumo Financeiro e Análise Semanal.
+
+**Correção:** o briefing calcula apenas para sua mensagem a continuidade dos hábitos registrados até ontem, sem alterar a contagem global usada em outros componentes. Sua abertura distingue dias seguidos até ontem, primeiro dia ontem, primeiro passo hoje e ausência de sequência. A reflexão aparece inteira, com texto escapado e quebras preservadas. A margem inferior da grade dos três cards passou a 1rem; conteúdo e espaçamento interno dos cards não mudaram.
+
+**Validação:** oito scripts inline compilaram. Simulação isolada do briefing cobriu primeiro dia ontem, dois dias até ontem, primeiro dia hoje e ausência de registros. Reflexão maior que 80 caracteres com tags e quebra de linha permaneceu completa e escapada; CSS da reflexão e a margem de 1rem foram conferidos. Não houve execução com os dados privados de Anderson ou conferência autenticada do resultado visual.
+
+**Publicação:** commit `857747f6272b53edaf49ec80fbfdf1c477a3b0b1` em azimo-site/main; Vercel a confirmar.
