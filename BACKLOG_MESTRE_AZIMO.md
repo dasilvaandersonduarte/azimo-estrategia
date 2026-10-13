@@ -8635,3 +8635,15 @@ Corrigido no commit `9a2c13b`: removido o CSS morto e reaplicado o padrão nos e
 **Risco identificado (Modo Desafio):** este episódio expõe um ponto geral de atenção para o restante do rollout — ler o código-fonte não é suficiente para confirmar que um elemento está de fato visível ao usuário; `display:none` condicional (ou, como aqui, incondicional) pode esconder elementos que o código ainda referencia ativamente. A partir daqui, antes de escrever o CSS de cada novo item, vale conferir rapidamente ao vivo qual elemento está realmente na tela, não só qual a função/ID que a sintaxe aponta.
 
 **Publicação:** commits `2436012` (tentativa inicial, mirou elementos ocultos) e `9a2c13b` (correção, aplicado aos elementos reais) em azimo-site/main.
+
+## Item 242 | Padrão noturno estendido à aba Despesas de Finanças, com ajuste de vermelho (Anderson, 13/10/2026)
+
+**Pedido:** Anderson aprovou a Visão Geral (item 241) com um ajuste: usar o vermelho mais vivo do Dashboard (`#f87171`, usado em "Despesas do Mês" no card Resumo Financeiro) em vez do tom mais suave que vinha sendo usado desde o item 237 (`#f9a8a8`). Em seguida, pediu pra seguir aba por aba dentro de Finanças, começando pela próxima.
+
+**Implementação:** o ajuste de vermelho foi aplicado primeiro, no escopo já existente de `#screen-financas .fin-geral-stat`/`.fin-geral-card` (item 241) — `--red-text` passou de `#f9a8a8` para `#f87171`. Essa correção vale só para a Visão Geral; os itens 237-240 (Rotina Diária, Vio, Estudos, Revisão) continuam no tom suave original e não foram tocados, já que Anderson não pediu mudança neles.
+
+Na sequência, o padrão noturno foi estendido à aba Despesas: `.fin-desp-panel` (o painel inteiro, incluindo cabeçalho "Despesas" e a seção "Controles de Despesas") virou a própria superfície noturna, nos mesmos moldes do card Resumo Financeiro do Dashboard. Dentro dela, os cards de cada Controle (`.fin-desp-card`) e a tabela interna de cada um — filtros por coluna (Recorrência/Responsável/Categoria), ordenação por Valor/Data, seleção em lote, check de pago, chips de categoria coloridos — renderizam corretamente por cima, usando os tokens locais que esses componentes já referenciavam. Vermelho no mesmo tom vivo ajustado acima. Cobertos também os tokens de categoria que a aba Despesas introduz e a Visão Geral não usava (laranja, azul-céu, `--c-a78bfa`).
+
+**Validação:** `validate.py` passou limpo. Inspeção visual ao vivo confirmou os 3 Controles reais de Anderson (Bradesco | Infinite, Pagamento Prestadoras, Nubank | Platinum) renderizando corretamente, incluindo a tabela expandida do Bradesco | Infinite com 109 itens reais, filtros, ícones de categoria e valores, sem quebra visual.
+
+**Publicação:** commits `4bf644d` (ajuste de vermelho na Visão Geral) e `384ef36` (padrão noturno na aba Despesas) em azimo-site/main.
