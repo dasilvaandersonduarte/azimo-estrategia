@@ -8521,4 +8521,4 @@ Anderson avaliou a versão publicada dos itens 205/206 e relatou excesso de espa
 
 **Validação:** oito scripts inline compilaram. Simulação isolada do briefing cobriu primeiro dia ontem, dois dias até ontem, primeiro dia hoje e ausência de registros. Reflexão maior que 80 caracteres com tags e quebra de linha permaneceu completa e escapada; CSS da reflexão e a margem de 1rem foram conferidos. Não houve execução com os dados privados de Anderson ou conferência autenticada do resultado visual.
 
-**Publicação:** commit `857747f6272b53edaf49ec80fbfdf1c477a3b0b1` em azimo-site/main; Vercel a confirmar.
+**Publicação:** commit `857747f6272b53edaf49ec80fbfdf1c477a3b0b1` em azimo-site/main; Vercel success.
