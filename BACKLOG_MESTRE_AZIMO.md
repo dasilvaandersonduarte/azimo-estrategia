@@ -8756,3 +8756,20 @@ O CSS de `[data-theme="light"]` em todo o arquivo foi mantido intacto (sem uso),
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: em Despesas, o total de R$ 15.650,04 agora aparece dentro da mesma caixa do título "Controles de Despesas" e dos atalhos de navegação, igual à estrutura de Receitas. Em Contas, as 4 contas (Bradesco, Caixa Econômica, Nubank, Santander) agora cabem todas na tela sem rolagem, com cards visivelmente mais compactos e na mesma proporção das demais abas, confirmado em zoom.
 
 **Publicação:** Commit `a39d739` em azimo-site, push `14f5db1..a39d739 main -> main`. Aguardando validação de Anderson antes de seguir para as próximas áreas (Produtividade/Foco).
+
+## 252. Alinhamento da posição do Valor nas linhas de Recorrentes e Receitas
+
+**Pedido:** Anderson notou que a disposição das informações muda ao navegar entre Contas/Metas (que pareciam no mesmo padrão) e Recorrentes/Despesas/Receitas (que pareciam diferentes entre si), e pediu para confirmar e alinhar.
+
+**Investigação:** Confirmado ao vivo, navegando pelas 5 abas, que existem 3 famílias de layout diferentes em Finanças, cada uma com uma razão estrutural real: Contas e Metas são listas de cartões independentes, sem agrupamento; Despesas e Recorrentes são cartões-gaveta por Controle, com uma lista de lançamentos dentro de cada um (necessário porque, por exemplo, o Bradesco | Infinite sozinho tem 109 lançamentos); Receitas é uma tabela única com colunas ordenáveis. Unificar as três pro mesmo esqueleto quebraria a usabilidade de Despesas/Recorrentes (jogar 109 lançamentos soltos numa lista sem agrupamento viraria bagunça). Apresentada essa análise a Anderson, que optou por manter a estrutura de cada aba e alinhar apenas a posição das informações dentro das linhas ("da melhor forma que eu souber que vai ficar bem").
+
+**Implementação:** Adotada uma regra única aplicável às 5 abas sem mexer na estrutura de nenhuma: o Valor passa a ficar sempre imediatamente antes das Ações (os dois últimos elementos de cada linha, nessa ordem). Contas e o cabeçalho de "Controles de Despesas" já seguiam essa regra (não precisaram de ajuste). Ajustados:
+- Recorrentes (itens normais de Receitas/Despesas Recorrentes): "Próxima ocorrência" passou a vir antes do valor, que agora cola nos botões Editar/Cancelar.
+- Parcelamentos ativos: "Data da parcela" passou a vir antes do valor, que agora cola no botão Gerenciar.
+- Receitas: a coluna Valor (ordenável) passou a vir antes da coluna de ações (Editar/Excluir), que antes era a última coluna da tabela.
+
+Nenhuma mudança estrutural, de agrupamento ou de dado, apenas reordenação de colunas/divs dentro das linhas já existentes.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life nas 3 telas afetadas (Recorrentes: itens normais e Parcelamentos ativos; Receitas: tabela "Todas as Receitas"), confirmando que o valor ficou colado nos botões de ação nas três, replicando o padrão já usado em Contas.
+
+**Publicação:** Commit `3b27005` em azimo-site, push `a39d739..3b27005 main -> main`.
