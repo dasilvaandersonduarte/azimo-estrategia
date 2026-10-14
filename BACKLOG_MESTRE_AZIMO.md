@@ -8902,3 +8902,36 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Testado ao vivo em azimo.life, simulando a passagem do tempo: tooltip continua escondido aos 200ms depois do hover, aparece normalmente aos 500ms; e passando o mouse e saindo antes dos 400ms, o tooltip nunca chega a aparecer (zero "flash" de pop-up).
 
 **Publicação:** Commit `fcb1c2a` em azimo-site (400ms), push `16a4149..fcb1c2a main -> main`. Atualizado em seguida pelo commit `eaed6b4` (3000ms), push `fcb1c2a..eaed6b4 main -> main`.
+
+## 260. Dashboard e Sua Agenda Azimo: mensagem do Vio em parágrafos, menu em Atrasados, scroll automático pro horário atual
+
+**Pedido:** Anderson trouxe um documento com 5 pontos sobre Dashboard e Sua Agenda Azimo (originalmente estruturado por uma ferramenta de IA a partir de um áudio dele, incluindo uma imagem de referência visual):
+1. Separar a mensagem inicial do Vio em título + parágrafos distintos, mantendo o botão.
+2. Ao clicar em "Atrasados", perguntar antes se a pessoa quer reagendar ou ir direto pro dia de origem da pendência, em vez de abrir o popup de reagendamento direto.
+3. Ao abrir a agenda diária de hoje, rolar automaticamente pro horário atual (linha vermelha "agora"), em vez de sempre abrir do topo (00h).
+4. Avaliar se as tarefas sem horário deveriam ficar acima ou ao lado da grade de horários.
+5. Reposicionar os 4 cards de prioridade (Matriz de Eisenhower) pra um lugar diferente, puxando a cor de cada nível de foco.
+
+**Investigação e decisão (Modo Desafio):** A imagem de referência enviada junto com o documento mostrava elementos que não existem no Azimo (cards "Manutenção"/"Evolução" com fração tipo "4/7 hábitos", nome "Laercio" no rodapé, cores diferentes nos 4 cards de prioridade, menu lateral diferente do nosso). Investigação no código confirmou: Azimo não tem nenhum card de resumo "Manutenção"/"Evolução", só badges pequenos "Man"/"Evo" em cada tarefa individual. Apontado isso ao Anderson antes de implementar o item 5 às cegas. Ele confirmou: a imagem era de uma ferramenta de IA (ChatGPT) que interpretou errado o áudio dele, incluindo escopo que ele não tinha pedido. Decisão final: item 5 não será implementado como reposicionamento de layout grande — não existe "do lado de Manutenção/Evolução" pra mover os cards. Considerado resolvido/encerrado sem mudança de código.
+
+**Implementação:**
+1. `_buildBriefing()` reescrita: separa linhas de contexto (streak, reflexão de ontem, tarefas pendentes) de um título + corpo específico pra cada ação recomendada (focoazimo/rotina/iniciodia/tarefas/tracker/padrão), com o texto exato pedido pro caso mais comum ("Pra Começar, Abra Sua Rotina Diária" + 2 parágrafos). Nova classe CSS `.vio-morning-titulo` (heading em negrito) e `.vio-morning-titulo-sep` (separador tracejado, só aparece quando há linhas de contexto antes).
+2. Novo picker `#atrasados-menu-picker` (mesmo padrão visual/técnico dos demais pickers do app) com duas opções: "Reagendar Tarefas" (abre o popup de sempre, `abrirModalAtrasadas()`, inalterado) e "Ir Para o Dia" (navega pra visão diária da agenda no dia mais antigo entre as pendências, via `_irParaDiaDaAgenda()` já existente). Botão "Atrasadas" trocou de abrir direto o popup pra abrir esse menu.
+3. `renderTarefas()`: ao renderizar a visão Agenda em modo Diário no dia de hoje, rola automaticamente `#tarefa-list` até a linha vermelha do horário atual (`.agenda-nowline`, que já existia desde antes, só não tinha o scroll automático).
+4. Mantido como está (tarefas sem horário acima da grade), conforme recomendação já alinhada com o Anderson.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo a cada etapa. Testado ao vivo em azimo.life: mensagem do Vio no Dashboard com título destacado e parágrafos separados; botão Atrasados abrindo o menu de duas opções; agenda diária de hoje abrindo já rolada pro horário atual.
+
+**Publicação:** Commit `0d3eb17` em azimo-site, push `eaed6b4..0d3eb17 main -> main`.
+
+## 261. Investigação do horário 00h no Diário de Produtividade + padrão noturno vivo no card de Feedbacks
+
+**Pedido:** Anderson reportou que o horário da meia-noite (00h) no Diário de Produtividade não tinha ganhado o botão/card de minimizar que os outros horários ganharam no item 255. Pediu também que a aba Feedbacks (Azimo Command) ganhasse o mesmo "card vivo" do padrão noturno aplicado nas outras telas, já que ainda estava com visual "chapado".
+
+**Investigação item 00h:** Checado o código (`renderDiarioProdutividade()`, loop `Array.from({length:24}...)`) e testado ao vivo: o horário 00h tem exatamente o mesmo template que todos os outros 23 horários, incluindo os botões "Minimizar" e "Pausar". Testado o clique em `alternarMinimizarProdutividade('00')` nos dois sentidos (minimizar e expandir) e funcionou normalmente, idêntico aos demais horários. Nenhuma diferença de código ou comportamento encontrada — não foi feita nenhuma alteração nesse ponto, por não haver bug a corrigir. Hipótese mais provável: cache antigo do navegador na hora em que o Anderson reparou (comportamento já visto antes nesta sessão com o service worker do PWA).
+
+**Implementação (Feedbacks):** O container `#cmd-feedbacks` (aba Feedbacks em Azimo Command) já herdava a paleta escura de `#screen-empresa` (item 256), mas continuava sem o relevo (glow, cantos arredondados em 18px, sombra) que os demais cards do padrão noturno ganharam nos itens 254-256. Aplicado a mesma receita de `#diario-produtividade-card`, sobrescrevendo `--bg2`/`--border` localmente (os cards de feedback individuais, que usam esses tokens via `var(--bg2)` inline, herdam o novo visual automaticamente) e adicionando o fundo em gradiente radial + borda + sombra padrão.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo: aba Feedbacks com o mesmo relevo/glow dos demais cards do padrão noturno; horário 00h do Diário de Produtividade com os botões normais, testado minimizar/expandir nos dois sentidos.
+
+**Publicação:** Commit `bec2893` em azimo-site, push `0d3eb17..bec2893 main -> main`.
