@@ -9005,3 +9005,15 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou. Testado ao vivo com zoom na tela: bússola visível e correta no avatar do chat e no chip minimizado.
 
 **Publicação:** azimo-site, commit `6b086bb`.
+
+## 268. Bússola do Vio aumentada dentro dos cards (estava pequena demais)
+
+**Pedido (Anderson, 14/10, com print):** "tu concorda que ficou muito pequeno a logo dentro do card? Eu acho que ela deveria ter que ocupar ali, bem dizer, quase todo o espaço para ela ficar mais chamativa."
+
+**Investigação:** confirmado. Levantado todos os pontos onde a bússola do Vio aparece (item 267) e medida a proporção ícone/container: card do aviso "Vio · Bom dia" no Dashboard preenchia só 56% (desktop) / 61% (mobile) do card; avatar do popup de chat 54%; chip minimizado 50%; avatar nas bolhas de mensagem do chat 50%; ícone na linha do tempo 66%. Anderson tinha razão, estava sobrando espaço vazio demais em todos os lugares, não só no que ele mandou o print.
+
+**Implementação:** aumentado o SVG da bússola em relação ao container em todos os 6 pontos, pra ficar em torno de 75-80% de preenchimento (consistente entre eles): card do Dashboard (27px->38px desktop, 22px->28px mobile), avatar do popup (14px->20px), chip minimizado (28px->42px), avatares do chat (14px->20px, 6 ocorrências), ícone da linha do tempo (32px->38px).
+
+**Validação:** `validate.py` passou. Testado ao vivo em produção (cache e service worker do PWA limpos antes do teste): zoom confirmado no card do Dashboard, no avatar do popup de chat e no avatar das mensagens -- bússola visivelmente maior e mais chamativa nos três, sem estourar a borda do card.
+
+**Publicação:** azimo-site, commit `47e4ed1`.
