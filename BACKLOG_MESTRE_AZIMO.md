@@ -8820,3 +8820,15 @@ Nenhum dado, ação ou script alterado, apenas CSS.
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Testado ao vivo em azimo.life: no Diário de Produtividade, tela abre compactada por padrão, botão Minimizar colapsa e expande cada horário individualmente sem afetar o registro. Em Finanças > Receitas, simulado o fluxo de edição de uma receita mensal real com filhos já gerados (via console, revertido ao final do teste para não deixar dado de teste na conta): o diálogo de escopo apareceu corretamente, e escolhendo "esta e todas as próximas" o nome novo se propagou para os meses futuros ainda não materializados.
 
 **Publicação:** Commit `ef63f5e` em azimo-site, push `7ae76e1..ef63f5e main -> main`.
+
+## 256. Padrão noturno em Sobre o Azimo e Azimo Command (+ aba Feedbacks)
+
+**Pedido:** Anderson aprovou o Foco Nível Azimo ("ficou muito bom!") e pediu que Sobre o Azimo, Azimo Command e Feedbacks também fossem padronizadas, completando o rollout do padrão noturno pela sidebar.
+
+**Implementação:** Sobre o Azimo é um card único (`#sobreazimo-card`), tratado com o mesmo mecanismo por id já usado nos demais cards isolados (Rotina Diária, Produtividade, Foco). Azimo Command é uma telona única e contínua (sem grid de cards separados), que já internamente inclui as abas Comando, Produto & Vio, Estratégia, Assinantes e Feedbacks, todas chaveadas por `display` dentro do mesmo container. Aplicado o mesmo tratamento já usado na tela do Vio (item 239, `#screen-coach`): sobrescrita dos tokens de cor no nível da tela inteira (`#screen-empresa`), já que os muitos blocos internos (stat cards, accordions de fase, listas de assinantes/feedbacks) já usam `var(--bg2)`/`var(--border)`/etc em vez de cor fixa, herdando o visual automaticamente sem precisar editar cada bloco manualmente. Nenhum dado, ação ou script alterado, apenas CSS.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo em azimo.life: Sobre o Azimo com o card no padrão noturno; Azimo Command com stat cards, accordions de fase e o cabeçalho das 5 abas (Comando, Produto & Vio, Estratégia, Assinantes, Feedbacks) todos no tom noturno. Observação à parte, sem relação com esta mudança: a aba Feedbacks mostrou o erro "Não foi possível consultar os feedbacks. Verifique conexão, sessão e permissões..." ao carregar — parece ser uma falha pré-existente na consulta de dados (não visual, não foi causada por este commit), reportada ao Anderson para investigação em outro momento.
+
+**Publicação:** Commit `406c8e1` em azimo-site, push `ef63f5e..406c8e1 main -> main`.
+
+Com este item, o rollout do padrão noturno cobre todas as telas da sidebar (Dashboard, Rotina Diária, Vio, Estudos, Revisão, Finanças completo, Produtividade, Foco, Sobre o Azimo, Azimo Command e Feedbacks).
