@@ -8935,3 +8935,28 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Verificado ao vivo: aba Feedbacks com o mesmo relevo/glow dos demais cards do padrão noturno; horário 00h do Diário de Produtividade com os botões normais, testado minimizar/expandir nos dois sentidos.
 
 **Publicação:** Commit `bec2893` em azimo-site, push `0d3eb17..bec2893 main -> main`.
+
+
+## 262. Destaque visual do card Sua Agenda Azimo
+
+**Pedido (Anderson, 14/10):** "E daí tu tinha comentado de fazer o card da agenda ficar mais destacado... se não fez, daí já pode fazer pra que a gente consiga deixar melhor visualmente ali."
+
+**Implementação:** O card `#tarefas-dia-card` já herdava o mesmo padrão noturno dos demais cards da Rotina Diária (Início do Dia, Afirmações, Mentalizações etc), diferenciado só pela cor do glow -- distinção sutil demais pra ler como "isso aqui é diferente". Adicionado: badge "FERRAMENTA" ao lado do título (cor azul, mesma identidade do ícone da Agenda) e borda superior de 3px na mesma cor azul, pra marcar visualmente que Sua Agenda é uma ferramenta de uso livre, diferente dos passos de ritual guiado ao redor dela. Sem mover nada de lugar (mantido dentro da Rotina Diária, ver decisão do item 260), sem alterar dado, ação ou script algum.
+
+**Validação:** `validate.py` passou. Testado ao vivo em produção (screenshot), badge e borda visíveis.
+
+**Publicação:** azimo-site, commit `b6a170d`.
+
+## 263. Bug corrigido: tarefa de "Pagamento Despesas" duplicava e voltava como atrasada
+
+**Pedido (Anderson, 14/10):** "tá aparecendo tarefas como atrasadas, eu marquei elas como concluídas e voltaram as tarefas como atrasadas para a minha agenda... coloca todas elas pro dia de hoje, pro dia 14, que daí eu já saio marcando ali elas como concluídas pra eu verificar se realmente vai dar bug novamente ou não."
+
+**Investigação:** A reconciliação automática de tarefas de Controle de cartão (item 186, `_finSincronizarTarefasControle`) comparava cada tarefa pela posição ATUAL dela em `STATE.tarefasHoje` (a chave de data do bucket onde estava), não pela data de vencimento que ela de fato representa. Ao reagendar uma tarefa dessas (botões "Hoje"/"Amanhã" no popup de Atrasadas, ou "Ir Para o Dia", item 260) ela saía do bucket da data de vencimento original -- e nesse bucket original, a próxima vez que Finanças renderizasse, a função via "falta tarefa aqui" e recriava uma cópia nova, não concluída, do zero. Essa cópia nova, sendo de uma data passada, voltava a contar como atrasada. Reproduzido ao vivo contra os dados reais antes da correção (confirmando a causa), e novamente depois da correção (confirmando que parou de acontecer).
+
+**Implementação:** Tarefas de controle agora guardam a data de vencimento original num campo fixo `controleData`, que não muda mesmo que a tarefa seja movida -- a reconciliação passou a comparar por esse campo em vez da posição atual. Tarefas antigas (criadas antes dessa correção) recebem o campo automaticamente na primeira reconciliação em que ainda estiverem no bucket certo (correção complementar, commit `e812adf`), pra não ficar dependendo de nenhuma tarefa nova ser criada.
+
+**Ação executada:** as 32 tarefas de "Pagamento Despesas | Bradesco | Infinite" que estavam atrasadas foram reagendadas para hoje (14/10/2026), a pedido do Anderson, pra ele mesmo validar que concluir/mover não duplica mais.
+
+**Validação:** `validate.py` passou nos dois commits. Testado ao vivo: reconciliação simulada repetidamente após mover e após concluir uma das tarefas, zero duplicatas voltando como atrasada.
+
+**Publicação:** azimo-site, commits `f1cf46c` e `e812adf`.
