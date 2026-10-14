@@ -8960,3 +8960,18 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou nos dois commits. Testado ao vivo: reconciliação simulada repetidamente após mover e após concluir uma das tarefas, zero duplicatas voltando como atrasada.
 
 **Publicação:** azimo-site, commits `f1cf46c` e `e812adf`.
+
+
+## 264. Lembrete de pagamento de cartão agrupado por fatura (vencimento do Controle), não por lançamento
+
+**Pedido (Anderson, 14/10):** "se a gente tem um controle lá no despesas, e aquele controle fala que o vencimento do cartão é dia 10... não é para pegar a data que está lá dentro do lançamento, do dia que foi feita a compra, mas sim botar a tarefa... para o dia específico do fechamento da fatura do cartão."
+
+**Investigação:** Confirmado que o comportamento anterior NÃO estava alinhado com isso: `_finSincronizarTarefasControle` agrupava os lembretes por `t.data` (a data de cada lançamento individual), então um cartão com várias compras no mês virava vários lembretes espalhados em dias diferentes, em vez de um lembrete só na data de vencimento da fatura.
+
+**Implementação:** Despesa de Controle tipo cartão com Dia de Vencimento configurado agora agrupa por fatura (campo `mes` da despesa + dia de vencimento do Controle), igual já acontecia no cálculo de Saldo Estimado (`_finSaldoEstimado`) para cobrar a fatura fechada inteira de uma vez. Controle tipo "direto" ou sem vencimento configurado mantém o comportamento anterior (por data da própria despesa, já que não existe conceito de fatura ali).
+
+**Efeito colateral esperado e confirmado:** tarefas antigas geradas no modelo anterior (por despesa) deixam de bater com a nova chave de agrupamento e são substituídas pelas novas (mais agrupadas) na próxima vez que Finanças renderizar. Tarefas já concluídas (feito:true) ficam preservadas como histórico, intocadas. Testado ao vivo contra os dados reais do Bradesco Infinite: de 51 tarefas (sendo 35 já concluídas no histórico) foram geradas 23 tarefas limpas, com as 16 pendentes caindo exatamente no dia 10 de cada mês de fatura (set/26 até jan/28). As 32 tarefas que tinham sido reagendadas pro dia 14/10 pro teste do item 263 foram substituídas por esse novo agrupamento (esperado, documentado no commit).
+
+**Validação:** `validate.py` passou. Testado ao vivo, confirmado o agrupamento mensal correto.
+
+**Publicação:** azimo-site, commit `eb715c6`.
