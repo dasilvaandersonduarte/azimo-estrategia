@@ -8860,3 +8860,25 @@ Com este item, o rollout do padrão noturno cobre todas as telas da sidebar (Das
 **Validação:** `python3 .github/scripts/validate.py` passou limpo após cada bloco de mudanças. Verificado ao vivo em azimo.life, passo a passo pela rotina guiada real (incluindo os dados reais da manhã do Anderson, já salvos antes desta verificação): Energia com o botão "Concluir e Ir para Silêncio"; Silêncio com o preparo de 15s, parágrafos, "Iniciar Agora" pulando o preparo e a mensagem de confirmação aparecendo dentro do card ao zerar o minuto; Intenção do Dia reaberta mostrando o texto da manhã do Anderson pré-preenchido com o aviso "Isso já está salvo" (confirmando que o dado nunca tinha sido perdido); Afirmações com lápis de edição funcional (abre, edita, cancela), instrução em parágrafos no lugar do título antigo, seletor de 1/2/3 min, e footer simplificado em 3 botões; Mentalizações com o mesmo padrão e seletor de 1/3/5/10 min; tela de conclusão com a bússola no novo padrão visual e a frase do dia (confirmada diferente da mensagem fixa anterior); chip do Vio arrastado para nova posição, posição mantida após recarregar a página, e clique simples reabrindo a conversa normalmente. Posição de teste do chip removida do localStorage ao final para não deixar o Vio do Anderson numa posição diferente da que ele está acostumado.
 
 **Publicação:** Commit `16a4149` em azimo-site, push `406c8e1..16a4149 main -> main`.
+
+## 258. Correção do erro "Não foi possível consultar os feedbacks" (GRANT ausente na tabela feedbacks)
+
+**Pedido:** Anderson pediu pra já corrigir o erro reportado no item 256, onde a aba Feedbacks em Azimo Command mostrava "Não foi possível consultar os feedbacks. Verifique conexão, sessão e permissões...".
+
+**Implementação:** Investigação ao vivo confirmou a causa real consultando o Supabase direto pelo navegador: `code: 42501, message: "permission denied for table feedbacks"`, com o próprio Postgres sugerindo `GRANT SELECT ON public.feedbacks TO authenticated`. O INSERT na tabela sempre funcionou (por isso os usuários conseguiam enviar feedback normalmente), só o SELECT nunca tinha sido liberado, provavelmente esquecido na auditoria de RLS do item anterior sobre as 14 políticas em 11 tabelas.
+
+Em vez de aplicar o GRANT solto como o hint sugeria (o que liberaria qualquer usuário autenticado a ler o texto e e-mail de feedback de todo mundo, quebrando o padrão "sem vazamento entre contas" já estabelecido nas outras tabelas), a correção restringiu a leitura só ao e-mail de admin via política de RLS:
+```sql
+ALTER TABLE public.feedbacks ENABLE ROW LEVEL SECURITY;
+GRANT SELECT ON public.feedbacks TO authenticated;
+CREATE POLICY "Admin pode ler todos os feedbacks"
+ON public.feedbacks
+FOR SELECT
+TO authenticated
+USING (auth.jwt() ->> 'email' = 'dasilvaandersonduarte@gmail.com');
+```
+Executado pelo Anderson direto no SQL Editor do Supabase (sem credenciais de banco disponíveis nesta sessão pra rodar por conta própria). Nenhuma mudança de código em `index.html`, só a permissão no banco.
+
+**Validação:** Consulta repetida ao vivo via `sbClient.from('feedbacks').select(...)`: antes do GRANT, erro 42501; depois, `status 200` sem erro. Aba Feedbacks em Azimo Command testada ao vivo, mostrando "Nenhum feedback recebido ainda." (mensagem normal de lista vazia, não mais o erro de permissão).
+
+**Publicação:** Alteração só de permissão no Supabase (RLS + GRANT), sem commit em nenhum dos dois repositórios.
