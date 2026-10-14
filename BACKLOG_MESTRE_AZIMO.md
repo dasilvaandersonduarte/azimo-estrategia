@@ -8994,3 +8994,14 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Entregue:** arquivo HTML com 3 variações de bússola (bússola clássica com agulha vermelha/branca, losango com núcleo vivo, agulha única num anel), lado a lado com a marca atual pra comparação, recomendação indicada (bússola clássica). Nenhuma alteração de código feita ainda -- aguardando Anderson escolher antes de trocar o ícone do Vio nos locais onde ele aparece.
 
 **Status:** Aguardando decisão do Anderson.
+
+
+## 267. Nova identidade visual do Vio: bússola própria no lugar do losango da Azimo
+
+**Pedido (Anderson, 14/10):** aprovou a opção A entre as 3 propostas no item 266 ("Vou seguir a sua recomendação!") -- bússola com dial redondo, agulha vermelha/branca e "N" marcado.
+
+**Implementação:** Trocado em todo lugar onde o Vio aparece "falando" com a pessoa: cabeçalho do popup de chat, chip minimizado do popup, aviso "Vio · Bom dia" no Dashboard, avatar nas bolhas de mensagem do chat (em 2 telas diferentes que tinham a marcação duplicada manualmente) e o indicador "Vio está pensando...". Centralizado na função `_VIO_COMPASS_SVG(size)` que já existia no código mas só era usada em um lugar -- as outras 7 ocorrências tinham a marca antiga (losango da Azimo) copiada à mão, agora todas vêm da mesma função ou do mesmo bloco (no caso do aviso do Dashboard, que tem viewBox próprio). A marca Azimo (losango) continua igual em todo lugar que NÃO é o Vio falando (logo da sidebar, ícone de informação genérico, card de Foco Nível Azimo, avisos de tour, etc) -- só a identidade do Vio mudou.
+
+**Validação:** `validate.py` passou. Testado ao vivo com zoom na tela: bússola visível e correta no avatar do chat e no chip minimizado.
+
+**Publicação:** azimo-site, commit `6b086bb`.
