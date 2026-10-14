@@ -9017,3 +9017,19 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou. Testado ao vivo em produção (cache e service worker do PWA limpos antes do teste): zoom confirmado no card do Dashboard, no avatar do popup de chat e no avatar das mensagens -- bússola visivelmente maior e mais chamativa nos três, sem estourar a borda do card.
 
 **Publicação:** azimo-site, commit `47e4ed1`.
+
+## 269. Jeito de mover tarefa pro outro dia que funciona no celular (sem depender de drag-and-drop)
+
+**Pedido (Anderson, 14/10):** depois de eu apontar que o arrastar-e-soltar da Agenda Semanal (item 265) usa a API nativa de drag-and-drop do HTML5, que não dispara em touchscreen, Anderson pediu pra já corrigir tudo que eu soubesse que precisava de ajuste antes de ele testar no celular.
+
+**Investigação:** levantado o cenário completo antes de decidir a correção. No celular (abaixo de 768px), a Agenda Semanal já esconde os itens individuais de cada dia (viram pontinhos coloridos, regra CSS deliberada do item 71, pra não ficar texto ilegível na coluna estreita) -- ou seja, mesmo que o drag funcionasse por toque, não teria elemento visível pra arrastar. O único caminho pra editar uma tarefa a partir da Semanal no celular é tocar no dia (abre o resumo do dia) e tocar na tarefa (abre o card de edição simples, `modal-card-tarefa`). Esse card tinha título, horário e duração, mas nenhum campo de data -- ou seja, não existia NENHUM jeito de mover uma tarefa comum (não atrasada) pro outro dia pelo celular, nem por toque nem por outro caminho.
+
+**Decisão:** em vez de reimplementar o drag-and-drop com eventos de toque (que exigiria recriar a lógica inteira e ainda dependeria de mostrar os itens no grid, contrariando o ajuste do item 71), adicionei um campo "Mudar o Dia" no card de edição de tarefa, usando o calendário próprio do Azimo (padrão obrigatório pra campo de data, item 204) e a mesma função de mover já testada no item 265 (`_moverTarefaEntreDias`). Funciona em qualquer tamanho de tela, desktop ou celular, tocando ou clicando -- não depende de arrastar nada.
+
+**Implementação:** campo novo no `modal-card-tarefa`, preenchido com a data atual da tarefa ao abrir o card; ao escolher uma data diferente no calendário, move a tarefa e fecha o card. Nenhuma tela de edição de tarefa existente foi alterada além dessa adição (o `drag-and-drop` do item 265 continua funcionando normalmente no desktop, sem mudança).
+
+**Validação:** `validate.py` passou. Testado ao vivo em produção com uma tarefa de teste real: aberto o card pelo fluxo completo (`_abrirCardTarefa`), confirmado que o campo já vem preenchido com a data certa, usado o calendário visual pra escolher o dia seguinte, confirmado por consulta direta ao estado que a tarefa saiu do dia 14/10 e apareceu no dia 15/10, sem duplicar. Tarefa de teste removida depois.
+
+**Pendência real:** o teste de toque de verdade (dedo no celular) só o Anderson pode confirmar -- o que dá pra garantir daqui é que a lógica e o calendário funcionam, testado com clique de mouse simulando toque.
+
+**Publicação:** azimo-site, commit `42bc147`.
