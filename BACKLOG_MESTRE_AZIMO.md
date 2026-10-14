@@ -9033,3 +9033,19 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Pendência real:** o teste de toque de verdade (dedo no celular) só o Anderson pode confirmar -- o que dá pra garantir daqui é que a lógica e o calendário funcionam, testado com clique de mouse simulando toque.
 
 **Publicação:** azimo-site, commit `42bc147`.
+
+## 270. Foco Nível Azimo: espaçamento das Afirmações/Mentalizações, botões iguais e cenário vivo na conclusão
+
+**Pedido (Anderson, 14/10):** quatro ajustes pontuais no fluxo guiado do Foco Nível Azimo, baseados em prints. (1) espaço em branco demais acima do texto em Afirmações, atribuído por ele ao ícone de editar. (2) o mesmo ajuste em Mentalizações. (3) os três botões do rodapé (Pular / Criar com o Vio / Concluir) deveriam dividir a barra em partes iguais (33/33/33), nas duas telas. (4) na tela de "Foco concluído", trocar o ícone isolado da bússola por um cenário mais vivo usando a imagem de referência (bússola, montanhas, mar) ocupando o card, com movimento na bússola. (5) mostrar a frase completa com crédito ao mentor, no mesmo padrão já usado no cabeçalho do site (aspas + nome).
+
+**Investigação (itens 1 e 2):** a causa real não era CSS de espaçamento, era puramente estrutural: o container do texto tinha `white-space:pre-line` aplicado nele inteiro (botão de editar + texto), e o próprio template literal do código tinha quebras de linha e indentação entre as tags (`<div ...>` até `<button>`, e entre `</button>` e o texto). Com `pre-line`, essas quebras de linha do CÓDIGO (não do conteúdo real da afirmação) viravam linhas em branco visíveis na tela -- confirmado medindo ao vivo: o texto começava ~56px abaixo do topo do card, equivalente a duas linhas em branco de altura.
+
+**Implementação (1 e 2):** `white-space:pre-line` movido do container pra um `<span>` só em volta do texto real, e as quebras de linha soltas entre as tags removidas (tudo em uma linha só no template). Reflete nas duas telas porque Afirmações e Mentalizações compartilham a mesma função (`_renderPassoAfirmacaoVisualizacao`).
+
+**Implementação (3):** `style="flex:1"` adicionado aos três botões do rodapé (antes só o terceiro tinha, os outros dois ficavam do tamanho do próprio texto). Mesma função compartilhada, reflete nas duas telas.
+
+**Implementação (4 e 5):** a tela de conclusão (`_renderConclusaoGuiada`) trocou o badge de 80px flutuando sozinho por um card panorâmico cheio, reaproveitando a arte já aprovada do card Foco Nível Azimo (`assets/foco-azimo-banner.webp`) com o mesmo padrão de gradiente+imagem já usado na Análise Semanal do Vio (`#analise-semanal-dash-card`). A bússola ganhou glow contínuo (`asv-node-glow`, animação já existente na Linha do Tempo) somado ao giro de entrada que já existia (`rgd-compass-needle`), pra não ficar estática depois do spin acabar. A frase do dia aparece completa, entre aspas, com o nome do mentor como crédito, usando as mesmas classes `.frase-quote`/`.frase-autor` já usadas no cabeçalho -- qualquer ajuste futuro nesse estilo vale pros dois lugares automaticamente.
+
+**Validação:** `validate.py` passou. Testado ao vivo em produção nas três telas (forçando os passos via `_guiadaIdx`/`_renderPassoGuiado`/`_renderConclusaoGuiada` direto no console, sem precisar refazer o Foco inteiro): Afirmações e Mentalizações com o texto colado no topo do card e os três botões visualmente do mesmo tamanho nas duas; conclusão com o cenário cheio, bússola com glow, e a frase do dia completa com crédito, tudo com boa legibilidade sobre a imagem.
+
+**Publicação:** azimo-site, commit `80ce8f4`.
