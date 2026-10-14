@@ -8889,7 +8889,9 @@ Executado pelo Anderson direto no SQL Editor do Supabase (sem credenciais de ban
 
 **Implementação:** Modo desafio registrado: esse comportamento instantâneo não era um bug, foi um pedido anterior do próprio Anderson (item "AJUSTE DESPESAS 2", 06/10), quando ele pediu justamente o oposto, tooltips mais rápidos que o padrão nativo do navegador (~600ms-1s). O ajuste de hoje inverte essa escolha, com um meio-termo: um atraso de entrada, sem mexer na saída (que continua instantânea ao tirar o mouse, padrão usado por praticamente todo app com tooltip).
 
-Não existe um único "padrão universal" formal, mas a faixa usada pela maioria dos produtos de referência gira em torno de 300 a 500ms de atraso na entrada (GitHub, VS Code e bibliotecas de interface como Radix UI e Material UI operam nessa faixa). Adotado 400ms via uma constante única (`AZIMO_TOOLTIP_DELAY`), fácil de ajustar no futuro se quiser mais rápido ou mais lento.
+Não existe um único "padrão universal" formal, mas a faixa usada pela maioria dos produtos de referência gira em torno de 300 a 500ms de atraso na entrada (GitHub, VS Code e bibliotecas de interface como Radix UI e Material UI operam nessa faixa). Implementado inicialmente com 400ms via uma constante única (`AZIMO_TOOLTIP_DELAY`), fácil de ajustar no futuro.
+
+**Atualização (mesma data):** Anderson pediu pra trocar o padrão pra 3 segundos. Alertado que esse valor foge bastante da faixa de mercado citada acima e corre o risco de parecer que o botão não tem resposta nenhuma (ao ponto da pessoa já ter tirado o mouse dali antes do tooltip aparecer), mas ajustado como pedido, por ser decisão dele e só uma constante pra reverter depois. `AZIMO_TOOLTIP_DELAY` alterado de `400` para `3000`.
 
 Dois sistemas de tooltip existentes no site foram ajustados, cobrindo o problema relatado:
 1. `hab-tooltip` (`showHabTip`/`moveHabTip`/`hideHabTip`): usado nos ícones de hábito, tarefas, botões de minimizar seção, etc. Agora guarda a posição do mouse e só mostra o tooltip depois de 400ms parado; se o mouse sair antes disso, o timer é cancelado e nada chega a aparecer na tela.
@@ -8899,4 +8901,4 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 
 **Validação:** `python3 .github/scripts/validate.py` passou limpo. Testado ao vivo em azimo.life, simulando a passagem do tempo: tooltip continua escondido aos 200ms depois do hover, aparece normalmente aos 500ms; e passando o mouse e saindo antes dos 400ms, o tooltip nunca chega a aparecer (zero "flash" de pop-up).
 
-**Publicação:** Commit `fcb1c2a` em azimo-site, push `16a4149..fcb1c2a main -> main`.
+**Publicação:** Commit `fcb1c2a` em azimo-site (400ms), push `16a4149..fcb1c2a main -> main`. Atualizado em seguida pelo commit `eaed6b4` (3000ms), push `fcb1c2a..eaed6b4 main -> main`.
