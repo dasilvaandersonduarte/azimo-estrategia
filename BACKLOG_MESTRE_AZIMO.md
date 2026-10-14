@@ -8975,3 +8975,22 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou. Testado ao vivo, confirmado o agrupamento mensal correto.
 
 **Publicação:** azimo-site, commit `eb715c6`.
+
+
+## 265. Arrastar e soltar tarefa entre dias na Agenda Semanal
+
+**Pedido (Anderson, 14/10):** "se eu usar a visualização semanal, eu consigo pegar uma tarefa que está no dia de hoje e clicar nela e arrastar para o dia de amanhã, se eu quiser diretamente, perfeito?" -- confirmado que não existia, autorizado a implementar na hora.
+
+**Implementação:** Drag and drop nativo (HTML5) na visão Semanal. Cada tarefa local (não eventos sincronizados do Google Agenda, que são só leitura) vira um elemento arrastável; cada coluna de dia vira uma zona de soltar. Ao soltar num dia diferente, a tarefa é movida de verdade em `STATE.tarefasHoje` (mesmo mecanismo que já existia em `_reagendarTarefaAtrasada`, generalizado pra não exigir que a tarefa esteja atrasada -- preserva id, recId, controleData e qualquer outro campo).
+
+**Validação:** `validate.py` passou. Testado ao vivo: criada uma tarefa de teste temporária, movida programaticamente entre dois dias, confirmado que saiu de um e apareceu no outro, tarefa de teste removida depois. Confirmado visualmente que os itens renderizam com `draggable="true"` e os handlers corretos, e que eventos do Google Agenda ficam de fora (sem o atributo).
+
+**Publicação:** azimo-site, commit `edf638b`.
+
+## 266. Opções de logo do Vio propostas pra validação
+
+**Pedido (Anderson, 14/10):** confirmado que hoje o Vio usa a mesma marca Azimo (losango facetado) como avatar em todo lugar que ele "fala" (chat, aviso de bom dia no Dashboard). Anderson concordou que deveria ser uma bússola, mas diferenciada, e pediu pra ver opções antes de decidir.
+
+**Entregue:** arquivo HTML com 3 variações de bússola (bússola clássica com agulha vermelha/branca, losango com núcleo vivo, agulha única num anel), lado a lado com a marca atual pra comparação, recomendação indicada (bússola clássica). Nenhuma alteração de código feita ainda -- aguardando Anderson escolher antes de trocar o ícone do Vio nos locais onde ele aparece.
+
+**Status:** Aguardando decisão do Anderson.
