@@ -8807,3 +8807,16 @@ Nenhum dado, ação ou script alterado, apenas CSS.
 **Validação:** `python3 .github/scripts/validate.py` passou limpo (node --check e balanceamento de tags). Verificado ao vivo em azimo.life (cache do service worker limpo antes de testar): no Diário de Produtividade, todos os slots de horário com o fundo escuro e borda do padrão noturno; em Foco, os 3 cards (Tarefas de Hoje, Pomodoro, Anotações da Sessão) com o mesmo tratamento lado a lado, e o cronômetro do Pomodoro mantendo seu glow pulsante original sobre o novo fundo escuro.
 
 **Publicação:** Commit `7ae76e1` em azimo-site, push `4563fec..7ae76e1 main -> main`.
+
+## 255. Escopo ao renomear recorrência + Minimizar por horário e compacto padrão no Diário de Produtividade
+
+**Pedido:** Anderson reportou que, ao mudar o nome de uma Receita de recorrência Mensal, as próximas ocorrências já geradas não acompanharam a mudança, e pediu que isso virasse um padrão: perguntar se quer manter o novo nome só naquele lançamento ou aplicar às próximas também. Na mesma mensagem, pediu também que o Diário de Produtividade ganhasse um botão de minimizar por horário (além do já existente "Pausar"), e que os cards já viessem compactados por padrão.
+
+**Implementação:**
+1. `salvarFinTransacao()`: ao editar um lançamento que faz parte de uma série recorrente real (mensal, anual, bimestral, semestral, semanal, quinzenal, a cada X dias) e o nome mudou, passou a perguntar o alcance usando o mesmo mecanismo de diálogo (`azEscolha`) já usado para valor/total de parcela (item 178) e mudança de tipo de recorrência (item 163): "Só este lançamento" ou "Este e todos os próximos". Escolhendo a segunda opção, atualiza o nome do lançamento original da série e apaga os meses futuros já materializados com o nome antigo, que são regenerados automaticamente com o nome novo na próxima vez que esses meses forem visitados.
+2. Diálogo pré-existente que perguntava apenas sobre a diferença entre "Minimizar" vs "Pausar" no Diário de Produtividade foi esclarecido com o Anderson: Minimizar é só visual (colapsa a linha do horário numa tira fina, reversível a qualquer momento, sem desativar lembrete nem tocar no registro), diferente de Pausar (que marca o horário como inativo de verdade). Implementado como novo botão por horário, com preferência salva só no localStorage (não entra no STATE sincronizado).
+3. `_produtividadeCompacto` passou a nascer `true` por padrão (cards compactados ao abrir a tela pela primeira vez). Quem já tinha escolhido expandir ou compactar manualmente antes continua com a própria escolha respeitada nas próximas visitas.
+
+**Validação:** `python3 .github/scripts/validate.py` passou limpo. Testado ao vivo em azimo.life: no Diário de Produtividade, tela abre compactada por padrão, botão Minimizar colapsa e expande cada horário individualmente sem afetar o registro. Em Finanças > Receitas, simulado o fluxo de edição de uma receita mensal real com filhos já gerados (via console, revertido ao final do teste para não deixar dado de teste na conta): o diálogo de escopo apareceu corretamente, e escolhendo "esta e todas as próximas" o nome novo se propagou para os meses futuros ainda não materializados.
+
+**Publicação:** Commit `ef63f5e` em azimo-site, push `7ae76e1..ef63f5e main -> main`.
