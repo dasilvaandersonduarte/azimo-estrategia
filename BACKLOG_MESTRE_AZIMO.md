@@ -9223,3 +9223,15 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Decisão do Anderson:** perguntado se queria manter o comportamento atual (cartão só abate na fatura) ou mudar pra abater na hora do lançamento -- escolheu manter como está. Nenhuma mudança de código necessária.
 
 **Publicação:** nenhuma (investigação, sem mudança de código).
+
+## 283. Contas: rótulo "Atualizado em" virou "Saldo conferido em", com tooltip explicando a diferença
+
+**Pedido:** "Nas receitas, a gente tem uma data de cadastramento, mas lá nas contas, a gente tem uma data de atualização. E hoje é dia 15. Então, as datas não estão batendo, sabe? Tu consegue verificar isso?" Depois, autorizando o ajuste: "Faz o que você achar melhor e o que vai ficar correto e deixa 100% para nós, por favor."
+
+**Investigação:** não havia desalinhamento técnico, só dois conceitos diferentes com nomes parecidos. O sistema não guarda nenhum "timestamp de cadastro" pra receita/despesa (conferido no código: só `data`, que é o campo "Quando o valor entra/sai", preenchido pelo usuário por lançamento). O "Atualizado em" na aba Contas é o `saldoData` da conta -- a última vez que o Anderson conferiu e informou manualmente o saldo real daquela conta -- sem nenhuma relação com as datas dos lançamentos de Receitas/Despesas. O rótulo antigo ("Atualizado em") sugeria uma sincronização automática que não existe ainda (o saldo só muda quando ele clica e atualiza manualmente, ou quando um lançamento cai dentro da janela pós-conferência, como os itens 280 a 282 já cobriram).
+
+**Implementação:** rótulo de cada conta trocado de "Atualizado em {data}" para "Saldo conferido em {data}", e o botão (que já abre o modal de conferir/atualizar o saldo) ganhou um tooltip explicando a diferença: que essa é a data da última conferência manual, sem relação com a data dos lançamentos.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: aba Contas mostrando "Saldo conferido em 12/10/2026" nas quatro contas, confirmando o texto novo no ar.
+
+**Publicação:** azimo-site, commit `f90d6ba`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
