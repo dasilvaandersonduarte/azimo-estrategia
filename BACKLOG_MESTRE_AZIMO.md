@@ -9235,3 +9235,41 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: aba Contas mostrando "Saldo conferido em 12/10/2026" nas quatro contas, confirmando o texto novo no ar.
 
 **Publicação:** azimo-site, commit `f90d6ba`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
+
+## 284. Saldo do Mês vira realizado (só pago/recebido), com Previsto mantido como info secundária
+
+**Pedido:** perguntou por que o Saldo Total das Contas mostrava R$ 11.968,10 enquanto o Saldo do Mês em Finanças mostrava -R$ 3.137,56, dizendo que só tinha cadastrado receitas naquele mês. Depois de investigado e explicado (ver abaixo), optou pela recomendação dada: "Sigo a sua recomendação e também mantendo o total programado como falou."
+
+**Investigação:** os dois números nunca tiveram relação entre si. R$ 11.968,10 é a soma do saldo manual de cada conta na data em que foi conferido (12/10), sem nenhum lançamento posterior ainda ter caído na janela de sincronização (itens 280-282). -R$ 3.137,56 era o Saldo do Mês: receitas de outubro (R$ 23.789,75, 5 lançamentos) menos TODAS as despesas de outubro (R$ 26.927,31, 138 lançamentos), incluindo as que ainda não foram pagas. Conferido nos dados reais: dos 138 lançamentos de despesa, 136 (R$ 23.471,28) já estavam marcados como pagos e só 2 estavam abertos -- Financiamento | Máquina Laser | Carro (R$ 1.792,03, vence 29/10) e FIES | Priscila (R$ 1.664,00, vence 10/10), exatamente como o Anderson descreveu de cabeça. O Saldo do Mês estava descontando essas duas faturas como se o dinheiro já tivesse saído, mesmo sem terem sido pagas -- daí o descompasso: contando só o que já foi pago/recebido, o saldo do mês seria +R$ 318,47, não -R$ 3.137,56.
+
+**Decisão do Anderson:** Saldo do Mês passa a ser realizado (opção recomendada); o total previsto continua visível, não foi removido.
+
+**Implementação:**
+- `renderFinancas()`: `totalRec`/`totalDesp`/`saldo` (usados em todo o resto da tela) agora somam só lançamentos com `pago:true`. Novas variáveis `totalRecPrevisto`/`totalDespPrevisto`/`saldoPrevisto` guardam o total programado (tudo, pago ou não), calculadas em paralelo.
+- Card principal "Saldo do Mês" (`fin-resumo-card`): mostra o realizado como número grande; nova linha "Previsto para o mês" aparece embaixo (só quando previsto e realizado são diferentes, pra não poluir quando bate).
+- Painel "Visão Geral" (`_finRenderGeral`): o card de Saldo do Mês no panorama ganhou "(realizado)" no título e a nota embaixo mostra o previsto quando diferente.
+- Widget "Resumo Financeiro" do Dashboard (`_finDadosMesAmbosEscopos`, soma Pessoal+Empresarial): mesma lógica, nota com o previsto quando diferente.
+- Gráfico "Evolução últimos 6 meses" e comparação com o mês anterior (`_finUpdateResumo`) e o modal "Comparar Meses" (`_finTotaisDoMes`): passaram a usar o realizado também, pra não misturar previsto com realizado em históricos.
+
+**Correção encontrada em teste ao vivo, antes de considerar pronto:** a primeira versão filtrava receita E despesa por `pago:true`, simétrico. Testando com os dados reais do Anderson, o resultado foi -R$ 23.471,28 (pior que o problema original) porque nenhuma das 5 receitas de outubro estava marcada como recebida -- na prática, o campo `pago` só é usado de verdade do lado da despesa (faturas que ficam pendentes por um tempo); receita é cadastrada depois que o dinheiro já entrou, então ninguém marca esse checkbox nela. Corrigido pra ficar assimétrico, exatamente como o próprio Anderson descreveu: receita conta inteira, despesa continua respeitando pago/não pago.
+
+**Validação final:** `validate.py` passou limpo (node --check + balanceamento de tags) nas duas rodadas. Testado ao vivo em produção após a correção, só leitura: Saldo do Mês realizado bateu em +R$ 318,47 (receitas R$ 23.789,75 menos despesas pagas R$ 23.471,28) e o previsto confirmado em -R$ 3.137,56.
+
+**Publicação:** azimo-site, commits `de09ea3` (versão inicial) e `b949ac2` (correção da assimetria receita/despesa), publicados via push direto no GitHub (Vercel auto-deploy, versão corrigida confirmada no ar).
+
+## 285. Início do Controle Financeiro: lançamentos de antes do início real não contam mais
+
+**Pedido:** ao investigar o item 284, notou que meses anteriores a outubro já tinham lançamentos e saldo, mesmo ele tendo começado a usar o controle financeiro "de verdade" só em outubro: "os meses anteriores tem o saldo na conta já mas na verdade eu comecei a personalizar a plataforma agora em Outubro, o que está pra trás é que deve estar dando problema." Pedido explícito: "os anteriores pode não colocar e também já ajusta para que não aconteça com os demais usuários."
+
+**Investigação:** conferido nos dados reais do Anderson (só leitura): existiam 9 lançamentos antes de outubro, todos em setembro/2026, todos manuais (nenhum gerado por recorrência), somando R$ 654,75 em despesas -- sem nenhuma receita. Ou seja, não é um bug de recorrência gerando dados retroativos sozinha (função `_finGerarRecorrenciasAteAgora` só projeta pra FRENTE a partir do mês do lançamento original, nunca pra trás): são lançamentos reais de teste/configuração inicial, de um período em que ele ainda estava conhecendo a tela. O problema de fundo, que também vale pra qualquer outro usuário: a plataforma nunca teve um jeito de marcar "a partir de agora é que eu realmente comecei a usar isso pra valer", então qualquer mês anterior ao uso real sempre vai aparecer misturado no histórico e nos gráficos.
+
+**Implementação:**
+- Novo campo `inicioControle` por escopo (Pessoal/Empresarial), guardado no mesmo local dos outros dados de Finanças. Quando definido, lançamentos com `mes` anterior a ele ficam fora de: `_finGetMes` (lista do mês selecionado, usada por Visão Geral/Receitas/Despesas), `_finTotaisDoMes` (comparação com mês anterior e modal Comparar Meses), `_finDadosMesAmbosEscopos` (widget do Dashboard) e o gráfico de evolução de 6 meses. Nada é apagado -- os lançamentos continuam no banco de dados, só saem de vista enquanto esse marcador existir.
+- Automático para usuários novos: a primeira transação real que qualquer pessoa cadastrar em cada escopo marca sozinha o início naquele mês, então ruído de teste anterior ao uso de verdade nunca mais se acumula sem ninguém perceber.
+- Para quem já usa a plataforma (como o Anderson), nada muda sozinho -- o campo só existe se for definido manualmente, pra não esconder histórico real de ninguém sem aviso.
+- Nova tela de ajuste: botão "Definir início" (ou "Alterar", quando já existe um) na aba Contas, dentro de um aviso explicando o que esse marcador faz. Abre um modal simples (mês + ano) e permite remover a marcação a qualquer momento (com confirmação, porque isso volta a trazer histórico escondido pros cálculos).
+- Para a conta do Anderson especificamente: marcado manualmente `inicioControle = 2026-10` no escopo Pessoal, direto via produção.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: aplicado `inicioControle = 2026-10` na conta real do Anderson e confirmado que 1) o aviso na aba Contas passou a mostrar "Lançamentos de antes de Outubro de 2026 ficam fora..."; 2) consultando setembro/2026 diretamente (`_finGetMes`/`_finTotaisDoMes`), a lista voltou vazia e os totais zerados -- os 9 lançamentos de setembro (R$ 654,75) saíram de todos os cálculos sem serem apagados.
+
+**Publicação:** azimo-site, commits `de09ea3` e `b949ac2` (mesmos do item 284, publicados junto), via push direto no GitHub (Vercel auto-deploy).
