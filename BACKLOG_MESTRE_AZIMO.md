@@ -9139,3 +9139,13 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção, logado na conta real: ordem confirmada no DOM (Dar feedback → Sobre o Azimo → Meu Perfil), clique abrindo a tela "Sobre o Azimo" corretamente e com o destaque visual de item ativo.
 
 **Publicação:** azimo-site, commit `c6fb278`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
+
+## 277. Sidebar: seção Finanças passa a vir antes de Estudos/Revisão
+
+**Pedido:** "A seção de Finanças, troca ela na ordem com o Estudos e Revisão, por favor?"
+
+**Implementação:** troca simples da ordem das duas seções na sidebar -- "Pessoal" (Finanças) agora vem antes de "Conhecimento" (Estudos, Revisão), em vez de depois.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: ordem das seções confirmada no DOM (Principal → Pessoal → Conhecimento → Produtividade → Empresa).
+
+**Publicação:** azimo-site, commit `9727d38`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
