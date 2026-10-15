@@ -9220,6 +9220,6 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 
 **Conclusão:** o motor está sincronizando certo. A sensação de "nada muda" acontece porque, nesse momento, tudo que o Anderson tem perto da data de hoje é despesa de cartão de crédito (que só afeta o saldo na fatura, por design), e as receitas mais recentes (Sabrina/Priscila/Beleza Rara) já foram confirmadas no item 281 como já embutidas no saldo manual de 12/10. Pra ver o saldo se mover ao vivo, o lançamento precisa ser uma receita ou despesa ligada DIRETO a uma conta (não dentro de um Controle de cartão) com data de hoje em diante -- isso já funciona, como provado acima.
 
-**Pergunta em aberto pro Anderson:** o comportamento de cartão (só debita na fatura, não na compra) é o que você quer manter, ou você prefere que uma compra no cartão já abata da conta de pagamento na hora que é lançada, sem esperar o vencimento da fatura? São dois modelos financeiros diferentes e válidos -- o atual imita como cartão de crédito funciona de verdade (você só perde o dinheiro quando paga a fatura), mas se a expectativa for "lancei, já saiu", é uma mudança de comportamento, não uma correção, e precisa de decisão explícita antes de mexer.
+**Decisão do Anderson:** perguntado se queria manter o comportamento atual (cartão só abate na fatura) ou mudar pra abater na hora do lançamento -- escolheu manter como está. Nenhuma mudança de código necessária.
 
 **Publicação:** nenhuma (investigação, sem mudança de código).
