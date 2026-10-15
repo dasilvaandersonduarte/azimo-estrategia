@@ -9149,3 +9149,13 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: ordem das seções confirmada no DOM (Principal → Pessoal → Conhecimento → Produtividade → Empresa).
 
 **Publicação:** azimo-site, commit `9727d38`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
+
+## 278. Sidebar: ordem final do grupo Principal -- Dashboard, Rotina Diária, Finanças, Vio
+
+**Pedido:** "Consegue deixar a ordem: Dashboard - Rotina Diária - Finanças - Vio, por favor?"
+
+**Implementação:** Finanças saiu da sua própria seção ("Pessoal", que não tinha mais nenhum outro item) e entrou no grupo "Principal", entre Rotina Diária e Vio -- a seção "Pessoal" deixou de existir.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: ordem dos itens dentro do grupo Principal confirmada no DOM (Dashboard, Rotina Diária, Finanças, Vio).
+
+**Publicação:** azimo-site, commit `f5c909d`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
