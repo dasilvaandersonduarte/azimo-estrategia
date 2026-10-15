@@ -9129,3 +9129,13 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Erro corrigido no processo:** cometi um `git commit --amend` num commit que já tinha sido publicado (contra a regra permanente de nunca usar amend) -- percebi antes de empurrar pro GitHub, desfiz com `git reset --soft` pro commit anterior e recriei como um commit novo, sem reescrever histórico já publicado.
 
 **Publicação:** azimo-site, commits `24f3e7c` (destaque Semanal + 1ª tentativa do scroll Diária) e `0031dcf` (correção definitiva do scroll Diária), publicados via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
+
+## 276. "Sobre o Azimo" reposicionado no rodapé da sidebar, abaixo de "Enviar Sugestão ou Feedback"
+
+**Pedido:** "A seção Sobre o Azimo pode ficar abaixo da sessão de Enviar Sugestão ou Feedback, ajusta pra mim?"
+
+**Implementação:** "Sobre o Azimo" saiu da sua própria seção ("Sistema") no meio do nav principal da sidebar (onde ficava empilhado logo acima de Azimo Command) e passou a viver no rodapé da sidebar, como um botão no mesmo padrão visual do "Dar feedback" (ícone + texto, mesmo comportamento de colapsar/expandir com a sidebar), posicionado logo abaixo dele e acima do cartão de Meu Perfil. Mantém a navegação real (`nav('sobreazimo')`) e o destaque de "tela ativa" de qualquer nav-item.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção, logado na conta real: ordem confirmada no DOM (Dar feedback → Sobre o Azimo → Meu Perfil), clique abrindo a tela "Sobre o Azimo" corretamente e com o destaque visual de item ativo.
+
+**Publicação:** azimo-site, commit `c6fb278`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
