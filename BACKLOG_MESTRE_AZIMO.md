@@ -9159,3 +9159,15 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: ordem dos itens dentro do grupo Principal confirmada no DOM (Dashboard, Rotina Diária, Finanças, Vio).
 
 **Publicação:** azimo-site, commit `f5c909d`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
+
+## 279. Avisos/toasts do site passam a usar a identidade visual do Azimo
+
+**Pedido:** anexou duas screenshots dos toasts "Perfil atualizado. Vio absorveu as mudanças." e "Horário inativo. Lembretes pausados.", ambos com ícone genérico de check e visual sem identidade do Azimo: "Eu quero que todos os avisos que temos no site já venham com o padrão da Azimo. Consegues ajustar para não vir mais avisos como esse?"
+
+**Investigação:** o padrão visual "Azimo" pra avisos importantes já tinha sido definido no item 114 (02/10/2026) -- símbolo da bússola/diamante (mesmo usado na logo da sidebar) + texto "Azimo.life", já aplicado nos modais de confirmação (`#modal-descartar-alteracoes`, `#az-dialog-overlay`). Levantamento de todos os avisos tipo toast do site encontrou só dois componentes: o toast compartilhado (`#toast`/`showToast()`, usado nas duas screenshots e em dezenas de outros pontos do app) e um segundo toast separado, o de encerrar o dia (`#encerrar-dia-toast`, com contagem regressiva e botão Cancelar). Não restam `alert()`/`confirm()` nativos no código (já totalmente migrados pro `az-dialog` no item 193) nem nenhum outro aviso tipo toast fora desses dois.
+
+**Implementação:** nos dois componentes, o ícone genérico (`ti-check` no toast compartilhado) ou a ausência de ícone (no toast de encerrar o dia) foi trocado pelo mesmo símbolo de bússola usado nos modais, em tamanho reduzido (14px) e com `fill="currentColor"` -- assim o ícone herda automaticamente a cor que o toast já usa pra cada tipo (verde sucesso, vermelho erro, indigo celebração), sem precisar duplicar lógica de cor. Decisão deliberada de não adicionar o texto "Azimo.life" nesses toasts (diferente dos modais): são avisos pequenos e frequentes, e repetir o nome do produto a cada toast feriria a própria regra já registrada no item 114 ("sem virar modal grande pra toast pequeno"). O símbolo sozinho já identifica a marca sem pesar o componente.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção, logado na conta real do Anderson: confirmado por `outerHTML` que o código novo (ícone SVG) estava carregado antes de testar; disparados os dois toasts reais das screenshots (`showToast(..., 'success')` e `showToast(..., 'error')`) e o toast de encerrar o dia (`iniciarJanelaEncerrarDia()`), com prints confirmando a bússola Azimo em cada um, na cor certa por tipo. A janela de encerrar o dia foi cancelada em seguida (`cancelarEncerrarDia(true)`) pra não fechar o dia de verdade durante o teste.
+
+**Publicação:** azimo-site, commit `fb1ceaf`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
