@@ -9111,3 +9111,21 @@ Dois sistemas de tooltip não foram alterados, por serem de natureza diferente (
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção via console (sem precisar de login): simulação com os 4 passos do wizard feitos e Reflexão pendente -- confirma chamada pra `_ctaVioIrParaDestino('reflexao')`, sem tocar no wizard; simulação com Afirmações ainda pendente -- confirma que abre o wizard normalmente (sem ir pra Reflexão). Campo `#reflexao` e navegação pra aba Rotina confirmados presentes no DOM.
 
 **Publicação:** azimo-site, commit `5272f36`, publicado via push direto no GitHub (Vercel auto-deploy, já confirmado no ar via teste ao vivo acima).
+
+## 275. Agenda Semanal com destaque mais forte no dia de hoje e correção definitiva do scroll até a linha "agora" na Diária
+
+**Pedido:** "Uma coisa que eu vi que eu ainda quero dar um pouco mais de destaque ali na parte da agenda. Quando a gente está no semanal, eu quero que o card do dia fique um pouco mais evidente ainda, um pouco mais chamando a atenção. E quando a gente bota a agenda para o diário, a função ainda não está indo para procurar a agulha vermelha, que é o horário que a gente está do dia. E eu quero que já faça isso, a tela já corra até onde está a agulha para já ir direto pro compromisso próximo."
+
+**Investigação -- Semanal:** o destaque do dia atual (item 6, 15/10) usava só borda fina colorida + fundo levemente tingido, contrastando com os outros dias só por opacity reduzida -- sutil demais pro que o Anderson queria agora.
+
+**Investigação -- Diária (bug real, não só sutileza):** o scroll automático até a linha "agora" (item 260, 14/10) nunca tinha funcionado de verdade, por dois motivos empilhados. 1) O cálculo usava `linha.offsetTop`, que é relativo ao offsetParent mais próximo (`.agenda-events`, que tem `position:relative`), não ao container com scroll -- então qualquer coisa acima do grid (como tarefas "Sem horário") fazia a conta errar. 2) Mais fundamental: no modo Diário, `#tarefa-list` ganha a classe `tarefa-list-sem-scroll` (`overflow:visible`, sem `max-height`) -- ele NUNCA tem scroll próprio nesse modo, quem rola de verdade é o ancestral `#screen-rotina` (a tela inteira). Setar `el.scrollTop` sempre foi um no-op. Esse segundo motivo só foi descoberto depois de uma primeira tentativa de correção (só resolvendo o motivo 1) não ter funcionado ao vivo -- testei de novo e vi que o scroll continuava em zero.
+
+**Implementação:**
+- Semanal: `.agenda-semanal-dia.hoje` ganhou borda mais grossa (2px) e mais saturada, fundo mais forte e um leve glow (`box-shadow`), e o rótulo do dia da semana (não só o número) também passou a ficar em indigo.
+- Diária: o cálculo do scroll agora acha dinamicamente qual ancestral de `#tarefa-list` realmente tem scroll (via `overflowY` computado + `scrollHeight > clientHeight`) e rola ESSE elemento, usando `getBoundingClientRect` (posição real na tela) pra calcular a distância certa -- funciona não importa a estrutura do DOM por baixo, então não quebra de novo se o layout mudar.
+
+**Validação:** `validate.py` passou limpo em cada rodada (inclusive na correção da correção). Testado ao vivo em produção, já logado na conta real do Anderson: Semanal com o dia 15/10 claramente mais evidente que os outros dias no print. Diária: sequência de leituras do scroll ao longo do tempo confirmando que ele chega em ~1500px e FICA ESTÁVEL (não volta pra 0 depois), com a linha vermelha "agora" pousando a ~120px do topo da tela, compromisso seguinte já visível logo abaixo -- confirmado visualmente por print.
+
+**Erro corrigido no processo:** cometi um `git commit --amend` num commit que já tinha sido publicado (contra a regra permanente de nunca usar amend) -- percebi antes de empurrar pro GitHub, desfiz com `git reset --soft` pro commit anterior e recriei como um commit novo, sem reescrever histórico já publicado.
+
+**Publicação:** azimo-site, commits `24f3e7c` (destaque Semanal + 1ª tentativa do scroll Diária) e `0031dcf` (correção definitiva do scroll Diária), publicados via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
