@@ -9195,3 +9195,17 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Publicação:** azimo-site, commit `4e23aca`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar via teste ao vivo acima).
 
 **Ponto em aberto pro Anderson (Modo Desafio):** se existir algum lançamento antigo no seu histórico que estava marcado como não pago de propósito (por exemplo, uma despesa que você sabe que ainda não vai sair da conta, cadastrada com data retroativa só pra não esquecer), ele agora entra no saldo calculado mesmo sem estar pago -- antes, ele ficava de fora até você marcar. Vale dar uma conferida geral no saldo das suas contas depois dessa mudança, pra garantir que bateu com o extrato real; se algum número parecer estranho, me avisa com o nome do lançamento que eu investigo.
+
+## 281. Teste ao vivo pós-280: saldo da Bradesco | Anderson parecia não refletir receitas (investigado, sem bug)
+
+**Pedido (AZIMO | TESTE AO VIVO | SINCRONIZAÇÃO ENTRE RECEITAS E CONTAS):** "A questão das receitas, eu acredito que ela ainda não tá sendo alinhada pra dentro das contas. Porque o saldo que tá lá na conta Bradesco Anderson tá de 10.578. Só o que tem de lançamento em receita de duas coisas, do Beleza Rara cartão de crédito e do Priscila, só ali já daria esse valor e sobraria ainda. Aí tem mais 10 mil do folha pra podcast, tem mais 360, tem mais 1.390. Esse valor, que é o total de receitas no mês, ele tem que ir lá pra dentro das contas."
+
+**Investigação:** nos dados reais do Anderson (só leitura, nada alterado nesse registro), a conta "Bradesco | Anderson" tem saldo manual de R$ 10.578,10 com `saldoData` = 12/10/2026. As três receitas citadas (Sabrina R$360 em 06/10, Priscila R$5.200 em 09/10, Beleza Rara Cartão R$6.839,75 em 10/10) estão todas vinculadas a essa conta, mas com data ANTES do corte de 12/10 -- exatamente o cenário que a proteção contra dupla contagem do item 280 existe pra cobrir: tudo datado até a data do saldo manual é considerado já embutido naquele valor, então não é somado de novo. Não havia nenhum lançamento real entre 12/10 e hoje (15/10) que devesse estar entrando no saldo e não estava -- o saldo estimado bateu exatamente com o saldo manual (10.578,10), como esperado matematicamente dado esse cenário.
+
+**Decisão do Anderson:** perguntado diretamente se o valor de R$ 10.578,10 (informado em 12/10) já incluía essas três receitas no extrato real do banco naquele dia -- confirmou que sim, já incluía.
+
+**Conclusão:** não é bug. O comportamento está correto: a lógica corrigida no item 280 está funcionando exatamente como projetada, protegendo contra dupla contagem igual o próprio Anderson pediu pra verificar. A confusão foi de entendimento (comparar o total de receitas do mês com o saldo da conta, sem levar em conta que receitas anteriores à data do saldo manual já estão embutidas nele), não um problema técnico. Nenhuma alteração de código foi feita nesse item.
+
+**Observação pra evitar a mesma dúvida no futuro:** pode valer a pena, numa rodada futura, mostrar de forma mais clara na tela de Contas quais lançamentos já estão "dentro" do saldo manual (antes do corte) e quais estão sendo somados por cima (depois do corte) -- hoje isso só existe no cálculo interno, não aparece pra conferência visual. Não implementado agora por não ter sido pedido; fica registrado como sugestão pro Anderson avaliar se quer.
+
+**Publicação:** nenhuma (investigação, sem mudança de código).
