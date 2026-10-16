@@ -9297,3 +9297,13 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo nas duas rodadas. Testado ao vivo em produção depois da correção: confirmado no DOM da aba Visão Geral -- "Saldo do Mês (realizado)" R$ 318,47 em verde à esquerda, "Saldo do Mês (previsto)" -R$ 3.137,56 em vermelho à direita, mesmo card.
 
 **Publicação:** azimo-site, commits `2fab52f` (1ª rodada, card do topo) e `7e6474c` (correção, card da Visão Geral), publicados via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
+
+## 288. Ajuste de exposição do card Realizado/Previsto: sem sinal de menos, uma linha só, maiúscula após parênteses
+
+**Pedido:** anexou print mostrando o valor Previsto quebrando em duas linhas ("-R$" numa linha, "3.137,56" na outra). "A exposição desse card ficou muito ruim, porque não precisa ficar o menos ali quando está negativo, porque as cores já indicam... tem que diminuir um pouco ou estender um pouco mais a fonte... para que os valores fiquem tudo em uma linha só." Mais: "sempre quando a gente tem um parênteses ou um dois pontos, a gente começa com a primeira palavra com letra maiúscula... o realizado e o previsto começam com letra maiúscula."
+
+**Implementação:** nos dois cards (card principal de Finanças e o featured da Visão Geral): tirado o sinal de "-" dos valores negativos de Realizado e Previsto -- a cor (vermelho/verde) já indica o sinal sozinha. Fonte reduzida (2rem para 1.5rem no card principal; clamp menor no featured da Visão Geral) e `white-space:nowrap` adicionado nos quatro números, garantindo que não quebrem mais em duas linhas. Rótulos "Saldo do Mês (realizado)"/"(previsto)" na Visão Geral corrigidos para maiúscula depois do parênteses: "(Realizado)"/"(Previsto)".
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: confirmado no DOM que os quatro números (Realizado e Previsto nos dois cards) vêm sem sinal de menos, com `white-space:nowrap` e fonte reduzida, e os rótulos da Visão Geral com maiúscula correta.
+
+**Publicação:** azimo-site, commit `21166a2`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar). Esse push também serviu como primeira confirmação de que o token novo do GitHub (trocado pelo Anderson nesta mesma sessão, ver observação do item anterior) está funcionando normalmente.
