@@ -9317,3 +9317,15 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: os quatro números do panorama (Receitas, Despesas, Realizado, Previsto) confirmados com a mesma fonte e `nowrap`.
 
 **Publicação:** azimo-site, commit `8b84528`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
+
+## 290. Card de Controle de Despesas mostra total pago em vez de zerar quando tudo foi quitado
+
+**Pedido:** "uma coisa que eu vi que lá no site está me incomodando é que dentro de cada card que tem as despesas, ele está ficando zerado quando tudo já foi pago... ao invés de estar tá zerado, deveria estar tá o saldo que foi pago, porque daí a gente conseguiria realmente ter noção de tudo que foi pago dentro de cada card." Especificado que é dentro de Finanças > Despesas, nos cards de Controle (ex.: Bradesco Infinity), não na Visão Geral. Confirmado para execução imediata: "Beleza, mas já quero que tu alinhe isso."
+
+**Investigação:** em `_finControlesSectionHtml(despesas)`, o total de cada card de Controle (`totalControle`) somava só os lançamentos pendentes (`pendentesControle`). Quando todos os itens do Controle já estavam pagos, `pendentesControle` ficava vazio e o total caía pra R$ 0,00 -- mesmo com o card já pintado de cinza (`totalControlePago`, do item 192) indicando "quitado". Ou seja, o card perdia a informação de quanto realmente foi pago no mês assim que terminava de ser quitado.
+
+**Implementação:** quando `totalControlePago` é verdadeiro (todos os lançamentos do Controle pagos), `totalControle` passa a somar TODOS os lançamentos do Controle (= total pago), em vez de só os pendentes (que ficariam zerados). Quando ainda há pendência, o comportamento não muda (continua somando só o pendente). A cor cinza de "quitado" é mantida nos dois casos. O tooltip do valor (`title`) também ficou dinâmico: "Valor total pago neste Controle" quando quitado, "Valor pendente neste Controle" quando ainda há pendência.
+
+**Validação:** `validate.py` passou limpo (balanceamento de tags div/span/button/svg/select + `node --check`). Verificação visual ao vivo não foi possível nesta sessão: nenhum dos três Controles do Anderson (Bradesco Infinite, Pagamento Prestadoras, Nubank Platinum) estava 100% quitado em outubro no momento do teste, e setembro não tem lançamentos (zerado pelo item 285). Como o pedido explícito desta mesma sessão foi não mexer em dados de Despesas por enquanto, não forcei nenhum lançamento a "pago" só para testar. Fica pendente conferir visualmente assim que algum Controle fechar 100% pago.
+
+**Publicação:** azimo-site, commit `8a93aa0`, publicado via push direto no GitHub (Vercel auto-deploy).
