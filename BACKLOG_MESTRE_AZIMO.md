@@ -9286,12 +9286,14 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 
 **Publicação:** azimo-site, commit `464221f`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
 
-## 287. Realizado e Previsto lado a lado no card principal de Finanças
+## 287. Realizado e Previsto lado a lado no card de Saldo do Mês
 
 **Pedido:** "Consegue colocar lado a lado no mesmo card que já estão o saldo previsto e o saldo realizado pra ficarem melhor expostos?"
 
-**Implementação:** no card "Saldo do Mês" (topo da tela de Finanças), o Previsto deixou de ser uma nota pequena embaixo do Realizado e passou a ser um segundo número grande ao lado dele, com rótulo próprio ("Realizado" / "Previsto") e separador vertical entre os dois, mesma cor vermelho/verde conforme o sinal nos dois. Aproveitei pra corrigir, no mesmo número do Realizado, o sinal de "-" que faltava quando negativo (o resto da tela já usava esse padrão, só esse número tinha ficado sem).
+**Implementação (1ª rodada):** no `fin-resumo-card` (topo da tela de Finanças), o Previsto deixou de ser uma nota pequena embaixo do Realizado e passou a ser um segundo número grande ao lado dele, com rótulo próprio e separador vertical. Aproveitei pra corrigir, no número do Realizado, o sinal de "-" que faltava quando negativo.
 
-**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: Realizado em R$ 318,47 (verde) e Previsto em -R$ 3.137,56 (vermelho), lado a lado no mesmo card, confirmado no DOM.
+**Correção (2ª rodada):** o Anderson mandou print mostrando que o card que ele via continuava empilhado -- era outro card, o "Saldo do Mês (realizado)" destacado dentro da aba Visão Geral (`fin-geral-stat.featured`), não o `fin-resumo-card` do topo. Esse ainda tinha o Previsto preso numa frase pequena embaixo (herdado do item 286). Pedido detalhado de novo: "faça uma barrinha de divisão no meio desse card... do lado esquerdo o saldo realizado e do lado direito o saldo previsto... com aquela mesma informação que está ali no padrão do que já está". Implementado exatamente assim: duas colunas dentro do card, separadas por uma barra vertical, "Saldo do Mês (realizado)" à esquerda e "Saldo do Mês (previsto)" à direita, cada uma com rótulo + número grande colorido, no mesmo padrão visual que já existia pro Realizado.
 
-**Publicação:** azimo-site, commit `2fab52f`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
+**Validação:** `validate.py` passou limpo nas duas rodadas. Testado ao vivo em produção depois da correção: confirmado no DOM da aba Visão Geral -- "Saldo do Mês (realizado)" R$ 318,47 em verde à esquerda, "Saldo do Mês (previsto)" -R$ 3.137,56 em vermelho à direita, mesmo card.
+
+**Publicação:** azimo-site, commits `2fab52f` (1ª rodada, card do topo) e `7e6474c` (correção, card da Visão Geral), publicados via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
