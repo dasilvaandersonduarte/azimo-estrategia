@@ -9307,3 +9307,13 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: confirmado no DOM que os quatro números (Realizado e Previsto nos dois cards) vêm sem sinal de menos, com `white-space:nowrap` e fonte reduzida, e os rótulos da Visão Geral com maiúscula correta.
 
 **Publicação:** azimo-site, commit `21166a2`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar). Esse push também serviu como primeira confirmação de que o token novo do GitHub (trocado pelo Anderson nesta mesma sessão, ver observação do item anterior) está funcionando normalmente.
+
+## 289. Receitas do Mês e Despesas do Mês ganham a mesma fonte do card de Saldo
+
+**Pedido:** depois de aprovar o ajuste do item 288 ("Show, agora sim eu gostei da exposição"), pediu pra igualar: "a única coisa que tem que arrumar são os outros dois cards da esquerda... a fonte está maior, então pra deixar o layout padrão, deixa no padrão que ficou o card do saldo do mês previsto e realizado."
+
+**Implementação:** os cards "Receitas do Mês" e "Despesas do Mês" do panorama da Visão Geral receberam a mesma fonte (`clamp(16px,1.8vw,22px)`) e `white-space:nowrap` que o card de Saldo do Mês já tinha ganhado no item 288, deixando os três cards do panorama visualmente alinhados.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: os quatro números do panorama (Receitas, Despesas, Realizado, Previsto) confirmados com a mesma fonte e `nowrap`.
+
+**Publicação:** azimo-site, commit `8b84528`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
