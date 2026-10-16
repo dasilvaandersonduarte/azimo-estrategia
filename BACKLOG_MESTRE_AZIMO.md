@@ -9285,3 +9285,13 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: widget do Dashboard confirmado com `var(--red-text)` aplicado; card principal de Finanças confirmado mostrando "Previsto para o mês... -R$ 3.137,56" com a cor vermelha no valor.
 
 **Publicação:** azimo-site, commit `464221f`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
+
+## 287. Realizado e Previsto lado a lado no card principal de Finanças
+
+**Pedido:** "Consegue colocar lado a lado no mesmo card que já estão o saldo previsto e o saldo realizado pra ficarem melhor expostos?"
+
+**Implementação:** no card "Saldo do Mês" (topo da tela de Finanças), o Previsto deixou de ser uma nota pequena embaixo do Realizado e passou a ser um segundo número grande ao lado dele, com rótulo próprio ("Realizado" / "Previsto") e separador vertical entre os dois, mesma cor vermelho/verde conforme o sinal nos dois. Aproveitei pra corrigir, no mesmo número do Realizado, o sinal de "-" que faltava quando negativo (o resto da tela já usava esse padrão, só esse número tinha ficado sem).
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: Realizado em R$ 318,47 (verde) e Previsto em -R$ 3.137,56 (vermelho), lado a lado no mesmo card, confirmado no DOM.
+
+**Publicação:** azimo-site, commit `2fab52f`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
