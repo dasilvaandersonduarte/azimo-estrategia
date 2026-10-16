@@ -9273,3 +9273,15 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo. Testado ao vivo em produção: aplicado `inicioControle = 2026-10` na conta real do Anderson e confirmado que 1) o aviso na aba Contas passou a mostrar "Lançamentos de antes de Outubro de 2026 ficam fora..."; 2) consultando setembro/2026 diretamente (`_finGetMes`/`_finTotaisDoMes`), a lista voltou vazia e os totais zerados -- os 9 lançamentos de setembro (R$ 654,75) saíram de todos os cálculos sem serem apagados.
 
 **Publicação:** azimo-site, commits `de09ea3` e `b949ac2` (mesmos do item 284, publicados junto), via push direto no GitHub (Vercel auto-deploy).
+
+## 286. Previsto para o mês ganha cor vermelha/verde conforme o sinal
+
+**Pedido:** "Eu quero que o R$ e o valor do saldo previsto para o mês apareça como vermelho se for negativo ou verde se for positivo. Consegue ajustar?"
+
+**Investigação:** o card principal de Finanças (`fin-resumo-previsto-sub`, item 284) já aplicava essa cor desde a primeira versão. Faltava nos outros dois lugares que também mostram o Previsto: o panorama da Visão Geral (`_finRenderGeral`) e o widget "Resumo Financeiro" do Dashboard (`_renderResumoFinanceiroDash`) -- nos dois, o valor aparecia em texto simples, sem cor.
+
+**Implementação:** nos dois lugares, o valor do Previsto passou a vir dentro de um `<strong>` com `color: var(--red-text)` quando negativo ou `var(--green-text)` quando positivo ou zero, igual já era feito no Saldo Realizado ao lado.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: widget do Dashboard confirmado com `var(--red-text)` aplicado; card principal de Finanças confirmado mostrando "Previsto para o mês... -R$ 3.137,56" com a cor vermelha no valor.
+
+**Publicação:** azimo-site, commit `464221f`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
