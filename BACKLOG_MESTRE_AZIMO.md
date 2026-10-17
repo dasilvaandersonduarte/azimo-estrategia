@@ -9329,3 +9329,29 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo (balanceamento de tags div/span/button/svg/select + `node --check`). Verificação visual ao vivo não foi possível nesta sessão: nenhum dos três Controles do Anderson (Bradesco Infinite, Pagamento Prestadoras, Nubank Platinum) estava 100% quitado em outubro no momento do teste, e setembro não tem lançamentos (zerado pelo item 285). Como o pedido explícito desta mesma sessão foi não mexer em dados de Despesas por enquanto, não forcei nenhum lançamento a "pago" só para testar. Fica pendente conferir visualmente assim que algum Controle fechar 100% pago.
 
 **Publicação:** azimo-site, commit `8a93aa0`, publicado via push direto no GitHub (Vercel auto-deploy).
+
+## 291. Lista de Receitas/Despesas sem paginação, mostra todos os lançamentos com scroll normal
+
+**Pedido:** "lá nas receitas está aparecendo poucos lançamentos na página. E daí eu queria que todos os lançamentos já viessem na primeira página, entendeu? Se tiver 50 lançamentos, que eu vá scrollando ali na página e daí vá aparecendo todos. E não que eu tenha que mudar de aba."
+
+**Investigação:** a tabela "Todas as Receitas/Despesas" (função `_finRenderGrupos`, compartilhada pelas duas abas) paginava de 7 em 7 lançamentos (`PAGE_SIZE = 7`), com botões "‹"/"›" para trocar de página. A página inteira do Azimo já tem scroll normal (confirmado nas demais telas), então não havia necessidade técnica de paginar -- era só um limite artificial.
+
+**Implementação:** removida a paginação. `pageItems` passou a ser a lista completa (`ordenadas`) em vez de uma fatia de 7, e os botões "‹"/"›" saíram do rodapé da tabela, substituídos por um contador simples ("X lançamentos"). Como a função é compartilhada, o ajuste vale tanto para Receitas quanto para Despesas.
+
+**Validação:** `validate.py` passou limpo (node --check + balanceamento de tags). Testado ao vivo em produção: aba Receitas de outubro mostrando os 11 lançamentos numa lista só, com "11 lançamentos" no rodapé, sem botões de página.
+
+**Publicação:** azimo-site, commit `d7ada77`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
+
+## 292. Aviso de "Início do Controle Financeiro" sai da aba Contas
+
+**Pedido:** "eu também quero tirar lá da parte das Contas o aviso de que os meses anteriores não vão ser utilizados. Eu não quero que isso trave o usuário... O que eu não quero é, na minha conta, colocar meses anteriores, porque eu realmente comecei a utilizar agora em outubro... Mas eu não quero que tenha essa trava como está lá. 'Lançamentos de antes de Outubro de 2026 ficam fora de todos os cálculos...' isso não faz sentido ter."
+
+**Investigação:** o banner (`_finInicioAvisoHtml()`, criado no item 285) aparecia sempre na aba Contas, explicando que lançamentos antes do mês marcado (outubro, no caso do Anderson) ficam fora de Saldo do Mês/Receitas/Despesas/Evolução/Comparar Meses. O texto, mesmo sendo só informativo, soava como um bloqueio -- e o Anderson deixou claro que não quer essa mensagem na tela, embora o comportamento de fundo (seu histórico de antes de outubro ficar fora dos cálculos) continue sendo exatamente o que ele quer manter para a própria conta.
+
+**Implementação:** removida a chamada a `_finInicioAvisoHtml()` do resumo da aba Contas (`_finRenderContas`). O campo `inicioControle` e toda a lógica de filtro que ele aciona (itens 285 e seguintes) continuam funcionando normalmente nos bastidores -- só o aviso/banner saiu da tela. A função `_finInicioAvisoHtml()` e o modal `abrirFinInicioControle()` continuam existindo no código (não removidos), só não são mais chamados por nenhum botão visível na tela.
+
+**Ponto em aberto, sinalizado ao Anderson:** como o único jeito de abrir esse modal era o link "Alterar"/"Definir início" dentro desse banner, remover o banner também removeu o único acesso visível a essa configuração. Hoje não há mais nenhum botão na interface para mudar ou remover o `inicioControle` (nem para o Anderson, nem para outro usuário) -- só dá pra mexer nisso via código/dados diretamente. Fica como decisão do Anderson se isso precisa de um acesso mais discreto (ex.: um link pequeno em vez do banner) ou se pode ficar assim por enquanto.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção: aba Contas mostrando só o aviso sobre saldo estimado, sem o banner de início do controle; a conta do Anderson segue com `inicioControle = 2026-10` intacto e funcionando (Receitas/Despesas de outubro continuam corretas, R$ 23.913,81).
+
+**Publicação:** azimo-site, commit `d7ada77` (mesmo do item 291, publicado junto), via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
