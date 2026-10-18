@@ -9417,3 +9417,13 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Validação:** `validate.py` passou limpo em todas as rodadas. Testado ao vivo em produção via `javascript_tool`: confirmada a existência de `showCelebracao`, `_guiadaIniciarDuracao` simplificada, `_guiadaRenderParteTexto` sem divisão em partes, linha de instrução no CTA do Dashboard. O bug real do botão "Adicionar tarefa" nos modos Semanal/Mensal foi pego só no teste ao vivo -- a primeira correção (em `_posicionarBotaoAddTarefa`) não bastava por causa da segunda lógica escondida em `renderTarefas()`; corrigido e reconfirmado ao vivo (`diário` continua escondendo quando o dia está vazio, `semanal`/`mensal` sempre mostram agora). Grid de 3 colunas confirmado no DOM (`grid-template-columns: 1fr auto 1fr`).
 
 **Publicação:** azimo-site, commits `be355f3` (pacote principal) e `6c984ae` (correção do bug do botão Adicionar Tarefa achado em teste ao vivo), publicados via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
+
+## 296. Ajuste do aviso "mini vitória": logo maior e texto em uma linha só
+
+**Pedido:** feedback depois de ver o item 295 ao vivo: "a logo ficou muito pequena e o aviso ficou em duas linhas... o aviso pode ficar em uma linha, porque nessa versão do desktop dá tranquilo para ler tudo em uma linha só. E a logo tem que ficar um pouco maior." Sobre a animação de girar a bússola na foto de fundo da tela final (ponto 8 do item 295): "deixa quieto, não precisa fazer no momento. A gente deixa no padrão que está mesmo" -- confirmado fora de escopo.
+
+**Implementação:** no CSS do `.toast.toast-center` (criado no item 295): logo aumentada de 14px (padrão do toast de canto) pra 22px nesse contexto; largura máxima alargada de 380px pra 640px e `white-space:nowrap` aplicado, deixando o texto numa linha só em telas largas (desktop). Em telas estreitas (celular, abaixo de 600px), volta a quebrar normalmente (`white-space:normal`, largura 90vw), já que ali não há espaço de sobra.
+
+**Validação:** `validate.py` passou limpo. Testado ao vivo em produção via `javascript_tool`: `showCelebracao()` confirmado com `white-space: nowrap` e logo em 22px.
+
+**Publicação:** azimo-site, commit `c61ed34`, publicado via push direto no GitHub (Vercel auto-deploy, confirmado no ar).
