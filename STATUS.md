@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 19/10/2026. Item 306: no passo Mentalizações do Foco Nível Azimo, seletor de tempo e Começar ficam fixos acima do rodapé enquanto o texto rola separadamente. Janela ampliada com limite responsivo; mesmo ajuste aplicado a Afirmações. Navegação até passo 5 testada no Chrome, com seletor visível em viewport de 693 px. Commit `45a01d0` em azimo-site/main.
+
 > Atualizado em 19/10/2026. Item 305: corrigido fechamento do Azimo Command que deixava Meu Perfil aninhado e invisível; removido o indicador “Fase 4 de 5 ativa” do cabeçalho e restaurado o botão Comando. Navegação Meu Perfil e Estratégia → Comando testada no Chrome em produção; commit `567a3dc` em azimo-site/main.
 
 > Atualizado em 18/10/2026. Item 304: largura dos cards do Azimo Command corrigida após feedback visual. Área principal e abas Estratégia/Assinantes limitadas a 1560 px, com margens e padding responsivos. Verificado no Chrome em 2048 px e 390 px sem rolagem horizontal; commit `226b315` em azimo-site/main.
