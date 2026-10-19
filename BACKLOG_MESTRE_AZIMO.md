@@ -9520,3 +9520,8 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 ## Item 304 | Largura dos cards no Azimo Command | 18/10/2026
 
 Corrigido o contêiner e limitada a largura dos painéis do Comando, Estratégia e Assinantes para preservar margens laterais em telas grandes. Conferência no Chrome: em 2048 px, cards entre x=303 e x=1821; em 390 px, aba dentro da viewport e sem rolagem horizontal. Publicado em azimo-site/main, commit `226b3151426523f8ccb4c5eea1a5314a19a7d9b9`.
+
+
+## Item 305 | Meu Perfil e retorno ao Comando | 19/10/2026
+
+Corrigida a estrutura HTML da tela Azimo Command: um fechamento ausente mantinha Meu Perfil dentro dela, bloqueando a visualização. Indicador de fase removido do cabeçalho e botão Comando restaurado para voltar ao panorama geral. Verificado no Chrome em produção: Meu Perfil abre e Estratégia → Comando exibe novamente a grade de quatro indicadores. Sintaxe de scripts e balanço de `div` verificados. Site publicado em azimo-site/main, commit `567a3dcabf5087da7b9302efeae503c4dedffa00`.
