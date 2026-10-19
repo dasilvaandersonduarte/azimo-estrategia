@@ -9515,3 +9515,8 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 **Entregue:** removida mensagem obsoleta de D+13 na Jornada; ICP com blocos separados de Comportamento e Canal de entrada; Projeções Financeiras separadas do Estudo Histórico; tópicos Mercado & Concorrência, Landing Page, Aquisição, Retenção e Roadmap de Crescimento realocados para Comando junto aos checklists; removida aba vazia Produto & Vio, com Infraestrutura e Planos preservados no Comando; removido botão Comando do cabeçalho; Histórico posicionado imediatamente abaixo das Fases; cards principais do Comando e da Estratégia recolhidos inicialmente, com controle acessível de abrir/fechar; grade dos quatro indicadores restabelecida na navegação. Assinantes e Feedbacks preservados.
 
 **Verificação:** 12 scripts inline compilados; contagem de `div` e `details` equilibrada; navegação visual em produção confirmada no Chrome: Comando, Estratégia, ICP e Assinantes/Feedbacks. Site publicado no commit `13dfe4dfba4a174ace87bb3370ce0be12c821f96` em azimo-site/main.
+
+
+## Item 304 | Largura dos cards no Azimo Command | 18/10/2026
+
+Corrigido o contêiner e limitada a largura dos painéis do Comando, Estratégia e Assinantes para preservar margens laterais em telas grandes. Conferência no Chrome: em 2048 px, cards entre x=303 e x=1821; em 390 px, aba dentro da viewport e sem rolagem horizontal. Publicado em azimo-site/main, commit `226b3151426523f8ccb4c5eea1a5314a19a7d9b9`.
