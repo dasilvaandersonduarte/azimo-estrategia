@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 19/10/2026. Item 308: confirmações de sucesso do Vio passam ao padrão índigo Azimo no chat e nos avisos flutuantes. Prévia de tarefa no Vio permite editar nome, data e horário antes de adicionar à Agenda. Código validado sintaticamente; publicação iniciada em azimo-site/main, commit `17e3f50`.
+
 > Atualizado em 19/10/2026. Item 307: calendário compartilhado de seleção de data simplificado com caixas separadas de Mês e Ano; setas de navegação removidas. Conferido em Receita e Despesa, com alteração de mês/ano e seleção de dia no Chrome. Commit `3acaab2` em azimo-site/main.
 
 > Atualizado em 19/10/2026. Item 306: no passo Mentalizações do Foco Nível Azimo, seletor de tempo e Começar ficam fixos acima do rodapé enquanto o texto rola separadamente. Janela ampliada com limite responsivo; mesmo ajuste aplicado a Afirmações. Navegação até passo 5 testada no Chrome, com seletor visível em viewport de 693 px. Commit `45a01d0` em azimo-site/main.
