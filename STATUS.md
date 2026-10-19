@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 19/10/2026. Item 305: corrigido fechamento do Azimo Command que deixava Meu Perfil aninhado e invisível; removido o indicador “Fase 4 de 5 ativa” do cabeçalho e restaurado o botão Comando. Navegação Meu Perfil e Estratégia → Comando testada no Chrome em produção; commit `567a3dc` em azimo-site/main.
+
 > Atualizado em 18/10/2026. Item 304: largura dos cards do Azimo Command corrigida após feedback visual. Área principal e abas Estratégia/Assinantes limitadas a 1560 px, com margens e padding responsivos. Verificado no Chrome em 2048 px e 390 px sem rolagem horizontal; commit `226b315` em azimo-site/main.
 
 > Atualizado em 19/10/2026. Item 303: Azimo Command refinado. Removidos aviso antigo de D+13 e aba vazia Produto & Vio; ICP individualizado; Projeções Financeiras separadas do estudo histórico; tópicos de mercado, aquisição, retenção e crescimento migrados para o Comando; Histórico abaixo das Fases; cards do Comando e da Estratégia recolhidos inicialmente; entrada no Command restaura grade de quatro indicadores. Assinantes e Feedbacks preservados. Publicado em azimo-site/main no commit `13dfe4d`. Sintaxe dos 12 scripts inline e balanço estrutural de tags verificados; navegação visual em produção confirmada no Chrome: Comando, Estratégia, ICP e Assinantes/Feedbacks.
