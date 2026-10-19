@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 19/10/2026. Item 307: calendário compartilhado de seleção de data simplificado com caixas separadas de Mês e Ano; setas de navegação removidas. Conferido em Receita e Despesa, com alteração de mês/ano e seleção de dia no Chrome. Commit `3acaab2` em azimo-site/main.
+
 > Atualizado em 19/10/2026. Item 306: no passo Mentalizações do Foco Nível Azimo, seletor de tempo e Começar ficam fixos acima do rodapé enquanto o texto rola separadamente. Janela ampliada com limite responsivo; mesmo ajuste aplicado a Afirmações. Navegação até passo 5 testada no Chrome, com seletor visível em viewport de 693 px. Commit `45a01d0` em azimo-site/main.
 
 > Atualizado em 19/10/2026. Item 305: corrigido fechamento do Azimo Command que deixava Meu Perfil aninhado e invisível; removido o indicador “Fase 4 de 5 ativa” do cabeçalho e restaurado o botão Comando. Navegação Meu Perfil e Estratégia → Comando testada no Chrome em produção; commit `567a3dc` em azimo-site/main.
