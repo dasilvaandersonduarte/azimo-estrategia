@@ -9535,3 +9535,11 @@ Seletor de duração de Afirmações e Mentalizações separado da área de leit
 ## Item 307 | Calendário com mês e ano separados | 19/10/2026
 
 Removidos os quatro botões de navegação por mês/ano no calendário compartilhado (`data-az-date`). Cabeçalho agora possui dois seletores rotulados, Mês e Ano. Grade de dias, limites de data, Hoje e Limpar preservados. Verificado no Chrome em Nova Receita e Nova Despesa; seleção de fevereiro de 2027 e dia 15 refletiu no campo da Receita sem salvar lançamento. Publicado em azimo-site/main, commit `3acaab2f3deabcc37f06478fe7c15f7ebcd8e9b7`.
+
+### Item 308 — Confirmações visuais Azimo e edição da tarefa antes de salvar (19/10/2026)
+
+- Solicitação: substituir avisos verdes de confirmação no chat e canto inferior direito pelo padrão visual Azimo. Na ação `criar_tarefa` do Vio, permitir corrigir nome, data e horário antes de confirmar, sem exigir edição posterior na Agenda.
+- Implementação: toast padrão global recebeu fundo índigo e borda/luz da marca; confirmações inline do Vio usam componente de sucesso índigo com ícone SVG. A prévia da tarefa apresenta lápis e botão Editar; formulário reaproveita o seletor de data oficial e atualiza a prévia e o objeto pendente antes de gravar. Cancelar edição mantém os dados anteriores. Ao confirmar, o editor é removido e a tarefa é gravada conforme a prévia.
+- Escopo: nenhuma alteração à lógica de agendamento, persistência ou outros cards. Estados financeiros que usam verde como informação não foram convertidos em notificação.
+- Verificação: compilação sintática de 12 scripts inline sem erro; inspeção do fluxo e das classes CSS. Pendente conferência visual e funcional na publicação ao vivo.
+- Código publicado em `azimo-site/main`, commit `17e3f50ee53f866043f68c2dba4df92fae936619`.
