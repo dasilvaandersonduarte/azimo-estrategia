@@ -9508,3 +9508,10 @@ Observação anexada pelo Anderson: pediu verificação explícita de como o sal
 
 
 **Complemento de validação do item 302:** push diário também foi confirmado no Worker agendado e recebeu check na Fase 5, totalizando seis dos onze marcos principais. A nota inicial do Comando foi corrigida para refletir a localização atual da Curadoria. Navegação no Chrome logado confirmou Estratégia em duas colunas de cerca de 625 px no desktop e Assinantes com Feedbacks na mesma aba; a lista de convites revogados não apareceu após recarregar. Commit complementar `2fc42761247fce6a1ac221150e3b60b6dd71344f` em azimo-site/main. Não houve teste de geração de convite nem alteração de dados de usuário.
+
+
+## Item 303 | Refinamento da organização do Azimo Command | 19/10/2026
+
+**Entregue:** removida mensagem obsoleta de D+13 na Jornada; ICP com blocos separados de Comportamento e Canal de entrada; Projeções Financeiras separadas do Estudo Histórico; tópicos Mercado & Concorrência, Landing Page, Aquisição, Retenção e Roadmap de Crescimento realocados para Comando junto aos checklists; removida aba vazia Produto & Vio, com Infraestrutura e Planos preservados no Comando; removido botão Comando do cabeçalho; Histórico posicionado imediatamente abaixo das Fases; cards principais do Comando e da Estratégia recolhidos inicialmente, com controle acessível de abrir/fechar; grade dos quatro indicadores restabelecida na navegação. Assinantes e Feedbacks preservados.
+
+**Verificação:** 12 scripts inline compilados; contagem de `div` e `details` equilibrada; navegação visual em produção ainda não verificada. Site publicado no commit `13dfe4dfba4a174ace87bb3370ce0be12c821f96` em azimo-site/main.
