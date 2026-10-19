@@ -9525,3 +9525,8 @@ Corrigido o contêiner e limitada a largura dos painéis do Comando, Estratégia
 ## Item 305 | Meu Perfil e retorno ao Comando | 19/10/2026
 
 Corrigida a estrutura HTML da tela Azimo Command: um fechamento ausente mantinha Meu Perfil dentro dela, bloqueando a visualização. Indicador de fase removido do cabeçalho e botão Comando restaurado para voltar ao panorama geral. Verificado no Chrome em produção: Meu Perfil abre e Estratégia → Comando exibe novamente a grade de quatro indicadores. Sintaxe de scripts e balanço de `div` verificados. Site publicado em azimo-site/main, commit `567a3dcabf5087da7b9302efeae503c4dedffa00`.
+
+
+## Item 306 | Tempo de leitura visível no Foco Nível Azimo | 19/10/2026
+
+Seletor de duração de Afirmações e Mentalizações separado da área de leitura rolável, permanecendo visível acima do rodapé. Janela ampliada responsivamente até 820 px e controles do tempo com tamanho maior. O botão Concluir mantém sua função; a contagem continua opcional. Verificado no Chrome no passo 5 de 5, com viewport 1385 × 693 px: seletor entre y=498 e 594, ações do rodapé em y=610–636, ambos visíveis sem rolar. Site publicado em azimo-site/main, commit `45a01d0a6a06bcfb487962409dfa361e60cf38e8`.
