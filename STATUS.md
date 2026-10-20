@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 19/10/2026. Item 309: lembretes da Agenda com quantidade e unidade (minuto, hora, dia, semana, mês, ano) e convites beta com nome do destinatário. Interface em PR rascunho #1 (`azimo-site`, branch `ajuste-lembretes-convites-309`), ainda não publicada; Worker alterado em `azimo-worker/main` commit `5f591f1`, mas ainda requer deploy. Migração `beta_convites_destinatario.sql` criada em `azimo-estrategia`; ainda requer execução no Supabase. Não gerar novos acessos até completar a implantação e validar a listagem.
+
 > Atualizado em 19/10/2026. Item 308: confirmações de sucesso do Vio passam ao padrão índigo Azimo no chat e nos avisos flutuantes. Prévia de tarefa no Vio permite editar nome, data e horário antes de adicionar à Agenda. Código validado sintaticamente; publicação iniciada em azimo-site/main, commit `17e3f50`.
 
 > Atualizado em 19/10/2026. Item 307: calendário compartilhado de seleção de data simplificado com caixas separadas de Mês e Ano; setas de navegação removidas. Conferido em Receita e Despesa, com alteração de mês/ano e seleção de dia no Chrome. Commit `3acaab2` em azimo-site/main.
