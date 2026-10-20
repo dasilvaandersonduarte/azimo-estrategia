@@ -9554,3 +9554,10 @@ Implementação preparada: nos formulários de Nova Tarefa e edição, controle 
 Estado de publicação: Worker commit `5f591f18d5cc6d0e9e75fc33c535f686c919aa7d` em main, ainda não implantado em Cloudflare. Site commit `aa21f5a0c11d9011dd6e6447fafa1249a3f56c5b` na branch `ajuste-lembretes-convites-309`, PR rascunho #1, ainda não publicado na produção. SQL ainda precisa execução no Supabase. Ordem necessária: executar SQL, implantar Worker, então publicar site/main. Não gerar convite novo no fluxo antigo esperando identificação.
 
 Verificação executada: compilação de 12 scripts inline e sintaxe do Worker sem erros; funções de cálculo testadas para 3 horas antes, virada de dia, subtração de um mês de 31/03 e um ano de 29/02, além de leitura de lembretes legados e desativados. Faltam teste visual autenticado, disparo push real e resgate de convite após implantação.
+
+
+## Item 310 | Publicação do item 309 | 19/10/2026
+
+O usuário autorizou concluir a implantação. SQL `ALTER TABLE public.azimo_beta_invites ADD COLUMN IF NOT EXISTS destinatario_nome text;` executado no SQL Editor do projeto Azimo no Supabase com resultado `Success. No rows returned`. Código de `azimo-worker` commit `5f591f1` implantado pela Cloudflare, versão `060129e5` exibida como ativa. PR #1 de `azimo-site` mesclado em main, merge commit `8d3fc06feaf88211cb325be8dad02d0b3d0525d0`; Vercel publicou a interface.
+
+Validação: site ao vivo carrega as seis unidades de antecedência; Nova Tarefa aceitou seleção visual `3 Horas antes`, depois cancelada sem criar tarefa. Azimo Command mostra campo obrigatório de nome antes de criar acesso; formulário inspecionado sem gerar código de teste. A listagem existente carregou sem erro. Não houve teste de envio de push no horário futuro nem resgate com usuário novo; verificar com uso real e registrar feedback.
