@@ -9561,3 +9561,12 @@ Verificação executada: compilação de 12 scripts inline e sintaxe do Worker s
 O usuário autorizou concluir a implantação. SQL `ALTER TABLE public.azimo_beta_invites ADD COLUMN IF NOT EXISTS destinatario_nome text;` executado no SQL Editor do projeto Azimo no Supabase com resultado `Success. No rows returned`. Código de `azimo-worker` commit `5f591f1` implantado pela Cloudflare, versão `060129e5` exibida como ativa. PR #1 de `azimo-site` mesclado em main, merge commit `8d3fc06feaf88211cb325be8dad02d0b3d0525d0`; Vercel publicou a interface.
 
 Validação: site ao vivo carrega as seis unidades de antecedência; Nova Tarefa aceitou seleção visual `3 Horas antes`, depois cancelada sem criar tarefa. Azimo Command mostra campo obrigatório de nome antes de criar acesso; formulário inspecionado sem gerar código de teste. A listagem existente carregou sem erro. Não houve teste de envio de push no horário futuro nem resgate com usuário novo; verificar com uso real e registrar feedback.
+
+
+## Item 311 | Tela inicial mobile e Vio após convite | 20/10/2026
+
+Relato de Priscila: ao entrar no Azimo pelo convite no iPhone, a página apareceu ampliada e cortada, exigindo gesto de pinça. O print mostra o popup proativo do Vio sobre o Dashboard. Diagnóstico: o popup focava automaticamente seu campo de resposta com fonte de 12 px; o Safari pode aplicar zoom ao focar campos com menos de 16 px.
+
+Correção: em telas até 768 px, o popup do Vio não foca automaticamente o campo ao abrir ou reabrir. Seus campos e os campos de chat/login usam 16 px, e o popup respeita a largura da viewport com margem lateral. O comportamento de foco em desktop permanece. Código publicado em `azimo-site/main`, commit `814206496369e1bc62c88fbc0db8b0181122b8bc`.
+
+Verificação: oito scripts inline compilados sem erro; site ao vivo verificado em Chrome responsivo a 390×844 e 320×700 px, com `scrollWidth` igual a `innerWidth`, popup visível e campo sem foco automático. Não houve teste no iPhone/WhatsApp da Priscila; ela deve confirmar a experiência no aparelho.
