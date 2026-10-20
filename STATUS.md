@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 19/10/2026. Item 310: implantação do item 309 concluída. Coluna `destinatario_nome` aplicada no Supabase Azimo via SQL Editor (Success, no rows returned). Worker publicado no Cloudflare como versão ativa `060129e5`; site PR #1 mesclado em `azimo-site/main`, commit `8d3fc06`. Conferidos no site o seletor de 3 horas antes e o formulário de nome antes de gerar acesso. Não foi criado convite de teste nem aguardado disparo real do push; validação ponta a ponta fica para o primeiro convite/tarefa real.
+
 > Atualizado em 19/10/2026. Item 309: lembretes da Agenda com quantidade e unidade (minuto, hora, dia, semana, mês, ano) e convites beta com nome do destinatário. Interface em PR rascunho #1 (`azimo-site`, branch `ajuste-lembretes-convites-309`), ainda não publicada; Worker alterado em `azimo-worker/main` commit `5f591f1`, mas ainda requer deploy. Migração `beta_convites_destinatario.sql` criada em `azimo-estrategia`; ainda requer execução no Supabase. Não gerar novos acessos até completar a implantação e validar a listagem.
 
 > Atualizado em 19/10/2026. Item 308: confirmações de sucesso do Vio passam ao padrão índigo Azimo no chat e nos avisos flutuantes. Prévia de tarefa no Vio permite editar nome, data e horário antes de adicionar à Agenda. Código validado sintaticamente; publicação iniciada em azimo-site/main, commit `17e3f50`.
