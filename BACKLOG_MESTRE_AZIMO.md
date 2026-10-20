@@ -9543,3 +9543,14 @@ Removidos os quatro botões de navegação por mês/ano no calendário compartil
 - Escopo: nenhuma alteração à lógica de agendamento, persistência ou outros cards. Estados financeiros que usam verde como informação não foram convertidos em notificação.
 - Verificação: compilação sintática de 12 scripts inline sem erro; inspeção do fluxo e das classes CSS. Pendente conferência visual e funcional na publicação ao vivo.
 - Código publicado em `azimo-site/main`, commit `17e3f50ee53f866043f68c2dba4df92fae936619`.
+
+
+## Item 309 | Lembretes flexíveis e identificação de convites | 19/10/2026
+
+Solicitação: permitir, ao ativar o lembrete de tarefa, digitar a quantidade e escolher minutos, horas, dias, semanas, meses ou anos antes; exemplo de três horas antes de uma tarefa no dia seguinte. Em Azimo Command, pedir o nome do destinatário antes de gerar acesso e mostrar código, nome e estado de resgate.
+
+Implementação preparada: nos formulários de Nova Tarefa e edição, controle de ativação e par quantidade/unidade (0–99), com compatibilidade dos lembretes existentes. Cálculo de data e horário considera virada de dia, mês/ano e último dia do mês. Varredura local e push do Worker passam a considerar todas as datas de tarefas; push deduplica por tarefa, data, horário e configuração. O Worker exige `destinatario_nome` ao criar convite; a listagem devolve o campo e o site o associa a Pendente/Resgatado e email de resgate. Migração aditiva em `beta_convites_destinatario.sql`, sem preencher nomes de convites antigos.
+
+Estado de publicação: Worker commit `5f591f18d5cc6d0e9e75fc33c535f686c919aa7d` em main, ainda não implantado em Cloudflare. Site commit `aa21f5a0c11d9011dd6e6447fafa1249a3f56c5b` na branch `ajuste-lembretes-convites-309`, PR rascunho #1, ainda não publicado na produção. SQL ainda precisa execução no Supabase. Ordem necessária: executar SQL, implantar Worker, então publicar site/main. Não gerar convite novo no fluxo antigo esperando identificação.
+
+Verificação executada: compilação de 12 scripts inline e sintaxe do Worker sem erros; funções de cálculo testadas para 3 horas antes, virada de dia, subtração de um mês de 31/03 e um ano de 29/02, além de leitura de lembretes legados e desativados. Faltam teste visual autenticado, disparo push real e resgate de convite após implantação.
