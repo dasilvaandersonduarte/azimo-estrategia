@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 21/10/2026. Item 315: resultado financeiro negativo agora exibe sinal de menos, além da cor vermelha, nos resumos realizado e previsto. `azimo-site/main`, commit `71affbb`; validação visual no domínio pendente.
+
 > Atualizado em 21/10/2026. Item 314: sequência ativa conserva os dias completos até ontem enquanto o dia atual está em aberto; botões do Foco guiado centralizados; Salvar Dia bloqueia e atenua painéis da Rotina, Editar Dia reabre; análise do Vio agora encerra a espera em até 18 segundos e mostra falha clara. Resultado do Mês (Realizado) distinguido do saldo acumulado das Contas. Site em `azimo-site/main`, commit `093ee1a`; sete scripts inline compilaram. Inspeção da versão publicada e teste real do Vio ainda pendentes.
 
 > Atualizado em 20/10/2026. Item 313: eliminada corrida entre tour geral e tour da tela. O tour da tela aguardará a conclusão do tour de boas-vindas. Site publicado em `azimo-site/main`, commit `7e02dad`; no Chrome responsivo a 390 px, tour geral visível sem sobreposição, `scrollWidth` igual a 390 px e botão Pular funcional. Estado do tour de teste encerrado.
