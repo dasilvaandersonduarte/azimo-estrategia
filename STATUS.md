@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 21/10/2026. Item 317: após correção de Anderson, resultado mensal volta a mostrar valor sem sinal negativo, com direção somente por vermelho/verde. Commit `04b755a`, Vercel Production `32JjLBG6` Ready, conferido no domínio. Item 315 fica como histórico da alteração revertida.
+
 > Atualizado em 21/10/2026. Item 316: site publicado manualmente na Vercel (deploy `7shYaDPL`, Ready, commit `71affbb`) porque o push no GitHub não disparou implantação automática. Conferido no domínio: código novo carregado e resultado financeiro de outubro aparece `-R$ 45,08`, previsto `-R$ 1.837,11`. Fluxo real de Salvar Dia/Vio ainda não testado, sem alterar o dia do usuário. Verificar integração automática Vercel/GitHub futuramente.
 
 > Atualizado em 21/10/2026. Item 315: resultado financeiro negativo agora exibe sinal de menos, além da cor vermelha, nos resumos realizado e previsto. `azimo-site/main`, commit `71affbb`; validação visual no domínio pendente.
