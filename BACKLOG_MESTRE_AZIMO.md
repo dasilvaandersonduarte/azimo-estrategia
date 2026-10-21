@@ -9614,3 +9614,10 @@ Após os commits 314 e 315, o domínio continuava servindo `7e02dad`. O painel d
 ## Item 317 | Resultado financeiro mantém direção por cor | 21/10/2026
 
 Anderson corrigiu o item 315: o padrão visual aprovado já indica a direção com vermelho/verde, sem sinal negativo. Foram revertidas apenas as cinco apresentações mensais de resultado realizado/previsto que haviam recebido o sinal, preservando a nomenclatura “Resultado do Mês (Realizado)” e os cálculos. Commit `04b755a5bdd0b8ac18921c3fed9be1e593eb4719` em `azimo-site/main`; sete scripts inline compilaram. Como o deploy automático não ocorreu, publicação manual na Vercel `32JjLBG6zRyEsRiopXYM8cRtnKGT` exibida Ready. Conferido em `www.azimo.life`: receitas R$ 24.358,59, despesas R$ 24.403,67 e resultado R$ 45,08 vermelho, sem sinal.
+
+
+## Item 318 | Ícones da sidebar e alinhamento do resumo financeiro | 21/10/2026
+
+Rotina Diária passa a usar ícone SVG de calendário e Finanças, cifrão SVG, preservando o comportamento da sidebar. Na Visão Geral de Finanças, Resultado do Mês e Saldo do Mês passam a dispor respectivamente (Realizado) e (Previsto) em uma segunda linha, com o valor na terceira. O Resumo Financeiro do Dashboard adota a mesma disposição no card conjunto, mantendo receitas e despesas e a direção dos valores por cor, sem sinal negativo. Nenhuma fórmula, lançamento ou dado do usuário foi alterado.
+
+`azimo-site/main` commit `ddb3c353b0f7d8c61f45effc407ae6e10815fd6b`. Sete scripts inline compilados. Deploy manual de Production `CXfMBtQAnL7FYY94qWadbYUZV18V` na Vercel exibido Ready. No domínio autenticado foram conferidos os dois SVGs e as três linhas dos rótulos e valores nas duas áreas; a conferência visual responsiva completa permanece a validar.
