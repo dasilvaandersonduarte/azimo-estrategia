@@ -9599,3 +9599,8 @@ No site, a sequência agora conserva os dias completos até ontem enquanto hoje 
 Diagnóstico financeiro: R$ 24.358,59 de receitas do mês menos R$ 24.403,67 de despesas marcadas pagas resulta em R$ -45,08. Já R$ 18,08 vem da soma de saldos conferidos das quatro contas, ajustados por lançamentos vinculados a elas após a data de conferência. A diferença não comprova, por si só, lançamento duplicado; bases e datas são diferentes. Para conciliação linha a linha seriam necessários os lançamentos e os saldos-base do usuário.
 
 Site publicado em `azimo-site/main`, commit `093ee1a289ab8e37cb7cf61e935ec10fe79ae467`. Sete scripts inline compilados sem erro. Validação visual em produção, resposta real do Vio e comportamento no estado da conta autenticada ainda a conferir após propagação do Vercel; não alterar dados financeiros reais para testar.
+
+
+## Item 315 | Sinal explícito no resultado financeiro | 21/10/2026
+
+Na investigação do item 314, foi identificado que `_finFmt` usava valor absoluto; resultados mensais negativos apareciam apenas em vermelho, sem sinal de menos. A apresentação de resultado realizado e previsto agora usa o formatador com sinal, inclusive na Visão Geral e resumo financeiro. Valores de receitas, despesas, lançamentos e saldos de conta não foram modificados. Site `azimo-site/main`, commit `71affbbf8a0d1d6246339c8377800f8e8ab59dc5`. Sete scripts inline compilados sem erro; publicação visual no domínio ainda não confirmada.
