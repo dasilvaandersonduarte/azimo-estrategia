@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Corrigido em 21/10/2026 após feedback do usuário: a implantação automática tardia do commit antigo `093ee1a` substituiu o item 318 no domínio. Na Vercel, a implantação exata `CXfMBtQAnL7FYY94qWadbYUZV18V` do commit `ddb3c353` foi promovida para Production. Painel aponta esse commit e `www.azimo.life` recarregado exibe os dois novos SVGs e os rótulos em três linhas. Monitorar/fixar a ordem das implantações automáticas para evitar recorrência.
+
 > Atualizado em 21/10/2026. Item 318: sidebar com calendário para Rotina Diária e cifrão para Finanças; títulos e estados em linhas separadas no par Resultado do Mês (Realizado) / Saldo do Mês (Previsto), tanto na Visão Geral quanto no Resumo Financeiro do Dashboard. Commit `ddb3c353`, Vercel Production `CXfMBtQA` Ready. Conferido no domínio autenticado: ícones SVG, rótulos e valores; scripts inline compilados. Sem mudança de cálculos ou dados.
 
 > Atualizado em 21/10/2026. Item 317: após correção de Anderson, resultado mensal volta a mostrar valor sem sinal negativo, com direção somente por vermelho/verde. Commit `04b755a`, Vercel Production `32JjLBG6` Ready, conferido no domínio. Item 315 fica como histórico da alteração revertida.
