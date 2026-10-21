@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 21/10/2026. Item 318: sidebar com calendário para Rotina Diária e cifrão para Finanças; títulos e estados em linhas separadas no par Resultado do Mês (Realizado) / Saldo do Mês (Previsto), tanto na Visão Geral quanto no Resumo Financeiro do Dashboard. Commit `ddb3c353`, Vercel Production `CXfMBtQA` Ready. Conferido no domínio autenticado: ícones SVG, rótulos e valores; scripts inline compilados. Sem mudança de cálculos ou dados.
+
 > Atualizado em 21/10/2026. Item 317: após correção de Anderson, resultado mensal volta a mostrar valor sem sinal negativo, com direção somente por vermelho/verde. Commit `04b755a`, Vercel Production `32JjLBG6` Ready, conferido no domínio. Item 315 fica como histórico da alteração revertida.
 
 > Atualizado em 21/10/2026. Item 316: site publicado manualmente na Vercel (deploy `7shYaDPL`, Ready, commit `71affbb`) porque o push no GitHub não disparou implantação automática. Conferido no domínio: código novo carregado e resultado financeiro de outubro aparece `-R$ 45,08`, previsto `-R$ 1.837,11`. Fluxo real de Salvar Dia/Vio ainda não testado, sem alterar o dia do usuário. Verificar integração automática Vercel/GitHub futuramente.
