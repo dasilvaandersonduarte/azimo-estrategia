@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 21/10/2026. Item 320: Command unificou Checklists, Histórico e Direcionamento Estratégico em um card com as duas últimas seções recolhíveis; demais cards mantidos. Site commit `56333d1`, conferido no domínio autenticado: composição e expansão funcionam, sem rolagem horizontal no desktop. Sem mudança de dados.
+
 > Atualizado em 21/10/2026. Item 319: Azimo Command usa setas SVG no recolher/expandir, Fase Atual aberta por padrão, Estratégia totalmente aberta e Histórico alinhado ao mesmo padrão. Margens internas ampliadas em Fase Atual e Planos. Assinantes exibem nome do convite resgatado, plano Acesso Gratuito, data do resgate e última sincronização; nome do administrador vem do perfil. Site `azimo-site/main` commits `17ec083` e `1689cca`, Vercel Production `Bdv2nL7B` Ready e domínio conferido. Nenhum novo convite foi resgatado em teste.
 
 > Corrigido em 21/10/2026 após feedback do usuário: a implantação automática tardia do commit antigo `093ee1a` substituiu o item 318 no domínio. Na Vercel, a implantação exata `CXfMBtQAnL7FYY94qWadbYUZV18V` do commit `ddb3c353` foi promovida para Production. Painel aponta esse commit e `www.azimo.life` recarregado exibe os dois novos SVGs e os rótulos em três linhas. Monitorar/fixar a ordem das implantações automáticas para evitar recorrência.
