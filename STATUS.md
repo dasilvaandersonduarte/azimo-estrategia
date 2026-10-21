@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> Atualizado em 21/10/2026. Item 322: corrigida a ausência de fechamento do contêiner Comando que ocultava Estratégia e Assinantes; abas testadas no domínio autenticado. Produto ao vivo/infraestrutura, rotinas, curadoria do Vio e planos agora são quatro seções ordenadas de um único card. Rotinas explicitam backup GitHub Actions/Drive, ausência de health check automático e de restore testado, e conferência obrigatória do deploy. Site `azimo-site/main` commit `987a84b`; oito scripts compilaram, visual desktop sem rolagem horizontal.
+
 > Atualizado em 21/10/2026. Item 321: correção da organização do Command após feedback. As entregas históricas relevantes foram distribuídas entre as fases 1–5; ações estratégicas futuras foram relacionadas à fase 5 como propostas para avaliação. Os blocos Histórico e Direcionamento deixaram de existir. Produto ao Vivo, Curadoria do Vio e Rotinas Operacionais formam um card; Planos segue independente. Site commits `dcab6e8` e `65eb70d`. O primeiro commit foi conferido no domínio autenticado: fases 4/5, card operacional e ausência de rolagem horizontal a 1385 px; ajuste final de data/limpeza de CSS passou em sintaxe, propagação do último commit pendente.
 
 > Atualizado em 21/10/2026. Item 320: Command unificou Checklists, Histórico e Direcionamento Estratégico em um card com as duas últimas seções recolhíveis; demais cards mantidos. Site commit `56333d1`, conferido no domínio autenticado: composição e expansão funcionam, sem rolagem horizontal no desktop. Sem mudança de dados.
