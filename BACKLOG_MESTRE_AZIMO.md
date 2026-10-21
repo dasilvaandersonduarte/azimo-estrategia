@@ -9604,3 +9604,8 @@ Site publicado em `azimo-site/main`, commit `093ee1a289ab8e37cb7cf61e935ec10fe79
 ## Item 315 | Sinal explícito no resultado financeiro | 21/10/2026
 
 Na investigação do item 314, foi identificado que `_finFmt` usava valor absoluto; resultados mensais negativos apareciam apenas em vermelho, sem sinal de menos. A apresentação de resultado realizado e previsto agora usa o formatador com sinal, inclusive na Visão Geral e resumo financeiro. Valores de receitas, despesas, lançamentos e saldos de conta não foram modificados. Site `azimo-site/main`, commit `71affbbf8a0d1d6246339c8377800f8e8ab59dc5`. Sete scripts inline compilados sem erro; publicação visual no domínio ainda não confirmada.
+
+
+## Item 316 | Publicação manual e conferência de Finanças | 21/10/2026
+
+Após os commits 314 e 315, o domínio continuava servindo `7e02dad`. O painel da Vercel confirmou que não havia deploy automático novo. Foi criado um deploy de Production a partir do commit atual `71affbb` na branch `main`; implantação `7shYaDPLguLMVvxDn56RNAfmkKG5` exibida como Ready. O domínio `www.azimo.life` então passou a conter a função Editar Dia e o título “Resultado do Mês (Realizado)”. Na conta autenticada, Outubro/2026 exibiu receitas de R$ 24.358,59, despesas realizadas de R$ 24.403,67, resultado `-R$ 45,08` e previsto `-R$ 1.837,11`, agora com sinais explícitos. Não foi encerrado um dia real para testar a análise remota nem realizada conciliação transação por transação. Investigar a ausência de disparo automático do Vercel em futuros commits.
