@@ -79,6 +79,28 @@
 >
 > Ler integralmente no inicio da sessao tecnica, junto dos ultimos itens do Backlog (daqui pra tras, nao so dos itens antigos abaixo nesta secao). O historico operacional permanente esta no [BACKLOG_MESTRE_AZIMO.md](BACKLOG_MESTRE_AZIMO.md); responsabilidades e precedencia documental estao no [_INDICE_DOCUMENTOS.md](_INDICE_DOCUMENTOS.md).
 
+## 0. Protocolo de Handoff (permanente -- leia isto ANTES do bloco "Handoff ativo" abaixo)
+
+> Esta seção não muda a cada sessão. É a regra fixa dos dois lados do handoff, criada em 21/10/2026 depois de dois incidentes seguidos: handoff do GPT que não chegou no Git (texto colado no chat, nunca commitado) e exposição de um token do GitHub em output de comando. Guarde o link desta seção; ela existe pra isso nunca mais se repetir.
+
+**Ao ASSUMIR uma sessão (GPT ou Claude), nesta ordem:**
+1. Rode primeiro `bash "/Users/andersonduarte/Documents/Azimo/Projeto/Estratégia/verificar_estado.sh"`. Ele faz fetch real dos 3 repositórios (site, estratégia, worker) contra o GitHub e mostra se o que está no Mac bate com o que está publicado -- isso substitui qualquer inspeção manual repetida a cada handoff.
+2. Se algum repositório aparecer `[DIVERGENTE]`, resolva isso primeiro (normalmente `git merge --ff-only origin/main`) antes de começar trabalho novo.
+3. Só depois leia o bloco "Handoff ativo" abaixo como ponto de partida -- ele é confiável na medida em que o passo 1 confirmou que bate com o Git, nunca por si só.
+
+**Ao FECHAR uma sessão (handoff), nesta ordem:**
+1. Commitar e dar push em TODOS os repositórios tocados (site, estratégia, worker) -- nunca deixar trabalho só local.
+2. Atualizar o bloco "0. Handoff ativo" abaixo com: data, o que foi feito, o que foi validado de verdade (visual/ao vivo) versus só validado por sintaxe ou estrutura, riscos e pendências, decisões pro próximo agente.
+3. Commitar e dar push dessa própria atualização do STATUS.md em `azimo-estrategia`. Isso é obrigatório, não opcional: **um handoff que existe só como texto colado no chat, e não commitado no Git, não conta como handoff** -- o próximo agente não tem garantia de ver esse texto, e o Anderson não deveria precisar ser a ponte entre os dois agentes.
+4. Só depois disso, avisar o Anderson que o handoff foi feito.
+
+**Autenticação Git (não precisa mais gerar token novo a cada troca de agente):**
+Os 3 repositórios (`azimo-site`, `azimo-estrategia`, `azimo-worker`) têm `credential.helper` configurado localmente no Mac do Anderson, apontando pra um script em `/Users/andersonduarte/Documents/_Segredos/git-cred-azimo-<repo>.sh` que lê o token do arquivo certo e entrega pro git internamente, sem nunca aparecer em `git remote -v` nem em nenhum comando digitado. Na prática:
+- NUNCA mais embutir o token na URL do remote (`https://TOKEN@github.com/...`). Foi exatamente esse padrão que causou a exposição do token do `azimo-site` em 21/10, e ele também quebrava `git fetch` nesse git antigo (2.34.1) do Mac.
+- `git fetch` / `git pull` / `git push` simplesmente funcionam, sem nenhum passo manual de token, em qualquer um dos 3 repositórios.
+- Se por algum motivo um clone novo não tiver o helper configurado, rode dentro do repositório: `git config credential.helper "/Users/andersonduarte/Documents/_Segredos/git-cred-azimo-<nome>.sh"` (troque `<nome>` por `site`, `estrategia` ou `worker`).
+- Os tokens são os mesmos de sempre, guardados em `_Segredos/github_<repo>_token.txt`. Não é preciso gerar token novo por causa de handoff -- só gerar (e revogar o antigo) se o Anderson decidir por segurança, por exemplo se um valor for exposto de novo em algum output.
+
 ## 0. Handoff ativo
 
 > Coordenacao entre agentes (Claude <-> GPT). O proximo agente deve conferir este bloco, Git e os ultimos itens do Backlog antes de assumir.
