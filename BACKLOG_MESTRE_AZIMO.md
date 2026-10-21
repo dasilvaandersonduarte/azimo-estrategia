@@ -9588,3 +9588,14 @@ Publicação: `azimo-worker/main` commit `ba259edbf2572a0342c75e62677d354816c176
 Na conferência do item 312, o tour geral e o tour específico do Dashboard apareceram ao mesmo tempo. O tour da tela possuía camada acima do botão Pular do tour geral, impedindo o toque. A proteção existente checava somente se o overlay já estava aberto ao agendar o tour da tela, mas ele ainda não havia aparecido naquele intervalo.
 
 Correção: `_verificarTourTela` e `_iniciarTourSpotlight` aguardam `STATE.onboardingDone` e verificam o overlay antes de iniciar o tour específico. Publicado em `azimo-site/main`, commit `7e02dad419cd3a13b9b4f1d1d462ab6c81064602`. Verificado em `www.azimo.life` com viewport 390×844: tour geral aberto, spotlight ausente, largura da página 390 px; botão Pular fechou o overlay. O teste usou a conta de Anderson e foi encerrado.
+
+
+## Item 314 | Sequência, fechamento do dia e clareza financeira | 21/10/2026
+
+Relato de Anderson com cinco prints: botões do Foco guiado desalinhados; briefing reconhecia dois dias de hábitos até ontem, mas indicador de sequência mostrava zero; análise do Vio permanecia em “Analisando seu dia...”; depois de Salvar Dia, os painéis da Rotina deveriam ficar bloqueados e atenuados até Editar Dia; saldo de Contas (R$ 18,08) divergia do resultado mensal realizado (R$ -45,08).
+
+No site, a sequência agora conserva os dias completos até ontem enquanto hoje ainda está em aberto, sem inventar um hábito para hoje; o briefing mantém a expressão “Até ontem”. Os botões do rodapé e tempo de leitura do Foco guiado recebem alinhamento central. Salvar Dia persiste o encerramento, bloqueia os oito painéis de registro por `inert`, atenua a visualização e muda para Editar Dia; a edição explícita reabre os painéis e devolve Salvar Dia. Análise do Vio tem limite de 18 segundos, trata resposta vazia e grava aviso de indisponibilidade se falhar, evitando espera sem fim. Em Finanças, o indicador foi nomeado “Resultado do Mês (Realizado)” para distingui-lo do saldo acumulado das Contas.
+
+Diagnóstico financeiro: R$ 24.358,59 de receitas do mês menos R$ 24.403,67 de despesas marcadas pagas resulta em R$ -45,08. Já R$ 18,08 vem da soma de saldos conferidos das quatro contas, ajustados por lançamentos vinculados a elas após a data de conferência. A diferença não comprova, por si só, lançamento duplicado; bases e datas são diferentes. Para conciliação linha a linha seriam necessários os lançamentos e os saldos-base do usuário.
+
+Site publicado em `azimo-site/main`, commit `093ee1a289ab8e37cb7cf61e935ec10fe79ae467`. Sete scripts inline compilados sem erro. Validação visual em produção, resposta real do Vio e comportamento no estado da conta autenticada ainda a conferir após propagação do Vercel; não alterar dados financeiros reais para testar.
