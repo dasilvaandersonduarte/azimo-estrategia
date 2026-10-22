@@ -9669,3 +9669,13 @@ Implementado: (1) `credential.helper` configurado localmente nos 3 repositórios
 Validação: fetch e push testados com sucesso nos 3 repositórios via credential helper, sem nenhum passo manual de token; `verificar_estado.sh` executado e confirmado detectando corretamente tanto o estado limpo quanto um arquivo não commitado (ele mesmo, antes do commit). Não há mudança de código do produto Azimo neste item -- é infraestrutura de processo e segurança entre agentes.
 
 **Publicação:** azimo-estrategia, commit `0cc4591`, push direto confirmado.
+
+## Item 324 | Verificação visual ao vivo do Command e fechamento da reconciliação 302-322 | 22/10/2026
+
+Anderson pediu verificar antes de seguir para próxima frente. Completando a reconciliação do handoff do GPT (item 323), fiz a inspeção visual ao vivo que ainda estava pendente: Azimo Command aberto em produção (azimo.life, autenticado, via Claude in Chrome). As três abas (Comando, Estratégia, Assinantes e Feedbacks) renderizam conteúdo completo ao clicar -- confirma na prática o fix do item 322 (fechamento de `cmd-tab-estado`), não só por grep como antes. O card unificado de infraestrutura/rotinas/curadoria/planos (itens 320-322) expande e mostra as quatro seções internas. Nenhum erro de JavaScript capturado durante a navegação.
+
+Testado também em viewport mobile real (390x844, janela própria, não emulação de DevTools): drawer mobile, as três abas do Command e o card unificado, todos sem rolagem horizontal (`document.documentElement.scrollWidth === window.innerWidth` conferido em cada etapa). Essa responsividade mobile era um risco explicitamente pendente desde o handoff do GPT (item 322) e desde a reconciliação (item 323); agora está verificada e marcada como resolvida no STATUS.md.
+
+Não houve mudança de código do produto neste item -- é validação. O restante do período 305-319 segue conferido apenas por grep/validate.py, não por inspeção visual individual.
+
+**Publicação:** nenhuma (validação); atualização registrada em STATUS.md, azimo-estrategia.
