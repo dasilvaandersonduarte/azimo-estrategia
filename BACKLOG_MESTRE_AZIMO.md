@@ -9736,3 +9736,19 @@ Documento é explícito: "Nenhuma alteração foi executada neste registro" -- e
 **Pendências que dependem de ação do próprio Anderson (Modo Desafio):**
 - Ponto 1: card de Créditos da API só pode mostrar uso/custo histórico (nunca um "saldo"), e só depois que ele gerar uma chave de Admin API (`sk-ant-admin01-...`) no Console da Anthropic e me passar. Sem isso, não tem integração possível.
 - Ponto 5: o Payment Link do e-mail D+13 do fallback (`LINK_MENSAL`/`LINK_ANUAL`) não foi tocado -- não sei se esses links ainda cobram o preço antigo ou já foram atualizados no Stripe, e regenerar link de pagamento é decisão dele, não minha. Se ele confirmar que esse fallback está mesmo morto (não é mais acionado em nenhum cenário real), a opção mais simples é remover o trecho do D+13 do código no lugar de corrigi-lo.
+
+## Item 328 | Card de Crédito API alinhado à decisão de usar custo via Admin API | 22/10/2026
+
+**Pedido:** Anderson enviou print do Console da Anthropic (Gastos > Cobrança e pagamentos) mostrando "Saldo de créditos: $17.50", contestando minha afirmação de que não existe saldo em lugar nenhum, e pediu: "Remove e vamos fazer esse alinhamento para já termos o valor sempre atualizado ali."
+
+**Investigação:** antes de recuar da posição anterior, verifiquei de forma direta, não só por inferência: o endpoint óbvio (`GET /v1/organizations/balance`) retorna 404 -- confirmado, não suposto. Esse saldo só existe na interface web do Console (console.anthropic.com), renderizado pelo backend interno de faturamento da Anthropic a partir da sessão logada do Anderson; não existe nenhuma API documentada, pública ou de Admin, que devolva saldo restante hoje. Há inclusive um pedido de feature aberto no repositório público da Anthropic pedindo exatamente isso, ainda não implementado. A única coisa que uma chave de Admin API permite é consultar custo/uso histórico (`cost_report`), nunca saldo restante.
+
+Apresentei 3 caminhos pra Anderson: (1) remover o card de vez e ele conferir direto no Console; (2) trocar por "custo consumido no período" via Admin API (recomendado, fica automático e confiável); (3) aproximar um saldo manualmente (comprado menos gasto), que exige ele me avisar toda vez que comprar crédito e desatualiza sozinho se ele esquecer. Anderson confirmou ("Pode ser") a opção 2.
+
+**Implementado:** card "Crédito API" do Command renomeado para "Custo API"; texto trocado de "Não Integrado / Saldo não consultado no provedor" para "Aguardando Chave Admin / Saldo não existe via API; vai mostrar custo do período quando a chave de Admin API chegar"; tooltip adicionado explicando o motivo técnico. A integração de fato (chamada real à Usage/Cost API da Anthropic a partir do Worker) continua bloqueada até Anderson gerar e enviar a chave de Admin API (`sk-ant-admin01-...`) no Console.
+
+**Validação:** `validate.py` passou limpo antes do commit.
+
+**Publicação:** azimo-site, commit `401c762`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+**Pendência:** aguardando Anderson gerar a chave de Admin API para implementar a chamada real ao `cost_report` e substituir o texto "Aguardando Chave Admin" por um número de custo de verdade.
