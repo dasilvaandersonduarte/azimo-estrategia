@@ -9696,3 +9696,17 @@ Não houve mudança de código do produto neste item -- é validação. O restan
 **Publicação:** azimo-site, commit `8bafe5a`, push direto confirmado (Vercel auto-deploy).
 
 **Pendência:** validação end-to-end do pop-up e do botão "Ver Minha Análise" só é possível no próximo domingo real (semana 43, por volta de 25-26/10), quando a condição `posicao===7` ocorrer de fato.
+
+## Item 326 | Review ao vivo do Azimo Command -- recebido (22/10/2026)
+
+**STATUS: RECEBIDO.** Anderson enviou documento estruturado "AZIMO | REVIEW AO VIVO | AZIMO COMMAND" com 7 pontos, de risco bem diferente entre si:
+
+1. Créditos da API não integrados ("saldo não consultado no provedor") -- possível bug/integração, mas pode esbarrar na pendência já conhecida desde o item 302 (Worker usa chave de inferência Anthropic, não uma chave de Admin API capaz de consultar saldo).
+2. Padronização de capitalização dos títulos do Command (Title Case) -- ajuste textual puro, baixo risco.
+3. Conferir se Rotinas Operacionais reflete o que é feito de verdade hoje -- auditoria contra a realidade, sem risco de dado, mas exige investigação cuidadosa pra não registrar algo errado.
+4. Produto ao Vivo e Infraestrutura: separar claramente o que é gratuito do que tem custo, completar o que estiver faltando -- mesmo risco do item 3.
+5. Estratégia: revisar a Sequência de Onboarding contra o que está implementado de verdade.
+6. Estratégia: revisar o Tour do Usuário (ficou desatualizado com as novas funcionalidades) e checar se já está no checklist da fase de testes; se não estiver, registrar a pendência.
+7. Assinantes e Feedback: aprovado por Anderson nesta rodada; ele mesmo vai testar liberação de acesso pra Priscila antes de prosseguir -- nenhuma ação meu lado aqui agora.
+
+Documento é explícito: "Nenhuma alteração foi executada neste registro" -- este item 326 documenta o recebimento antes de qualquer execução. Vou auditar o código/Worker pra os pontos 1, 3 e 4 (fato vs. estimativa, Modo Desafio), implementar o ajuste textual do ponto 2, revisar e atualizar o conteúdo dos pontos 5 e 6 contra o estado real do produto, e deixar o ponto 7 só registrado (ação do próprio Anderson).
