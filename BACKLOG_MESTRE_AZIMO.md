@@ -9986,3 +9986,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
 
 **Publicação:** azimo-site, commit `00b13a4`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 344 | Destaque "neon" também aparece depois de editar um lançamento, não só ao criar | 23/10/2026
+
+**Pedido:** "quando a gente cria um novo lançamento, ele vai até o lançamento e dá um pop-upzinho de neon no lançamento. Eu quero que quando a gente termine de editar, também aconteça a mesma coisa, pra gente verificar o lançamento se deu tudo certo."
+
+**Implementado (`azimo-site/index.html`):** o fim do ramo de EDIÇÃO em `salvarFinTransacao` ganhou exatamente o mesmo comportamento que já existia no ramo de criação (item 172): rola até o card do lançamento editado e aplica `_flashHighlightEl` (destaque visual breve, ~1.4s). Reaproveita a mesma função já existente, sem nenhum código novo de animação.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido. Se o lançamento editado não estiver mais visível na lista atual (ex: mudou de mês), o destaque simplesmente não acontece (a função já tinha essa proteção) -- não quebra nada, só não tem o que destacar.
+
+**Publicação:** azimo-site, commit `9871101`, push direto pra `main` confirmado (Vercel auto-deploy).
