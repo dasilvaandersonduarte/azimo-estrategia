@@ -10024,3 +10024,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido. A migração roda no navegador do próprio Anderson, no próximo carregamento real do Finanças -- não testei disparando ela numa aba nova por aqui, pela mesma precaução já registrada nos itens anteriores (evitar qualquer sincronização de uma aba fora do controle direto com os dados reais).
 
 **Publicação:** azimo-site, commit `e6ca3e6`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 347 | Correção manual de valor/total de parcela sempre propaga pras futuras, sem perguntar o alcance | 23/10/2026
+
+**Pedido:** "nos lançamentos que a gente coloca como parcelado e a correção do valor das parcelas é manual, não altera as futuras. Isso está errado... se botou parcelado e botou o número de parcelas (1/7, 1/10, 1/128), tem que aparecer em todos os meses futuros, independente do que a pessoa colocar ou não."
+
+**Investigação:** a correção manual de valor/total de uma parcela (item 178, dentro da edição de um lançamento já marcado como "Parcelado") já propagava pra origem da série e regenerava os meses futuros -- mas só depois de perguntar "Só esta parcela" ou "Esta e todas as futuras" num diálogo de confirmação. Anderson confirmou que não quer mais essa pergunta: identificar que é 1/N (ou mudar o valor) é uma característica da série inteira, não do mês específico, então deve propagar sempre, sem exceção.
+
+**Implementado (`azimo-site/index.html`):** removido o diálogo de escolha (`azEscolha`) nesse ponto -- a propagação pra origem da série + regeneração dos filhos futuros (mesma mecânica de antes) agora acontece direto, toda vez que o valor ou o total de parcelas muda num lançamento que faz parte de uma série real.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o texto do diálogo antigo ("Mudar o valor e/ou total de...") não existe mais no HTML servido.
+
+**Publicação:** azimo-site, commit `2893ee1`, push direto pra `main` confirmado (Vercel auto-deploy).
