@@ -9881,3 +9881,34 @@ Depois do teste, excluí o controle de teste (302 lançamentos: 240 originais + 
 **Publicação:** azimo-site, commit `ce4b37f`, push direto pra `main` confirmado (Vercel auto-deploy, propagação ~50s).
 
 **Nota (Modo Desafio, pra registro honesto):** o endpoint do Worker (`/fatura-extrair`) também fica sem nenhum chamador no frontend a partir de agora -- não precisa de ação, só fica ocioso (não tem custo nem risco rodar sem ser chamado), mas fica registrado aqui caso em algum momento futuro se queira revisitar essa função com um modelo/prompt mais confiável, em vez de reconstruir do zero.
+
+## Item 337 | Remoção da flag "previsto" das parcelas futuras (planilha) | 24/10/2026
+
+**Pedido:** Anderson perguntou por que alguns lançamentos apareciam com a cor mais apagada no card, e identificou corretamente que eram parcelamentos. Expliquei que era a flag `previsto` (parcela futura gerada automaticamente, que só "acendia" quando confirmada por uma nova importação ou quando o mês vencia) e levantei, por conta própria (Modo Desafio), que essa flag dependia de um fluxo de confirmação que só existia na importação de fatura -- já desativada no item 336. A importação de planilha nunca teve esse fluxo, então toda parcela futura gerada por ela ficaria apagada pra sempre até vencer, sem jeito de confirmar antes. Ofereci 3 caminhos (deixar como está, corrigir os já existentes, ou também construir um botão de confirmar). Anderson escolheu corrigir os existentes e recusou explicitamente o botão de confirmar: "não vamos mais lançar ou importar uma fatura possível... todo lançamento que o usuário fizer diretamente, a gente já leva como realmente um lançamento que ele quis fazer".
+
+**Implementado (`azimo-site/index.html`):** removida a linha `previsto: true` de `_finGerarParcelasPrevistas` -- a função (usada hoje só pela importação de planilha, já que a de fatura foi desativada) passa a gerar as parcelas futuras exatamente como o parcelamento manual sempre gerou: sem a flag, tratadas como reais desde a criação. Consistência total entre os dois fluxos que sobraram (manual e planilha).
+
+**Correção de dados reais:** removida a flag `previsto` dos 86 lançamentos que já existiam com ela (todos no "Bradesco | Infinite", herdados de testes anteriores de fatura/planilha) -- ver item 338 pra como essa correção acabou sendo re-executada, por causa de um incidente que aconteceu no meio do processo.
+
+**Validação:** `validate.py` passou limpo.
+
+**Publicação:** azimo-site, commit `b0bf09b`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 338 | Incidente real: wipe de 654 lançamentos financeiros + rede de segurança nova | 24/10/2026
+
+**O que aconteceu (relato completo, por transparência):** ao verificar se a correção de dados do item 337 (remover `previsto` dos 86 lançamentos) tinha persistido, abri uma aba nova do Azimo pra conferir. Essa aba carregou num navegador Chrome diferente dos dois conectados a esta conta (havia 2 instâncias de Chrome conectadas, e eu não sabia disso até checar) -- com cache local vazio de financas, mas com outros dados preenchidos (nome, perfil, onboarding já visto). Essa aba sincronizou com o Supabase, e o registro `user_state` da conta ficou com **0 transações em financasV2**, onde antes tinha 654 reais, distribuídas em 4 controles (Bradesco | Infinite, Pagamento Prestadoras, Nubank | Platinum, Gastos Avulsos). Confirmei isso direto no banco (consulta real via `sbClient`), não foi suposição.
+
+**Causa raiz:** a proteção que já existia no código (`_isStateEffectivelyEmpty`, criada numa auditoria anterior) só bloqueia um push quando o estado local é **idêntico, byte a byte**, ao esqueleto 100% vazio de conta nova. A aba problemática tinha outros campos preenchidos (nome, perfil, etc.) só que financas zerado -- então o estado dela não batia com o esqueleto puro, a checagem concluiu "não é um estado vazio" e deixou passar o push, mesmo com os lançamentos financeiros zerados. Falha de lógica real, não só erro de operação.
+
+**Recuperação:** Anderson tinha uma aba do Azimo já aberta (sem recarregar) no outro Chrome conectado, com os 654 lançamentos ainda na memória -- confirmei isso por um comando de leitura no console dessa aba antes de qualquer ação. Pedi pra ele rodar `saveState(STATE)` direto nessa aba (primeira tentativa foi `saveState()` sem argumento, que não salva nada de verdade -- erro meu na instrução, corrigido na hora). Confirmei via consulta direta ao Supabase que os 654 lançamentos voltaram, com `previstos:0` (reaplicando o ajuste do item 337 na mesma aba, já que ela ainda tinha os dados corretos).
+
+**Implementado (`azimo-site/index.html`), rede de segurança nova:**
+1. `_remoteFinTxCount`: nova variável que guarda quantos lançamentos financeiros (financasV2 + financasEmpresa) o servidor tinha confirmado na última sincronização bem-sucedida. Default `-1` (desconhecido), mesmo espírito conservador do `_remoteHadRealData` que já existia.
+2. `_finTxCountEstado(s)`: conta lançamentos financeiros de um objeto de estado.
+3. Em `_pushStateSB`, nova checagem logo após a que já existia: se o servidor tinha lançamentos confirmados (`_remoteFinTxCount > 0`) e o push que está prestes a acontecer derrubaria essa quantidade em **50% ou mais**, o push é cancelado (mesmo padrão de aviso no console da proteção anterior, mais um toast visível na tela) em vez de silenciosamente sobrescrever. Limite de 50% escolhido pra pegar exatamente esse tipo de acidente (queda pra perto de zero) sem travar edição/exclusão manual legítima de alguns lançamentos.
+
+**Validação:** `validate.py` passou limpo. Teste ao vivo da recarga normal confirmado (654 lançamentos, 0 previstos, `_remoteFinTxCount` corretamente carregado como 654 nessa sessão). Um teste simulando o push vazio de verdade foi bloqueado pela própria permissão do ambiente de execução (classificado como risco de exclusão em massa) -- não forcei esse teste; a confiança na correção vem de revisão de código cuidadosa, confirmando que o cálculo (654 → bloquear se cair abaixo de 327) cobre exatamente o cenário do incidente real.
+
+**Publicação:** azimo-site, commit `455310a`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+**Nota honesta (Modo Desafio):** esse incidente só não virou perda permanente de dados porque por acaso havia uma aba aberta com o estado correto em memória. Se essa aba não existisse (ou tivesse sido recarregada antes), a recuperação teria dependido de backup/Point-in-Time Recovery do Supabase, que eu não cheguei a precisar usar. A rede de segurança nova (item 338) reduz bastante o risco de isso se repetir, mas não é garantia absoluta -- uma queda real e legítima de mais de 50% dos lançamentos de uma vez (ex: limpeza grande intencional) também ficaria bloqueada, e precisaria ser feita em duas etapas ou com ajuste pontual se isso um dia for necessário de verdade.
