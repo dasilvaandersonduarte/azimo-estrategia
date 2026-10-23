@@ -9976,3 +9976,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que as duas novas chaves de sessionStorage (`azimo_fin_tab`, `azimo_fin_meta_tab`) estão no HTML servido.
 
 **Publicação:** azimo-site, commit `f72cc7b`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 343 | Card do lançamento ganha contorno verde quando confirmado contra a fatura | 23/10/2026
+
+**Pedido:** "quando a gente coloca lá no campo para marcar como eu já confirmei que aquele lançamento está na fatura mesmo, ele fica com o símbolozinho verde no marcado... eu quero que o cardzinho do lançamento fique verde para diferenciar dos demais. Só a bordinha, só o contorno."
+
+**Implementado (`azimo-site/index.html`):** a linha de despesa (`_finDespRowHtml`), quando `confirmadoFatura` está ativo (botão "Confirmado" do item 339, conferência manual contra a fatura real), passa a ter contorno verde completo (`border:1px solid var(--green-text)`, com borda arredondada) em vez de só a linha fina embaixo que toda linha já tem por padrão. Só muda o contorno -- cor de fundo, texto e ícones continuam exatamente iguais aos de uma linha não conferida.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
+
+**Publicação:** azimo-site, commit `00b13a4`, push direto pra `main` confirmado (Vercel auto-deploy).
