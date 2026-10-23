@@ -10075,3 +10075,17 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o texto "Conta (Opcional)" não existe mais no HTML servido, e "Usar a conta principal" está no lugar certo.
 
 **Publicação:** azimo-site, commit `60ae15b`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 351 | Backfill de contaId em branco para a conta principal, em qualquer lançamento (não só em série) | 23/10/2026
+
+**Pedido:** Anderson pediu pra verificar se os lançamentos de Outubro e Novembro estavam corretos (conta principal aplicada, salvo quando outra conta já identificada) e se as parcelas de Novembro já tinham gerado Dezembro. Rodou um script de leitura que pedi no console da própria conta real.
+
+**Resultado da verificação real:** Outubro tinha 102 de 160 lançamentos sem `contaId` (63%); Novembro, 55 de 123 (45%) -- número bem maior do que esperado depois dos itens 340/346/351. Investigando a lista de descrições retornadas (nomes de loja variados: Shopee, Mercado Livre, postos, farmácias etc), a causa ficou clara: a imensa maioria são lançamentos de **importação de planilha feitos antes do item 340 existir**, sem nenhuma série recorrente por trás (sem `recorrenciaId`). O item 346 (propagação de conta/responsável) só alcança lançamentos que fazem parte de uma série recorrente real -- esses eram um a um, soltos, então nunca foram tocados por nenhuma das correções anteriores.
+
+**Implementado (`azimo-site/index.html`):** nova migração `_migrarFinContaPrincipalBackfill()`, chamada a cada carregamento de Finanças (depois da `_migrarFinContaRespRecorrencia`, pra essa rodar primeiro e preencher pelo histórico da série quando existir) -- preenche `contaId` com a conta principal em **qualquer** lançamento, despesa ou receita, com ou sem série, que ainda esteja em branco. Só precisa existir uma conta marcada como principal; sem isso, não mexe em nada (evita assumir um valor errado).
+
+**Sobre as parcelas de Novembro sem Dezembro ainda criado (15 encontradas):** isso NÃO é bug -- é o comportamento desenhado da função `_finGerarRecorrenciasAteAgora`: ela só gera meses até o mês sendo VISTO (ou o mês real de hoje, o que for mais à frente), nunca gera meses além disso de forma preventiva. Como o mês real ainda é Outubro e Dezembro não foi visitado, a parcela de Dezembro simplesmente ainda não foi criada -- vai aparecer sozinha assim que Dezembro for aberto (ou quando o mês real virar Dezembro). Fica registrado aqui como decisão a revisitar com o Anderson: se o ideal é continuar assim (gera sob demanda, evita lotar o banco com meses distantes que ninguém olhou ainda) ou se o sistema deveria gerar alguns meses de margem à frente por padrão, pra garantir que um pagamento futuro nunca fique "invisível" até alguém abrir aquele mês manualmente.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
+
+**Publicação:** azimo-site, commit `3bb0fbc`, push direto pra `main` confirmado (Vercel auto-deploy).
