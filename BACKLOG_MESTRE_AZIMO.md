@@ -10036,3 +10036,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o texto do diálogo antigo ("Mudar o valor e/ou total de...") não existe mais no HTML servido.
 
 **Publicação:** azimo-site, commit `2893ee1`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 348 | Aviso fixo na tela enquanto uma sincronização com o servidor está pendente | 23/10/2026
+
+**Pedido:** "estou tentando excluir um lançamento com recorrência mensal e acho que está demorando porque está excluindo todas as recorrências... quero que a gente tenha um aviso pedindo pra aguardar enquanto a ação está sendo feita, porque senão a gente atualiza a tela e pode dar erro de não apagar... esse aviso tem que ficar até o momento em que o computador estiver realmente liberado."
+
+**Investigação:** confirmei que excluir um único lançamento (`removerFinTransacao`) nunca excluiu as demais ocorrências da recorrência -- é sempre um filtro de um id só, rápido. O risco real é outro, e mais geral: `saveState()` salva local na hora, mas a sincronização com o Supabase é sempre assíncrona (debounce de 800ms + o tempo real da chamada de rede) -- sem nenhum aviso visual disso até agora. Atualizar a página ou navegar durante essa janela pode deixar essa sincronização em andamento nunca completar, e a próxima carga buscar do servidor um estado que ainda não reflete a última alteração -- dando exatamente a impressão de "não apagou" que o Anderson descreveu. Isso não é exclusivo de excluir uma recorrência: vale pra qualquer ação que salve algo no app (Finanças, Tarefas, Hábitos etc), porque todas passam pelo mesmo `saveState()`/`_pushStateSB()`.
+
+**Implementado (`azimo-site/index.html`):** faixa fixa no topo da tela ("Salvando suas alterações... aguarde antes de atualizar a página ou navegar"), visível desde o instante em que `saveState()` roda até o push pro Supabase realmente terminar -- sucesso, erro, ou bloqueado por uma das redes de segurança (itens 338/346) -- qualquer desfecho libera o aviso. Contador monotônico (`_sbSyncToken`) garante que, se vários salvamentos acontecerem em sequência rápida, um push mais antigo que demore mais não esconda o aviso enquanto um push mais novo ainda está pendente.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o elemento novo (`sync-pendente-banner`) está no HTML servido.
+
+**Publicação:** azimo-site, commit `c17535a`, push direto pra `main` confirmado (Vercel auto-deploy).
