@@ -10010,3 +10010,17 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
 
 **Publicação:** azimo-site, commit `1fdd5f1`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 346 | Conta e Responsavel ajustados num mês passam a replicar pros meses seguintes de uma recorrência | 23/10/2026
+
+**Pedido:** "os lançamentos que foram feitos no mês anterior, eles têm que replicar todas as informações... se o lançamento foi ajustado, o responsável, a conta, tudo tem que replicar para os meses seguintes... Estou lançando muitos lançamentos de novembro agora e eles estão sem essas opções marcadas conforme tinham sido ajustadas no mês passado."
+
+**Investigação:** rastreei como a geração automática de meses futuros (recorrência mensal/bimestral/semestral/anual, e parcela corrigida manualmente que se autoprojeta -- itens 176/177) lê os dados: sempre a partir da "origem" da série (o lançamento original, nunca os filhos já gerados). Confirmei que editar Conta ou Responsável num lançamento específico (ex: o de Outubro) nunca propagava essa mudança pra origem -- só atualizava aquele mês, igual os outros campos (valor/total de parcela, nome, tipo de recorrência) já tinham essa lógica de propagação desde os itens 178/255/163, mas Conta e Responsável nunca ganharam o mesmo tratamento. Resultado real: a origem ficava com o valor antigo (ou em branco) pra sempre, e todo mês novo gerado (como Novembro agora) nascia repetindo esse valor antigo/em branco, nunca o ajuste feito depois.
+
+**Implementado (`azimo-site/index.html`), duas partes:**
+1. **Código (daqui pra frente):** editar Conta e/ou Responsável num lançamento que faz parte de uma série recorrente real agora propaga pra origem da série + apaga os filhos futuros já gerados com o padrão antigo (que regeneram certos no próximo carregamento, igual o padrão já usado pros outros campos). Diferente deles, não pergunta o alcance ("só esse mês ou todos") -- não existe caso de uso real de "esse mês usa outra conta" dentro de uma recorrência fixa (conta/responsável são do lançamento, não do mês), então propaga direto, sem diálogo extra.
+2. **Dados reais já existentes:** nova migração `_migrarFinContaRespRecorrencia()`, roda a cada carregamento de Finanças (idempotente, sem precisar de flag "já rodou" porque não tem custo rodar de novo) -- percorre cada série recorrente em ordem cronológica e propaga o último Conta/Responsável conhecido pra frente, pra qualquer mês que esteja em branco. Corrige automaticamente os lançamentos de Novembro (e qualquer mês futuro) que já tinham sido gerados em branco antes dessa correção, sem precisar editar um por um.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido. A migração roda no navegador do próprio Anderson, no próximo carregamento real do Finanças -- não testei disparando ela numa aba nova por aqui, pela mesma precaução já registrada nos itens anteriores (evitar qualquer sincronização de uma aba fora do controle direto com os dados reais).
+
+**Publicação:** azimo-site, commit `e6ca3e6`, push direto pra `main` confirmado (Vercel auto-deploy).
