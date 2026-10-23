@@ -9949,3 +9949,30 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo (node --check + balanceamento de tags). Confirmado por grep que os 6 pontos de criação de despesa (contando `salvarFinTransacao`) agora passam por `_finContaPrincipalId()` em vez de string vazia fixa. Verificado em produção (`last-modified` do deploy e grep direto no HTML servido) que o código novo está no ar.
 
 **Publicação:** azimo-site, commit `ac584da`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 341 | Setinhas de mes no seletor de data + parcela inicial na criacao + bug de Recorrencia travada em "Parcelado" | 23/10/2026
+
+**Pedido:** três coisas juntas, todas sobre o fluxo de lançamento de despesa dentro de um Controle. (1) o seletor de mês obriga clicar e escolher numa lista toda vez -- Anderson quis um jeito de só "botar pra direita" (avançar o mês com uma seta). (2) ao criar um lançamento parcelado, não tinha como dizer que ele já começa numa parcela mais pra frente (ex: "já era a parcela 9 de 10" -- financiamento que já vinha sendo pago fora do Azimo). (3) bug intermitente: às vezes, ao criar um lançamento novo, a Recorrência aparecia como "Parcelado" escrita no campo, mas nenhum bloco de parcela aparecia pra preencher.
+
+**Investigação:** o (3) acontecia porque o select de Recorrência (`fin-rec-sel`) nunca era resetado ao abrir um lançamento NOVO -- se o valor tivesse ficado em "Parcelado" de uma edição anterior (onde o campo some travado/disabled), reabrir pra um lançamento novo reativava o campo (disabled=false) mas não reescrevia o valor nem recalculava qual bloco mostrar, porque nada disparava o evento de mudança (reselecionar a mesma opção não dispara `change`). Resultado: campo escrito "Parcelado", nenhum bloco visível. O (2) era uma lacuna real: a criação sempre assumia parcela 1 de N, só a EDIÇÃO (correção manual, item 176) tinha os campos de número/total.
+
+**Implementado (`azimo-site/index.html`):**
+1. Seletor de data global (`az-date`, componente compartilhado usado em toda a aplicação -- Finanças, Agenda, Metas, Objetivos): duas setinhas novas no cabeçalho do calendário, ao lado dos selects de Mês/Ano, pra avançar/voltar um mês direto, com virada de ano automática.
+2. `abrirFinModal` (abertura de lançamento NOVO) agora reseta a Recorrência pra "Única" e chama `finRecSelChanged` explicitamente, garantindo que os blocos (parcelas, correção, dias-x) sempre reflitam o estado real do campo, independente do que ficou de uma edição anterior.
+3. Novo campo opcional "Parcela atual" na criação de parcelado (default 1). `_finRenderParcelasInputs` e o loop de criação passam a gerar só as parcelas de fato necessárias (da parcela atual até o total), com a numeração real salva em cada lançamento.
+
+**Validação:** `validate.py` passou limpo. Verificado em produção que o código novo (`_finParcelaAtualCriacao`, `az-date-nav`) está no HTML servido. Teste funcional ao vivo não foi feito numa aba nova por decisão deliberada (Modo Desafio): depois do incidente do item 338, evitei abrir qualquer aba nova que pudesse sincronizar com os dados reais do Anderson -- pedi pra ele confirmar direto na própria aba já aberta.
+
+**Publicação:** azimo-site, commit `9db163e`, push direto pra `main` confirmado (Vercel auto-deploy, `last-modified` bateu com o horário do deploy).
+
+## Item 342 | Refresh (F5) mantém a sub-aba de Finanças, não volta mais pra Visão Geral | 23/10/2026
+
+**Pedido:** "quando a gente atualiza a página, ele sai da página que a gente está e volta para a página geral... quero que continue na mesma página."
+
+**Investigação:** a aba PRINCIPAL da sidebar (Rotina, Finanças, Vio etc) já era restaurada certo depois de um F5 -- existe desde antes um mecanismo (`sessionStorage.setItem('nextu_aba', ...)` em `nav()`, lido de volta em `restaurarAba()` no evento `load` da página). O que faltava era um nível abaixo: a SUB-aba de dentro de Finanças (`_finTab`, controlando Visão Geral/Despesas/Receitas/Recorrentes/Metas/Contas) era só uma variável de memória, sem persistir em lugar nenhum -- então um F5 feito dentro de "Despesas", por exemplo, sempre voltava pra "Visão Geral" (valor padrão escrito na declaração da variável). Mesmo problema identificado em `_finMetaTab` (sub-aba de dentro de Metas: Em andamento/Concluídas/Pausadas).
+
+**Implementado (`azimo-site/index.html`):** as duas variáveis (`_finTab`, `_finMetaTab`) agora inicializam lendo do `sessionStorage` (em vez de sempre começar no valor padrão), e salvam nele a cada troca de aba (`renderFinancas` pra `_finTab`, `_finMetaTabChanged` pra `_finMetaTab`). `sessionStorage` dura enquanto a aba do navegador estiver aberta -- sobrevive a qualquer F5, mas não precisa (nem deve) sobreviver a fechar a aba e abrir de novo depois, igual o mecanismo da aba principal que já existia.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que as duas novas chaves de sessionStorage (`azimo_fin_tab`, `azimo_fin_meta_tab`) estão no HTML servido.
+
+**Publicação:** azimo-site, commit `f72cc7b`, push direto pra `main` confirmado (Vercel auto-deploy).
