@@ -10063,3 +10063,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o campo novo (`mesesExcluidos`) e a cor nova da faixa (indigo) estão no HTML servido.
 
 **Publicação:** azimo-site, commit `d3723fa`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 350 | Conta deixa de ser "opcional" no lançamento -- sempre vinculada, cai na principal quando em branco | 23/10/2026
+
+**Pedido:** "a informação de que a conta no lançamento é opcional, a gente tem que tirar essa informação de opcional, porque não é. A partir do momento que a pessoa criar um lançamento, ela já vai ter uma conta vinculada. Se ela não tiver uma conta vinculada, ela vai ter que criar uma conta para o lançamento já ficar vinculado."
+
+**Investigação:** o campo Conta tinha uma exceção que o tornava não-obrigatório especificamente pra despesa de Controle tipo cartão -- fazia sentido antes do item 340 (conta principal como padrão), mas desde que esse item entrou, o campo já preenche sozinho com a conta principal sempre que fica em branco. A exceção só deixava o rótulo "Conta (Opcional)" mentindo sobre um comportamento que, na prática, já não existia mais desde o item 340.
+
+**Implementado (`azimo-site/index.html`):** `_finContaEhObrigatoria()` simplificada -- passa a ser obrigatória sempre que existe ao menos uma conta cadastrada, sem exceção por tipo de controle. Rótulo do campo sempre "Conta" (tirado o "(Opcional)"). A opção em branco do select trocou de "Nenhuma / não informar" pra "Usar a conta principal", deixando explícito o que de fato acontece ao deixar em branco. O único cenário que continua realmente sem conta vinculada é não ter NENHUMA conta cadastrada ainda -- nesse caso o aviso que já existia continua pedindo pra cadastrar uma antes de lançar.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o texto "Conta (Opcional)" não existe mais no HTML servido, e "Usar a conta principal" está no lugar certo.
+
+**Publicação:** azimo-site, commit `60ae15b`, push direto pra `main` confirmado (Vercel auto-deploy).
