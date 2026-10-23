@@ -9998,3 +9998,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido. Se o lançamento editado não estiver mais visível na lista atual (ex: mudou de mês), o destaque simplesmente não acontece (a função já tinha essa proteção) -- não quebra nada, só não tem o que destacar.
 
 **Publicação:** azimo-site, commit `9871101`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 345 | Data default do lançamento passa a respeitar o mês sendo visto, não mais o dia real de hoje | 23/10/2026
+
+**Pedido:** "quando eu estou no mês de novembro e estou editando um lançamento, o dia que puxa é a data de hoje. Só que se o lançamento está em novembro, deveria puxar a data de novembro... corre o risco de eu botar para o mês de outubro, que é o mês presente, e o lançamento some da fatura que eu estou e vai pra uma fatura que não tem nada a ver."
+
+**Investigação:** rastreei os dois pontos que escrevem no campo de data (`fin-data-inp`). Na EDIÇÃO (`abrirFinEditarTransacao`), o campo já carregava a data real do lançamento (`item.data`) -- correto por padrão, mas corrigi a ORDEM das operações por segurança: o preenchimento vinha depois de `finSetTipo()`, que tem um fallback próprio que também escrevia a data de hoje caso o campo estivesse vazio naquele instante -- movido pra antes, pra nunca existir uma janela em que o campo fique errado. O bug real e reproduzível estava na CRIAÇÃO (`abrirFinModal`): o campo sempre assumia o dia real de hoje, mesmo quando a pessoa estava navegando um mês diferente (ex: vendo Novembro com o mês real ainda em Outubro) -- exatamente o risco que o Anderson descreveu: lançar sem reparar na data faz o lançamento cair no mês real (Outubro), não no mês que estava sendo visto (Novembro), e sumir da fatura certa.
+
+**Implementado (`azimo-site/index.html`):** nova função `_finDataPadraoNovoLancamento()` -- usa o dia real de hoje só quando o mês sendo visto é o mês real (caso mais comum, sem mudança de comportamento); fora disso, usa o mesmo dia-do-mês de hoje dentro do mês visto, ajustado pro último dia quando esse mês for mais curto (ex: visto Fevereiro, hoje é dia 30). Aplicada em `abrirFinModal` (criação de lançamento novo) e no fallback de `finSetTipo`.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
+
+**Publicação:** azimo-site, commit `1fdd5f1`, push direto pra `main` confirmado (Vercel auto-deploy).
