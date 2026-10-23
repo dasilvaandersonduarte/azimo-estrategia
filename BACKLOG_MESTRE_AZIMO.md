@@ -10048,3 +10048,18 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o elemento novo (`sync-pendente-banner`) está no HTML servido.
 
 **Publicação:** azimo-site, commit `c17535a`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 349 | Excluir um mês de recorrência fica excluído de verdade + faixa de sincronização com a cor padrão (indigo) | 23/10/2026
+
+**Pedido:** "estou tentando excluir esse lançamento ('Apple.com/Bill', mensal), apareceu até o aviso [de sincronização], mas não excluiu -- provavelmente está acontecendo com os demais também. E quero que esse aviso apareça já personalizado, no nosso padrão, não amarelo."
+
+**Investigação:** confirmei o bug real por leitura de código. `_finGerarRecorrenciasAteAgora()` (a função que gera automaticamente os meses futuros de uma recorrência) decide quais meses já existem olhando só pros lançamentos que SOBRARAM na lista (filtrados por `recorrenciaId`). Ao excluir um lançamento gerado (ex: a ocorrência de Novembro), esse mês deixa de aparecer nesse conjunto -- e como `renderFinancas()` roda essa mesma função de geração logo em seguida da exclusão (dentro do próprio fluxo de `removerFinTransacao`), o lançamento apagado era recriado do zero, na hora, antes mesmo da tela terminar de atualizar. Por isso parecia "não excluir" -- e o Anderson acertou na suspeita, o mesmo problema afeta qualquer lançamento gerado por recorrência (mensal/bimestral/semestral/anual) ou por uma parcela corrigida manualmente que se autoprojeta (item 177).
+
+**Implementado (`azimo-site/index.html`):**
+1. A origem de cada série recorrente ganhou um novo campo, `mesesExcluidos` (array de meses). Ao excluir um lançamento gerado, o mês dele é registrado nesse array na origem, antes de removê-lo da lista.
+2. A geração automática (nos dois blocos que existem -- recorrência mensal/etc e parcela auto-projetada) passa a pular qualquer mês presente em `mesesExcluidos`, em vez de recriar.
+3. A faixa de "sincronização pendente" (item 348) trocou de cor -- estava em amarelo/âmbar, fora do padrão visual do Azimo. Agora usa o mesmo indigo padrão do toast e dos destaques do app.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o campo novo (`mesesExcluidos`) e a cor nova da faixa (indigo) estão no HTML servido.
+
+**Publicação:** azimo-site, commit `d3723fa`, push direto pra `main` confirmado (Vercel auto-deploy).
