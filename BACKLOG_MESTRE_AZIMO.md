@@ -10089,3 +10089,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
 
 **Publicação:** azimo-site, commit `3bb0fbc`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 352 | Geração automática de recorrências ganha margem fixa de 3 meses (trimestral) à frente | 24/10/2026
+
+**Pedido:** seguindo a verificação do item 351 (parcelas de Novembro sem a continuação em Dezembro, por decisão de design -- só gera até o mês visto/real), perguntei ao Anderson se queria manter esse comportamento ou gerar uma margem fixa à frente. Resposta: "pode ser dessa maneira sim, acredito que o trimestral seria legal."
+
+**Implementado (`azimo-site/index.html`):** `_finGerarRecorrenciasAteAgora()` agora calcula o mês-base (visto ou real, o que for mais à frente) e soma 3 meses de margem antes de usar como limite de geração -- vale pros três blocos que essa função cobre: recorrência mensal/bimestral/semestral/anual, parcela auto-projetada (item 177), e recorrências por dias exatos (semanal/quinzenal/a cada X dias). Continua sendo geração sob demanda (não gera anos inteiros à toa), só que agora sempre com 3 meses de antecedência garantidos, em vez de zero.
+
+**Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
+
+**Publicação:** azimo-site, commit `3558797`, push direto pra `main` confirmado (Vercel auto-deploy).
