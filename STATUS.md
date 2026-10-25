@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> Complemento do item 353 (25/10/2026): botão Ver Finanças restaurado no cabeçalho do Resumo Financeiro desktop, mantendo o novo rodapé apenas no mobile. Commit final do frontend `c182f1980f8ac2dfa4e94ed92c358589ce538abb`; oito scripts inline passaram novamente em `node --check`. Conferência do segundo deploy no domínio ainda pendente.
+> Complemento do item 353 (25/10/2026): botão Ver Finanças restaurado no cabeçalho do Resumo Financeiro desktop, mantendo o novo rodapé apenas no mobile. Commit final do frontend `c182f1980f8ac2dfa4e94ed92c358589ce538abb`; oito scripts inline passaram novamente em `node --check`. Segundo commit conferido em `www.azimo.life`: ambos os botões existem e o do cabeçalho é visível no desktop.
 
 > Atualizado em 25/10/2026. Item 353: navegação mobile com barra inferior Dashboard/Rotina/Vio/Finanças/Mais, bússola oficial, menu de destinos existentes e Command condicionado ao administrador; cabeçalho mobile do Dashboard e ajustes responsivos em Rotina, chat, Finanças, Produtividade e Command. Vio exige seleção do controle existente ou criação explícita antes de registrar despesa, e lembrete de perfil espera sincronização. Frontend `azimo-site/main` commit `2fc04ab`; scripts inline passaram em `node --check`; HTML novo conferido em `www.azimo.life` e página pública a 390 px sem largura excedente. Fluxos autenticados, teclado virtual e dados reais ainda requerem validação em sessão logada no celular. Não foram alterados registros financeiros existentes.
 
