@@ -10099,3 +10099,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `validate.py` passou limpo. Confirmado em produção que o código novo está no HTML servido.
 
 **Publicação:** azimo-site, commit `3558797`, push direto pra `main` confirmado (Vercel auto-deploy).
+
+## Item 353 | Navegação mobile e ajustes das 25 telas de revisão | 25/10/2026
+
+**Pedido:** trocar a sidebar lateral no celular por navegação inferior Dashboard, Rotina, Vio, Finanças e Mais, com Vio em destaque e cabeçalho mobile; corrigir os pontos de largura, leitura e interação mostrados na revisão de 25 imagens, preservando desktop e dados reais.
+
+**Implementado (`azimo-site/index.html`):** barra inferior com área segura, estados ativos, bússola SVG oficial clonada do cabeçalho do Vio e menu Mais com Estudos, Revisão, Diário, Foco, Sobre, Perfil, Feedback e Azimo Command condicionado à sessão de administrador. Cabeçalho do Dashboard adaptado, Ver Finanças no rodapé do resumo, navegação/retorno por histórico, tratamento do teclado no chat, placeholder apropriado, chips com rolagem, cards de Rotina, Finanças e Command em colunas fluidas, componentes com mínimo de 16 px nos campos para evitar zoom do iPhone, contenção de overflow e scroll interno. Vio financeiro agora apresenta os controles existentes, sugere correspondência única e exige escolha explícita antes de registrar; criação de controle novo é uma opção separada. Lembrete de perfil incompleto aguarda hidratação do estado e revalida antes de abrir. Cronômetro da gravação de áudio já existia, foi mantido.
+
+**Validação:** scripts inline passaram em `node --check`. O HTML do commit aparece no domínio `www.azimo.life`; página pública a 390 px tem `scrollWidth` de 390 px. Sessão autenticada no Chrome conectado não estava disponível, logo não foram testados no dispositivo os cinco destinos, teclado virtual, lançamentos reais, dados das 25 telas nem notificação de perfil. Não foram modificados dados financeiros existentes; eventuais controles duplicados anteriores requerem conferência no usuário real. Desktop preservado por regras CSS limitadas a 768 px, sem regressão visual autenticada executada.
+
+**Publicação:** `azimo-site/main`, commit `2fc04ab52861d79436015b8eefd01eb700a929ba`; versão conferida no domínio. Documentação `azimo-estrategia/main`, STATUS commit `a4ff408`.
