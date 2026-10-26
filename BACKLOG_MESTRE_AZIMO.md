@@ -10109,3 +10109,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** oito scripts inline passaram em `node --check`. O HTML da primeira versão aparece no domínio `www.azimo.life`; página pública a 390 px tem `scrollWidth` de 390 px. Sessão autenticada no Chrome conectado não estava disponível, logo não foram testados no dispositivo os cinco destinos, teclado virtual, lançamentos reais, dados das 25 telas nem notificação de perfil. Não foram modificados dados financeiros existentes; eventuais controles duplicados anteriores requerem conferência no usuário real. Desktop preservado pela correção final, sem regressão visual autenticada executada.
 
 **Publicação:** `azimo-site/main`, commits `2fc04ab52861d79436015b8eefd01eb700a929ba` e `c182f1980f8ac2dfa4e94ed92c358589ce538abb`; segundo commit conferido em `www.azimo.life`, com botão do cabeçalho visível no desktop. Documentação `azimo-estrategia/main`, STATUS commits `a4ff408` e `9ffbe25`.
+
+## Item 354 | Compra no cartão segue mês da fatura e correção de Vida Lanches | 26/10/2026
+
+**Pedido:** lançamento de 23/10 no Bradesco | Infinite deve aparecer na fatura de novembro, preservando a data de compra. Aplicar a regra aos lançamentos futuros e corrigir o item de R$ 101,30 criado pelo Vio no controle duplicado.
+
+**Implementado:** `_finMesFatura(data, controleId)` calcula o fechamento após a compra e o vencimento seguinte, usando o mês desse vencimento como competência da fatura; controles sem fechamento/vencimento seguem o mês da data. Aplicado à criação via Vio, criação manual e edição. `Vida Lanches` de R$ 101,30 passou de Cartão Bradesco para Bradesco | Infinite, manteve data 23/10/2026, conta Bradesco | Anderson e aparece em novembro. O controle duplicado ficou vazio, sem exclusão ainda.
+
+**Verificação:** oito scripts inline com sintaxe OK; cenários 23/10 e 29/10 -> novembro, 30/10 -> dezembro, 30/12 -> fevereiro seguinte. Vercel deployment `2eA6PVtPC` Ready e Current no domínio. Despesa conferida na interface em novembro após recarregar a página. Não foi criada despesa de teste.
+
+**Publicação:** `azimo-site/main` commit `b671f39d9283461abc4a10881fe233260b0d9303`.
