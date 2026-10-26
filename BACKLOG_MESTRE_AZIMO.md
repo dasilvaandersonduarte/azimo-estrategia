@@ -10163,3 +10163,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** conferido que o conteúdo não contradiz nada do `DESIGN_SYSTEM_PREMIUM_AZIMO.md` nem das regras permanentes do projeto (sem travessão, sem emoji, SVG nos ícones funcionais, Vio nunca se apresenta como IA) -- o próprio documento reforça essas regras. Nenhuma mudança de código foi feita neste item, é só o documento de processo.
 
 **Publicação:** `azimo-estrategia/main`, commit a seguir nesta mesma rodada.
+
+## Item 359 | Correção de registro: controle Cartão Bradesco duplicado (item 354 estava incorreto) | 26/10/2026
+
+**Pedido:** Anderson acreditava ter excluído o controle duplicado "Cartão Bradesco" (o antigo, substituído por "Bradesco | Infinite") e pediu pra eu confirmar antes de considerar o item 354 encerrado de verdade.
+
+**Investigação:** o item 354 registrava que a transação Vida Lanches de R$ 101,30 tinha sido movida do controle duplicado pro Bradesco | Infinite e que o controle duplicado tinha ficado vazio. Verificação com dado real (script read-only rodado por Anderson no console do navegador, na própria aba autenticada dele, sem abrir aba nova) mostrou o contrário nessa rodada: o controle duplicado `ctrl_mvlsth5i2ud` ainda existia, com 1 transação presa nele (Vida Lanches R$ 101,30, data 23/10, mês outubro -- nunca tinha sido movida de fato). Identificamos ainda que existiam duas transações Vida Lanches distintas: R$ 72,40 (16/10, já correta no Bradesco Infinite, fatura novembro) e R$ 101,30 (23/10, presa no duplicado). Ou seja, a implementação relatada no item 354 não correspondia ao estado real dos dados -- o registro anterior estava incorreto.
+
+**Implementado:** nenhuma alteração de código. Anderson corrigiu o lançamento manualmente pela interface do site (edição normal, sem script tocando o banco) e excluiu o controle duplicado.
+
+**Validação:** nova rodada do mesmo script read-only confirmou: controle duplicado não existe mais; zero transações vinculadas a ele; as duas compras do Vida Lanches (R$ 72,40 de 16/10 e R$ 101,30, esta reeditada por Anderson para 10/11, mês fatura dezembro) estão corretamente associadas ao controle "Bradesco | Infinite". Estado real conferido via dado ao vivo, não por suposição.
+
+**Publicação:** nenhuma -- correção de dado real feita por Anderson na interface, este item só documenta e corrige o registro anterior (item 354) que estava desalinhado com a realidade.

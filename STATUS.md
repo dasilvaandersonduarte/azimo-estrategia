@@ -115,7 +115,7 @@ Os 3 repositórios (`azimo-site`, `azimo-estrategia`, `azimo-worker`) têm `cred
 
 > Coordenacao entre agentes (Claude <-> GPT). O proximo agente deve conferir este bloco, Git e os ultimos itens do Backlog antes de assumir.
 
-**Agente ativo:** CLAUDE (26/10/2026, assumido sem handoff limpo do GPT -- ver nota abaixo).
+**Agente ativo:** CLAUDE (26/10/2026). Anderson decidiu continuar os trabalhos por aqui em vez de esperar os creditos do GPT renovarem (previsao 22h do mesmo dia) -- ver complemento do item 358 abaixo pra contexto de onde a conversa com o GPT parou.
 
 **Como foi feita a retomada (sub-protocolo "Retomada quando não houve HANDOFF limpo"):** o Anderson avisou que não conseguiu concluir o comando HANDOFF formal no GPT e pediu pra eu assumir de onde ele parou. Rodei `verificar_estado.sh`: `azimo-site` e `azimo-estrategia` estavam `[DIVERGENTE]` (GPT publicou direto no GitHub sem eu ter puxado ainda), `azimo-worker` estava `[OK]`, sem mudança. Fiz fetch + `merge --ff-only origin/main` nos dois repositórios divergentes -- `azimo-site` trouxe 10 commits novos (3558797..e75687d), `azimo-estrategia` trouxe 13 commits novos (cdd52ff..496cc68), nenhum merge teve conflito. O bloco "0. Handoff ativo" NÃO foi atualizado pelo GPT em nenhum momento dos itens 353-357 -- continuava com a minha própria entrada de 25/10 (itens 340-352), apesar de já existir trabalho novo e publicado por baixo dela só na "fotografia atual" no topo do arquivo. Ou seja, quem seguisse só este bloco, sem conferir o Git, teria ficado 5 itens desatualizado.
 
@@ -129,11 +129,11 @@ Os 3 repositórios (`azimo-site`, `azimo-estrategia`, `azimo-worker`) têm `cred
 - Navegação mobile agora é por barra inferior (Dashboard/Rotina/Vio/Finanças/Mais) com menu Mais pros destinos secundários -- não é mais sidebar lateral no mobile; Azimo Command no menu Mais é condicionado à sessão de administrador, preservar essa condição em qualquer alteração futura.
 - Mês da fatura de compra em cartão agora é calculado por `_finMesFatura(data, controleId)` usando fechamento+vencimento, não mais pela data da compra direto -- qualquer ajuste em lançamento de cartão deve passar por essa função, não reintroduzir o cálculo antigo.
 - `DESIGN_SYSTEM_PREMIUM_AZIMO.md` estabelece o padrão visual com cenas WebP reais (não SVG ampliado) -- aplicação desse padrão em telas além do menu Mais depende de aprovação individual do Anderson, não é pra generalizar sozinho.
-- Controle duplicado "Cartão Bradesco" (o antigo, sem o Vida Lanches) ficou vazio após o item 354 e ainda não foi excluído -- não excluir sem confirmar com o Anderson primeiro, mesmo estando vazio.
+- RESOLVIDO (26/10, item 359): o item 354 estava com registro incorreto -- a transação não tinha sido movida de fato, nem o controle duplicado tinha ficado vazio como relatado. Confirmado com dado real (script read-only na aba do Anderson) e corrigido por ele pela interface: controle duplicado "Cartão Bradesco" excluído, zero transações presas, Vida Lanches (duas compras reais, R$72,40 e R$101,30) corretamente no Bradesco | Infinite.
 
 **Pendências:**
 - Teste em aparelho físico (iPhone/Android) e em conta não administrativa da navegação mobile, do menu Mais e do padrão visual novo -- nenhum dos itens 353-357 teve isso feito, só sessão autenticada administrativa simulada em viewport.
-- Controle "Cartão Bradesco" duplicado e vazio (item 354) ainda não excluído -- decisão do Anderson.
+- ~~Controle "Cartão Bradesco" duplicado~~ resolvido em 26/10 (item 359) -- ver decisões acima.
 - Pendências herdadas de handoffs anteriores (backup diário do banco não conferido recentemente, procedimento de restauração ainda não construído/testado, teste de resgate de convite beta ponta a ponta ainda não feito) seguem sem nova verificação nesta rodada.
 
 **Alertas (Modo Desafio):**
