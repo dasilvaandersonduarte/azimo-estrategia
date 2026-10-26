@@ -10254,3 +10254,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `node --check` e balanceamento de tags OK. Confirmado por `curl` que a lógica está no ar em produção. Pendente: Anderson confirmar visualmente no celular que o tamanho ficou igual ao do seletor Diário/Semanal, como pedido.
 
 **Publicação:** `azimo-site/main` commit `8b5969e`.
+
+### Ajuste de alinhamento da navegação de data no item 363 (27/10/2026)
+
+**Pedido:** Anderson gostou da posição do botão "Adicionar tarefa" acima do seletor Diário/Semanal. Pediu mais um ajuste na mesma tela: a linha de navegação de data (setas + data + calendário) deveria começar alinhada à esquerda, no mesmo ponto onde começa o seletor Agenda | Blocos | Foco Azimo logo abaixo — não mais centralizada ocupando a largura inteira do card, com um vazio sobrando do lado direito. E o botão do calendário deveria mostrar só o ícone, sem repetir a data por extenso (que já aparece no label ao lado das setas).
+
+**Implementado:** troca de `justify-content:center` para `justify-content:flex-start` na linha de navegação de data (mobile), alinhando-a com o seletor abaixo. O rótulo de texto do seletor de data (`.az-date-trigger-label`, span já existente na implementação do seletor de data reutilizável do produto) escondido só nesse contexto específico (dentro da navegação da Agenda, mobile), deixando só o ícone de calendário visível, com padding reduzido pra ficar compacto.
+
+**Validação:** `node --check` e balanceamento de tags OK. Confirmado por `curl` que está no ar em produção. Pendente: confirmação visual de Anderson no celular.
+
+**Publicação:** `azimo-site/main` commit `50d20a0`.
