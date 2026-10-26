@@ -10140,3 +10140,14 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Verificação:** oito scripts inline em `node --check`; domínio autenticado inspecionado em 390 x 844 e 320 x 568, sem rolagem horizontal. Rolagem interna e alcance do último card confirmados; Estudos, Revisão, Diário, Foco, Sobre, Perfil, Feedback e Command acessados, e Voltar retornou corretamente. Fechar pelo X, toque fora e Voltar conferidos; em 1280 px, menu e barra inferior ocultos, sidebar desktop visível. Conta usada era administrativa, então a ocultação para não administradores foi conferida na condição do código, sem teste logado em outra conta. Testes em iPhone/Android físico não executados.
 
 **Publicação:** `azimo-site/main` commits `5b181a2` e `8dfd7a95ccaa4d8147aefbd392cd31092810e2a9`; CSS final conferido no domínio `www.azimo.life`. Não houve mudança de dados, autenticação, permissões ou Worker.
+
+
+## Item 357 | Menu Mais com cenas cinematográficas e padrão visual permanente | 26/10/2026
+
+**Pedido:** corrigir a simplificação do item 356, que usou desenhos SVG ampliados no lugar das cenas realistas da referência aprovada; estabelecer diretrizes permanentes de design premium, com aplicação inicial apenas no menu Mais mobile.
+
+**Implementado:** oito cenas temáticas geradas para Estudos, Revisão, Diário, Foco, Sobre, Perfil, Feedback e Command, comprimidas em WebP de 800 × 267 px e 10,9–22,4 KB cada. Incorporadas no HTML como imagens reais de fundo decorativo com degradê de proteção, sem serviço externo. Ícones funcionais SVG e rotas/permissões preservados. Criado `DESIGN_SYSTEM_PREMIUM_AZIMO.md` no repositório de estratégia com paleta, camadas, assets, processo de aprovação e limites.
+
+**Verificação:** oito imagens carregadas no domínio autenticado em 390 × 844; captura real comparada ao mockup, com ganho evidente de profundidade e cenas. Em 320 × 568, painel rolou até Command sem largura horizontal extra. Não houve teste em aparelho físico nem em conta não administrativa. Assets WebP estão embutidos no HTML e não são cacheados separadamente.
+
+**Publicação:** `azimo-site/main` commit `e75687d193eeb3108ffad68d9e5c28b49b114aa3`; domínio `www.azimo.life` exibiu as cenas novas. Documento de design commit `ec41588f9ded4003e357deb9e922b387eb9e0ef1`.
