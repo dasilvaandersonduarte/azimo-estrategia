@@ -10244,3 +10244,13 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `node --check` e balanceamento de tags OK. Confirmado por `curl` que as 3 mudanças (flex-column do cabeçalho, etiqueta Ferramenta escondida, rótulo curto do botão) estão no HTML servido em produção. Pendente: Anderson confirmar visualmente no celular que o cabeçalho ficou correto agora e que o scroll automático pro horário atual voltou a funcionar ao abrir o Diário (não resolvido diretamente nesta correção — o código do scroll em si não foi alterado, só o layout ao redor).
 
 **Publicação:** `azimo-site/main` commit `c105262`.
+
+### Ajuste de posição do botão Adicionar tarefa no item 363 (27/10/2026)
+
+**Pedido:** depois de confirmar que a sobreposição do cabeçalho estava corrigida, Anderson lembrou um pedido anterior que não tinha sido atendido ainda: o botão "Adicionar tarefa" deveria ficar logo acima do seletor Diário/Semanal, no mesmo tamanho desse seletor — não mais dentro do cabeçalho do topo.
+
+**Implementado:** desta vez o reposicionamento é feito de verdade no DOM (não só via CSS, já que a tentativa anterior com `display:contents` tinha causado o bug de sobreposição por conta de especificidade de estilo inline). A função `_posicionarBotaoAddTarefa()` (já existente, chamada em `setTarefasView`, `setAgendaModo` e `renderRotina`) passou a mover o nó do botão para logo antes de `#agenda-modo-toggle` quando está no mobile e o seletor Diário/Semanal está visível (visualização Agenda); nos demais casos (Blocos/Foco Azimo, ou desktop) o botão volta pro lugar original dentro do cabeçalho, sem duplicar o nó em nenhum momento. CSS iguala padding, fonte e raio ao `.tarefa-view-toggle`, e estica na mesma largura (`align-self:stretch`), já que os dois agora são irmãos diretos do mesmo flex-column.
+
+**Validação:** `node --check` e balanceamento de tags OK. Confirmado por `curl` que a lógica está no ar em produção. Pendente: Anderson confirmar visualmente no celular que o tamanho ficou igual ao do seletor Diário/Semanal, como pedido.
+
+**Publicação:** `azimo-site/main` commit `8b5969e`.
