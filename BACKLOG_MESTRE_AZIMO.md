@@ -10201,3 +10201,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** oito scripts inline passaram em `node --check`; balanceamento de tags OK. Confirmado por `curl` que os 3 ícones novos e o glow estão no HTML servido em produção. Segue pendente a mesma conferência visual ao vivo em sessão autenticada (desktop e mobile) mencionada no item 360 -- ainda não feita por cautela com dados reais.
 
 **Publicação:** `azimo-site/main` commit `e747254c1ed8cc16e5c80b3833f8bd24d29c710c`.
+
+## Item 362 | Alinhamento dos ícones de Objetivos e Metas Financeiras entre abas | 26/10/2026
+
+**Pedido:** Anderson notou que o ícone de Metas Financeiras ficou diferente entre o Dashboard e Finanças > Visão Geral, e pediu pra verificar se todos os ícones estão compatíveis no site inteiro, sem variação de uma aba pra outra.
+
+**Investigação:** mapeei todo o arquivo `index.html` em busca de outras ocorrências dos conceitos Objetivos, Metas Financeiras, Resumo Financeiro e Consistência dos Hábitos com ícone próprio. Encontrei duas variações reais: (1) o card "Metas Financeiras" de Finanças > Visão Geral ainda usava `_finGeralSvg('meta')`, que continuava com o desenho antigo de alvo+linha, sem ter sido atualizado junto com o Dashboard no item 361; (2) o card Objetivos da tela Rotina Diária ainda usava o alvo concêntrico antigo (círculos), também sem ter acompanhado a troca pra montanha+bandeira feita no Dashboard. Também encontrei dois usos do desenho de alvo concêntrico que são intencionais e não precisam mudar: a opção "Alvo" na paleta de ícones que o usuário escolhe pra categorias/metas próprias (linha 14318) e o ícone padrão da categoria "outros" (linha 22014) -- nenhum dos dois representa o cabeçalho de um card específico, são opções de seleção do usuário.
+
+**Implementado (`azimo-site/index.html`):** `_finGeralSvg` kind `'meta'` (único uso: card "Metas Financeiras" em Finanças > Visão Geral) atualizado pro mesmo desenho de seta de evolução usado no Dashboard. Card Objetivos da Rotina atualizado pro mesmo desenho de montanha com bandeira usado no Dashboard, mantendo o container redondo `.rotina-icon` que já é o padrão de toda a tela Rotina (não uniformizei pro container quadrado do Dashboard, só troquei o símbolo de dentro).
+
+**Validação:** `node --check` e balanceamento de tags OK. Conferido por grep, antes de publicar, que cada ícone novo aparece exatamente no número de lugares esperado (montanha: 2, Dashboard + Rotina; seta de evolução: 2, Dashboard + Finanças; cifrão: 3, menu lateral + barra inferior + Dashboard) e que não sobrou nenhuma ocorrência do ícone antigo de "alvo com linha". Confirmado por `curl` que o commit está no ar em produção.
+
+**Publicação:** `azimo-site/main` commit `277459883ba07ff8b397142aa833e9935e6c15d0`.
