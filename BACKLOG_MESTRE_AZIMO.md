@@ -10119,3 +10119,24 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Verificação:** oito scripts inline com sintaxe OK; cenários 23/10 e 29/10 -> novembro, 30/10 -> dezembro, 30/12 -> fevereiro seguinte. Vercel deployment `2eA6PVtPC` Ready e Current no domínio. Despesa conferida na interface em novembro após recarregar a página. Não foi criada despesa de teste.
 
 **Publicação:** `azimo-site/main` commit `b671f39d9283461abc4a10881fe233260b0d9303`.
+
+
+## Item 355 | Refinamentos mobile de navegação e Rotina após revisão ao vivo | 26/10/2026
+
+**Pedido:** foto cadastrada no cabeçalho do Dashboard; ajustes de alinhamento e ações nos cards da Rotina; agenda semanal legível e rolagem melhor no mobile; menu Mais visualmente alinhado à marca. Na revisão anterior, análise semanal do Vio passou a abrir a conversa completa, topo e barra inferior mobile foram refinados.
+
+**Implementado:** avatar mobile vinculado à foto do perfil; X dos cards no canto superior direito; título/descrição de Afirmações e Mentalizações reorganizados; quebra de linha na Intenção do Dia; ações do Mínimo Diário centralizadas; botão de Objetivos no padrão índigo; agenda semanal em lista vertical com compromissos legíveis, cabeçalho e rolagem ajustados. Antes da Opção B, o menu Mais havia recebido atalhos flutuantes.
+
+**Verificação:** scripts inline passaram em `node --check`; Dashboard, Rotina, agenda e menu foram inspecionados no domínio autenticado em 390 px, sem rolagem horizontal. Gesto real de rolagem no celular não foi certificado.
+
+**Publicação:** `azimo-site/main` commits `d57a9de`, `3e8a3e2` (com commits intermediários da mesma sequência).
+
+## Item 356 | Menu Mais mobile, Opção B aprovada | 26/10/2026
+
+**Pedido:** substituir os atalhos flutuantes por painel com cards horizontais agrupados em Conhecimento, Produtividade, Sistema, Pessoal e Empresa, seguindo a referência aprovada, sem tocar nas páginas e na barra inferior.
+
+**Implementado:** painel azul profundo com cabeçalho, subtítulo e fechar; oito cards com ícones SVG, descrições, cenas temáticas vetoriais discretas integradas à direita, seta e contraste; grupo Azimo Command condicionado à sessão administrativa e em verde/azul-petróleo. Rolagem própria, fundo bloqueado, abertura/fechamento suave, movimento reduzido e estado de histórico para Voltar fechar o painel antes de sair da página. Destinos reutilizam a navegação existente; Feedback mantém a ação existente.
+
+**Verificação:** oito scripts inline em `node --check`; domínio autenticado inspecionado em 390 x 844 e 320 x 568, sem rolagem horizontal. Rolagem interna e alcance do último card confirmados; Estudos, Revisão, Diário, Foco, Sobre, Perfil, Feedback e Command acessados, e Voltar retornou corretamente. Fechar pelo X, toque fora e Voltar conferidos; em 1280 px, menu e barra inferior ocultos, sidebar desktop visível. Conta usada era administrativa, então a ocultação para não administradores foi conferida na condição do código, sem teste logado em outra conta. Testes em iPhone/Android físico não executados.
+
+**Publicação:** `azimo-site/main` commits `5b181a2` e `8dfd7a95ccaa4d8147aefbd392cd31092810e2a9`; CSS final conferido no domínio `www.azimo.life`. Não houve mudança de dados, autenticação, permissões ou Worker.
