@@ -10151,3 +10151,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Verificação:** oito imagens carregadas no domínio autenticado em 390 × 844; captura real comparada ao mockup, com ganho evidente de profundidade e cenas. Em 320 × 568, painel rolou até Command sem largura horizontal extra. Não houve teste em aparelho físico nem em conta não administrativa. Assets WebP estão embutidos no HTML e não são cacheados separadamente.
 
 **Publicação:** `azimo-site/main` commit `e75687d193eeb3108ffad68d9e5c28b49b114aa3`; domínio `www.azimo.life` exibiu as cenas novas. Documento de design commit `ec41588f9ded4003e357deb9e922b387eb9e0ef1`.
+
+## Item 358 | Padrão de criação visual e entrega (documento permanente) | 26/10/2026
+
+**Pedido:** o GPT (ChatGPT Work) criou, ainda na mesma conversa do item 357, um documento de instrução permanente pra guiar toda tarefa de interface do Azimo daqui pra frente, mas os créditos da conversa acabaram antes dele conseguir commitar no repositório. O arquivo tinha sido enviado só pras Fontes do projeto no ChatGPT (upload manual, não é o mesmo que publicar no Git). Anderson colou o conteúdo completo aqui direto, pra não perder esse trabalho, e pediu que eu verificasse se conflitava ou complementava o `DESIGN_SYSTEM_PREMIUM_AZIMO.md` já existente.
+
+**Investigação:** busquei `PADRAO_DE_CRIACAO_VISUAL_AZIMO.md` no histórico completo do Git (`git log --all`) dos três repositórios e não existia em nenhum -- confirmando que era trabalho só na conversa do GPT, nunca publicado. Comparei o conteúdo colado com o `DESIGN_SYSTEM_PREMIUM_AZIMO.md` (criado no item 357): não há conflito entre os dois. São camadas diferentes e complementares -- `DESIGN_SYSTEM_PREMIUM_AZIMO.md` é o registro concreto do que foi construído (paleta, tokens, lista dos 8 assets WebP do Menu Mais, estado de verificação daquela entrega específica); `PADRAO_DE_CRIACAO_VISUAL_AZIMO.md` é a instrução de processo permanente (como abordar qualquer tarefa visual nova: identidade, da referência à implementação, método de trabalho em 6 passos, critérios de qualidade, linguagem da interface). O próprio documento novo já define a relação entre os dois explicitamente: diz pra registrar decisões visuais reutilizáveis no Design System e diz que, em caso de conflito, prevalecem as instruções mais recentes e específicas do Anderson.
+
+**Implementado:** arquivo `PADRAO_DE_CRIACAO_VISUAL_AZIMO.md` criado no repositório `azimo-estrategia`, com o conteúdo exato enviado pelo Anderson, sem alteração.
+
+**Validação:** conferido que o conteúdo não contradiz nada do `DESIGN_SYSTEM_PREMIUM_AZIMO.md` nem das regras permanentes do projeto (sem travessão, sem emoji, SVG nos ícones funcionais, Vio nunca se apresenta como IA) -- o próprio documento reforça essas regras. Nenhuma mudança de código foi feita neste item, é só o documento de processo.
+
+**Publicação:** `azimo-estrategia/main`, commit a seguir nesta mesma rodada.
