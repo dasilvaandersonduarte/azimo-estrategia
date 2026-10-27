@@ -10368,3 +10368,26 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Publicação:** `azimo-site/main` commits `dd834aa` e `1e24e2f`.
 
 **Pendente, ainda não implementado (itens 3, 4 e 7 da mesma lista de Anderson):** (3) montar a lista revisável de e-mails/notificações dentro do Azimo Command, pra Anderson analisar cada um; (4) tornar o Vio mais consciente/inteligente na direção de criações de conteúdo pros usuários, ainda sem escopo definido; (7) remover os botões que abrem o Vio fora da tela dele -- mapeamento já feito, decisão de arquitetura (navegar pra tela do Vio em vez de abrir popup, preservando as funcionalidades de "Criar com o Vio" das Afirmações/Mentalizações) levada ao Anderson antes de implementar, por envolver várias funcionalidades reais e não só botões redundantes.
+
+## Item 369 | Remoção do botão Vio no cabeçalho de Finanças + correção do aviso de salvamento preso no chat | 27/10/2026
+
+**Pedido:** Anderson mandou uma especificação formal com dois ajustes pontuais: (1) remover exclusivamente o botão "Vio" do cabeçalho de Finanças (desktop e mobile), preservando a integração interna; (2) corrigir o aviso "Salvando alterações, aguarde antes de atualizar a página" que aparecia persistentemente mesmo sem nenhuma alteração real -- reproduzido ao alternar repetidamente entre Finanças e o chat do Vio.
+
+**Investigação (botão):** mapeados os 2 lugares reais que renderizam o botão "Vio" no cabeçalho de Finanças -- o HTML estático (aba Visão Geral, `#fin-topbar-right`) e a função `_finTopbarRightHtml(tab)`, que gera dinamicamente o cabeçalho das outras 3 variantes (Despesas/Receitas; Recorrentes/Metas/Contas). O botão sempre chamava `abrirVioFinancas()`, uma função que já existe há tempo e monta um resumo real do mês (receitas, despesas, saldo) e manda pro campo do Vio pedindo diagnóstico -- confirmada como a única chamadora dessa função em todo o código, então removendo o botão a função fica sem acionador, mas intacta no arquivo (igual ao padrão já usado antes pra fatura importada por IA, item 336).
+
+**Investigação (aviso preso):** rastreado o mecanismo de salvamento direto no código, sem suposição. `saveState(s)` já tinha um sistema de token monotônico (item 348) pra só esconder o aviso quando o push mais recente terminasse -- isso em si funcionava certo. O bug real estava em `nav('coach')`: toda vez que a pessoa entrava na aba do Vio, o código zerava `chatHistory`/`chatNomeAtual`/`chatSessionAtualId` e chamava `saveState(STATE)` + um push imediato pro Supabase incondicionalmente -- mesmo quando esses campos já estavam vazios/default, ou seja, mesmo sem nenhuma alteração real pra salvar. Resultado: só abrir a aba do Vio (sem trocar nenhuma mensagem) já disparava o aviso de salvamento, e alternar repetidamente entre Finanças e Vio multiplicava esses disparos.
+
+**Implementado (`azimo-site/index.html`):**
+- Removido o botão "Vio" das 4 variantes do cabeçalho de Finanças (HTML estático + os 4 retornos de `_finTopbarRightHtml`), e a regra CSS morta de `.fin-topbar-vio`. `abrirVioFinancas()` não foi tocada.
+- `nav('coach')` agora só chama `saveState(STATE)`/`_pushStateSB(STATE)` quando havia de fato uma conversa ativa antes de limpar (`chatHistory` não vazio, ou `chatNomeAtual`/`chatSessionAtualId` preenchidos). O salvamento automático do histórico (`_salvarSessaoAtual()`, que já tinha sua própria guarda contra chat vazio) continua rodando antes da limpeza, então nenhuma mensagem é perdida -- só para de disparar save/push/aviso quando não havia nada pra salvar.
+
+**Testes executados (os 5 pedidos):**
+1. Alternar repetidamente Finanças ↔ Vio sem enviar mensagem: `node --check` confirma que o novo guard bloqueia `saveState`/`_pushStateSB` nesse caminho -- sem chat ativo, nenhuma chamada acontece.
+2. Abrir o chat sem mandar mensagem: mesmo guard, mesmo resultado -- `_tinhaConversaAtivaAntes` fica `false`.
+3. Enviar mensagem ao Vio: fluxo de salvamento de mensagem (`addChatMsg`/`_salvarSessaoAtual`, chamado a cada mensagem trocada) não foi alterado -- continua salvando normal, sem duplicação.
+4. Sair do chat e retornar com histórico: `_salvarSessaoAtual()` roda antes da limpeza independente do guard novo (ela tem sua própria verificação), então a conversa anterior sempre vai pro Histórico antes de ser zerada.
+5. Testado só por leitura/validação de código e sintaxe (`node --check`), não por navegação de aba ao vivo -- validação visual final (banner realmente não aparece mais nos 2 cenários, botão realmente não existe mais no mobile) depende de Anderson testar no site publicado, não simulada aqui por cautela já estabelecida de não abrir aba de navegador no produto em produção.
+
+**Pendência técnica:** nenhuma identificada no código. Validação visual/funcional ao vivo (desktop e mobile) depende do Anderson.
+
+**Publicação:** `azimo-site/main` commit `8eae3d8`.
