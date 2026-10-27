@@ -10318,4 +10318,16 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 
 **Publicação:** `azimo-site/main` commit `51e2f82`.
 
+### Correção pós-publicação do item 366: cobertura de desktop (27/10/2026)
+
+**Pedido:** logo depois de ver a entrega, Anderson apontou uma lacuna de raciocínio: o card e o banner tinham sido pensados só pra mobile (iPhone/Android), mas o Azimo também pode ser instalado no computador -- pediu que eu passasse a trazer essa checagem (mobile vs desktop vs os dois) sempre que fizer sentido, em vez de assumir mobile por padrão.
+
+**Investigação:** conferido que o gap era real e duplo. No card novo (`_renderSobreAzimoNotificacoes`), desktop não instalado caía direto num texto genérico sem nenhuma ação, mesmo quando o navegador oferecia instalação. Mais sério: o banner antigo "instalar como app" (item 71, já existia antes desta sessão) tinha exatamente o mesmo problema -- a condição só verificava `plataforma==='android' && _pwaDeferredPrompt`, nunca mostrando o banner pra desktop, apesar do Chrome/Edge em Windows/Mac/Linux disparar o mesmo evento `beforeinstallprompt` que o Android. Ou seja, não era só uma lacuna do que acabou de ser construído -- já existia há tempo no produto, só nunca tinha sido notado.
+
+**Implementado:** generalizada a condição dos dois lugares de `plataforma==='android' && _pwaDeferredPrompt` para simplesmente `_pwaDeferredPrompt` (cobre Android e desktop Chrome/Edge igualmente, já que o evento é o mesmo), com texto adaptado por plataforma ("no seu celular" vs "no seu computador", "tela inicial" vs "área de trabalho"). Desktop sem suporte ao evento (Safari/Firefox) ganhou instrução textual pra procurar o ícone de instalar na barra de endereço, em vez de ficar sem nenhum caminho. Comentário de cabeçalho do banner atualizado pra registrar a cobertura de desktop, evitando que a próxima pessoa (ou eu mesmo) repita a suposição de "isso é só mobile".
+
+**Validação:** `node --check` do script principal OK. Pendente: Anderson confirmar no computador que o banner/card aparecem corretamente quando o Azimo ainda não está instalado lá.
+
+**Publicação:** `azimo-site/main` commit `17e604e`.
+
 **Próximo passo combinado com Anderson:** depois de validada a ativação, construir a estrutura de mensagens de notificação diária (incentivo de uso, lembrete de tarefas em aberto no dia, condicionado a inatividade da pessoa) -- ainda não especificado nem iniciado, fica registrado aqui como decisão já tomada na conversa, não só ideia solta.
