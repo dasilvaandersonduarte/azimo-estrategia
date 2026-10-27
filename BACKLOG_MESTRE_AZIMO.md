@@ -10331,3 +10331,40 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Publicação:** `azimo-site/main` commit `17e604e`.
 
 **Próximo passo combinado com Anderson:** depois de validada a ativação, construir a estrutura de mensagens de notificação diária (incentivo de uso, lembrete de tarefas em aberto no dia, condicionado a inatividade da pessoa) -- ainda não especificado nem iniciado, fica registrado aqui como decisão já tomada na conversa, não só ideia solta.
+
+## Item 367 | Notificação diária de incentivo e retenção (push manhã/noite) | 27/10/2026
+
+**Pedido:** depois de validar o item 366 (ativação de notificações), Anderson pediu que o Azimo passasse a incentivar ativamente o uso diário, de manhã (abrir o dia / Foco Nível Azimo, de acordo com o padrão de uso real da pessoa) e de noite (retomar algo que ficou pendente), em vez de depender só do lembrete de tarefa com horário já existente.
+
+**Investigação:** mapeados os campos reais de `STATE` usados na decisão, direto no `index.html`, sem suposição -- corrigindo de antemão um erro que eu mesmo quase cometi (achar que o check diário de hábito ficava guardado no próprio objeto do hábito; na verdade é um mapa plano separado, `STATE.tracker[habitoId+'_'+dataKey] === true`). Replicados no Worker: `weekNumber()`/`_anoSemanaKey()` (chave da análise semanal, `ano+'-S'+numeroDaSemana`), `focoAzimoDias` (Foco Nível Azimo feito no dia), `diasConcluidos` (dia encerrado), `tarefasHoje` (tarefas do dia) e `habitos`+`tracker` (hábito sem check).
+
+**Implementado (`azimo-worker/Worker/src/index.js`):** `scheduled()` passou a distinguir os crons por string exata (`event.cron`) em vez de assumir sempre `checkReengagement`. Duas novas funções, cada uma rodando 1x/dia:
+- `verificarIncentivoDiario(env,'manha')` (10h): se a pessoa está inativa há 3+ dias, manda push de reativação; senão, decide entre lembrar do Foco Nível Azimo ou das tarefas do dia, de acordo com qual dos dois ela mais usou nos últimos 14 dias (proporção ≥0,5 escolhe Foco Azimo).
+- `verificarIncentivoDiario(env,'noite')` (23h): pula se o dia já foi fechado ou o Foco Azimo já foi feito; senão, prioriza por ordem -- streak de hábitos em risco (≥2 dias) > tarefa aberta no dia > hábito sem check > análise semanal da semana pronta pra ver (deduplicada por `_anoSemanaKeyWorker`, uma vez por semana).
+- Regra de no máximo 1 incentivo por dia por pessoa: a passada da noite verifica primeiro se a manhã já disparou (`_jaIncentivouHojeDeManha`), senão manda os dois no mesmo dia.
+- Todo envio passa pelo mesmo mecanismo de dedupe já existente (`push_enviados`, chave única), sem nenhuma tabela nova.
+
+**Implementado (`azimo-worker/Worker/wrangler.toml`):** 2 novos crons, `0 10 * * *` e `0 23 * * *`, somados aos 2 já existentes (`0 12 * * *` reengajamento de trial por e-mail, `*/5 * * * *` push de tarefa com horário).
+
+**Validação:** `node --check` do Worker sem erro. Publicado e confirmado por Anderson direto no terminal dele (`deploy_azimo.command`, "Deploy concluido com sucesso", os 4 crons listados ativos em produção). Pendente: validação do conteúdo real de cada push ao vivo, ao longo dos próximos dias de uso -- não dá pra simular isso fora de produção sem esperar os horários reais.
+
+**Publicação:** `azimo-worker/main` commit `4fc95ce`.
+
+**Nota honesta (Modo Desafio):** esse item já estava publicado e rodando em produção desde 27/10 de manhã, mas ficou sem registro próprio no Backlog -- só ganhou uma linha reaproveitada no checklist do Azimo Command (item 366, que é outra entrega). Esse registro aqui é retroativo, feito ao notar a lacuna enquanto eu documentava os itens seguintes.
+
+## Item 368 | Ajustes de UX: CTA do Foco Azimo, texto redundante do chat e guia de instalação desktop | 27/10/2026
+
+**Pedido:** Anderson mandou 3 prints com uma lista numerada de ajustes. Três deles eram concretos e sem ambiguidade de escopo: (5) o card de notificações no desktop mostrava um texto genérico ("procure o ícone de instalar") mesmo pra quem usa Safari ou Firefox, onde esse ícone nunca existe; (6) o card do Foco Nível Azimo sempre mostrava "Clique para Iniciar o Dia", mesmo pra quem já tinha feito a rotina daquele dia; (8) o campo de chat na tela do Vio tinha a frase "Fale com o Vio." escrita no placeholder e no tour, redundante já que a pessoa está literalmente dentro da tela do Vio.
+
+**Investigação:** conferido direto no código (`index.html`) o hook que já controla o estilo visual do card do Foco Azimo (`_aplicarColapsoRotina()`, chamado toda vez que a Rotina é renderizada ou o Foco Azimo é alternado) e o sinal real de "já feito hoje" (`_rotinaFocoAtivoHoje()`, que lê `STATE.focoAzimoDias[dataDeHoje]`) -- mesmo padrão já usado pra aplicar a classe visual `rotina-foco-ativo`. Pra instalação no desktop, conferida a função `_renderSobreAzimoNotificacoes()` (item 366): o texto genérico só aparecia quando o evento `beforeinstallprompt` não tinha disparado, o que é sempre o caso no Safari (nunca dispara esse evento) e no Firefox desktop (não suporta instalar PWA de forma alguma) -- não era só uma mensagem vaga, era uma mensagem que prometia um caminho que não existe nesses dois navegadores.
+
+**Implementado (`azimo-site/index.html`):**
+- `_aplicarColapsoRotina()`: passa a atualizar o texto do `.foco-azimo-cta-cue` a cada render, usando o mesmo `_rotinaFocoAtivoHoje()` já existente -- "Clique para Iniciar o Dia" quando ainda não feito, "Feito por hoje. Clique para revisar" quando já feito.
+- Placeholder do campo de chat (tela do Vio) e tooltip do tour: removida a frase "Fale com o Vio.", mantidas as instruções de uso (Enter/Shift+Enter/microfone).
+- `_renderSobreAzimoNotificacoes()`: o texto de fallback no desktop agora detecta o navegador real via `navigator.userAgent` (Chrome, Edge, Safari, Firefox) e responde com o caminho certo pra cada um -- Chrome/Edge ganham instrução do ícone na barra de endereço ou do menu de três pontos; Safari no Mac ganha o caminho real (Arquivo → Adicionar ao Dock); Firefox ganha um aviso honesto de que não dá pra instalar por ele, com alternativa.
+
+**Validação:** `node --check` do script principal extraído do `index.html` sem erro, nas duas rodadas de edição (incluindo a correção de numeração do comentário interno, que colidia com o número já reservado pro item 367 documentado acima). Pendente: conferência visual de Anderson, que exige abrir os 3 pontos em contexto real (dia já concluído, Safari no Mac, Firefox) pra confirmar o texto certo em cada caso -- não simulado por navegação de aba aqui.
+
+**Publicação:** `azimo-site/main` commits `dd834aa` e `1e24e2f`.
+
+**Pendente, ainda não implementado (itens 3, 4 e 7 da mesma lista de Anderson):** (3) montar a lista revisável de e-mails/notificações dentro do Azimo Command, pra Anderson analisar cada um; (4) tornar o Vio mais consciente/inteligente na direção de criações de conteúdo pros usuários, ainda sem escopo definido; (7) remover os botões que abrem o Vio fora da tela dele -- mapeamento já feito, decisão de arquitetura (navegar pra tela do Vio em vez de abrir popup, preservando as funcionalidades de "Criar com o Vio" das Afirmações/Mentalizações) levada ao Anderson antes de implementar, por envolver várias funcionalidades reais e não só botões redundantes.
