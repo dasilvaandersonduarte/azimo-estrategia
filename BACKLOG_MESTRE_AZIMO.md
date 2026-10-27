@@ -10460,3 +10460,21 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Pendência:** validação visual/funcional ao vivo (desktop e mobile) depende do Anderson -- nenhuma navegação de aba foi feita no site em produção por cautela já estabelecida nesta sessão.
 
 **Publicação:** `azimo-site/main` commit `bfd3204` (mesmo commit do item 372, entregues juntos por serem mudanças na mesma tela).
+
+## Item 374 | Editar tarefa sem horário via lápis, cor real da prioridade e salvamento adiado de "Mudar o Dia" | 27/10/2026
+
+**Pedido:** Anderson mandou 3 ajustes de Tarefas no mesmo lote:
+1. Tarefa sem horário (ou em qualquer lista -- Blocos, Foco Azimo) poder ser editada abrindo o mesmo card pop-up usado pelas tarefas com horário na Agenda, com um ícone de lápis como gatilho.
+2. Os botões de prioridade (P1 | P2 | P3 | P4) não ficavam destacados com a cor real deles (a mesma do filtro de prioridades) quando selecionados -- print mostrando isso anexado.
+3. No card pop-up de edição, mudar o campo "Mudar o Dia" já movia a tarefa e fechava o card na hora, sem dar chance de revisar ou desistir -- queria liberdade pra mexer nos campos e só aplicar tudo ao clicar em Salvar.
+
+**Investigação:** o card pop-up com título/horário/duração/mudar o dia/lembrete (`modal-card-tarefa`, função `_abrirCardTarefa`) já existia, mas só era aberto a partir dos blocos com horário na Agenda -- tarefas sem horário (`_tarefaRowHtml`, usada também em Blocos e Foco Azimo) não tinham nenhum jeito de abrir esse mesmo card. Os botões de prioridade usavam a classe genérica `.btn-primary` (azul indigo) quando ativos, em vez da cor própria de cada quadrante (`q.cor`, já definida em `EISENHOWER_QUADRANTES` e já usada corretamente no filtro). "Mudar o Dia" chamava `_moverTarefaEntreDias` + fechava o card direto no `onchange` do campo, sem passar pelo botão Salvar -- diferente de todos os outros campos do mesmo card, que são sim aplicados só no Salvar.
+
+**Implementado:**
+1. Novo botão de lápis (ícone SVG, mesmo padrão visual do botão de excluir/descrição) em `_tarefaRowHtml`, abrindo `_abrirCardTarefa('${t.id}')` -- funciona em qualquer lista que usa essa linha (sem horário, Blocos, Foco Azimo, não só Agenda).
+2. Botões de prioridade (linha da tarefa e formulário de Nova Tarefa) passam a aplicar a cor real do quadrante (`color-mix` sobre `q.cor`, com fallback automático em qualquer tema claro/escuro já que usa a variável de cor existente, sem precisar criar variável CSS nova) quando ativos, em vez do azul genérico.
+3. `_cardTarefaMudarData` não move mais a tarefa nem fecha o card -- só guarda a data escolhida numa variável pendente (`_cardTarefaDataPendente`). A mudança de dia só é aplicada de fato dentro de `_cardTarefaSalvar()`, junto com os outros campos, ao clicar em Salvar.
+
+**Validação:** lido o código de ponta a ponta antes e depois da mudança, `node --check` no bloco de script principal sem erro de sintaxe. Validação visual/funcional ao vivo (clicar no lápis, ver a cor de cada P, mudar o dia e confirmar que só move no Salvar) depende do Anderson testar no site.
+
+**Publicação:** `azimo-site/main` commit `858aa11`.
