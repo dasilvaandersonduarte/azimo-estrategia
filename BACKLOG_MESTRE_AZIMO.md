@@ -10417,3 +10417,46 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementado:** só a correção do texto no Azimo Command (cmd-note da Fase 5) e o registro da proposta -- nenhuma linha de Worker tocada ainda. Build/publicação da proposta em si fica para quando Anderson aprovar.
 
 **Publicação:** `azimo-site/main` commit `b5af6c7`.
+
+## Item 372 | Correção do menu "Editar área / Excluir área" cortado dentro do card | 27/10/2026
+
+**Pedido:** Anderson mandou print mostrando que, ao clicar nos 3 pontinhos ao lado do botão "Continuar" em cada área de Estudos, o menu "Editar área" abria mas ficava cortado/escondido, indo para dentro do próprio card em vez de aparecer visível por cima.
+
+**Investigação:** confirmado no código que o menu (`.est-kebab-menu`) era `position:absolute` relativo ao wrapper do botão, dentro do próprio card (`.est-area-row`). Esse padrão expõe o menu a cortes de overflow e problemas de empilhamento dependendo do tamanho/posição do card na lista -- exatamente o sintoma relatado. O app já tinha uma solução estabelecida pra esse mesmo tipo de problema, usada no seletor de ícone de área (`abrirIconePicker`): um elemento único "portal", anexado direto no `<body>`, `position:fixed`, posicionado pela posição real do botão na tela via `getBoundingClientRect()` -- imune a qualquer corte de container pai.
+
+**Implementado:** `toggleEstKebab()` reescrita pra seguir o mesmo padrão -- um único `div.est-kebab-menu` compartilhado, criado uma vez e reaproveitado, com conteúdo (Editar área / Excluir área) montado dinamicamente a cada abertura e posicionado pela posição real do botão clicado, com clamp pra nunca sair da viewport. CSS do `.est-kebab-menu` trocado de `position:absolute` pra `position:fixed`, `z-index` de 50 pra 1000 (mesmo valor do picker de ícone). Os `<div>` de menu individuais que existiam dentro de cada card no HTML foram removidos (não precisam mais existir, um único elemento compartilhado resolve todos os cards).
+
+**Validação:** `node --check` do script principal sem erro. Teste visual ao vivo (abrir o menu em diferentes áreas, inclusive perto da borda da tela) pendente de confirmação do Anderson.
+
+**Publicação:** `azimo-site/main` commit `bfd3204`.
+
+## Item 373 | Refinamento do cadastro e registro de Estudos | 27/10/2026
+
+**Pedido:** especificação formal completa do Anderson ("AZIMO | REFINAMENTO DO CADASTRO E REGISTRO DE ESTUDOS"), com 9 seções: simplificar cadastro de área, simplificar tela de registro/continuar estudo, remover campos pouco usados da interface principal do registro (preservando dados e integrações), unificar o editor de resumo/tópicos com suporte a título/lista, manter insight e ação prática separados, manter link (só remover a palavra "Opcional"), preservar integração com Revisão, seguir o padrão visual aprovado.
+
+**Investigação:** mapeados os 3 modais envolvidos (Novo Estudo/`novaArea`, Editar Área/`editArea`, Registro do Dia/`estudo` -- esse último é também a "tela Continuar Estudo" da especificação, já que `openModalEstudo()` abre o mesmo modal). Antes de remover Título/Fonte/Tags da interface, conferido ponto a ponto onde cada campo é usado fora do próprio registro: `source` e `tags` não são lidos em nenhum outro lugar do código (sem filtro, sem busca, sem integração), seguros pra sair da interface sem quebrar nada. `titulo`, porém, tinha uma dependência real e não óbvia: `_chaveRevisao(e)` usa `tipo+'|'+titulo` como identificador único de cada registro pra deduplicar a geração de tarefas de revisão atrasada (`STATE.estudos` nunca teve `id` próprio). Sem título preenchido, todo registro novo da mesma área cairia na mesma chave vazia, e a segunda revisão em diante simplesmente pararia de gerar lembrete -- um bug real e silencioso que só apareceria dias depois, exatamente o tipo de regressão que a seção 7 da especificação pedia pra evitar.
+
+**Implementado (`azimo-site/index.html`):**
+- Removida a palavra "Opcional" de todos os rótulos de campos de Estudos (cadastro de área, edição de área, registro do dia), nas 3 variantes de categoria (livro/idioma/curso). "Total de aulas/módulos" passou a dizer "(se já souber)" como pedido; "Link" ficou só "Link" em todo lugar.
+- Removidos da interface do Registro do Dia: Título do registro, Fonte, Tags. Os campos continuam existindo no modelo de dado (pra não quebrar leitura de registros antigos na Revisão), só ficam vazios pra quem preenche pelo formulário daqui pra frente.
+- "Resumo / anotações" e "Tópicos principais" (2 editores de texto rico separados) viram **um editor só**, "Resumo e anotações", com toolbar ampliada: seletor de Título/Subtítulo (vira `<h2>`/`<h3>` via `execCommand('formatBlock', ...)`), Negrito (já existia), Lista com marcadores (já existia), Lista numerada (nova). Tudo sem biblioteca externa, mesma abordagem de antes (`contenteditable` + sanitização no save). A whitelist de tags permitidas no sanitizador (`_sanitizeRico`) foi ampliada pra incluir H2, H3 e OL.
+- "O que aprendeu · insight" e "Ação prática" continuam campos separados do editor principal, exatamente como pedido (a diferença entre "o que foi estudado", "o que a pessoa entendeu" e "o que ela vai fazer com isso").
+- Mobile: o editor cresce com o conteúdo (sem altura máxima fixa) e rola pro centro da tela ao ser focado, com um pequeno atraso pra esperar o teclado abrir, evitando que o teclado cubra o que está sendo escrito.
+- **Correção técnica descoberta durante a implementação, não pedida mas necessária:** cada registro novo de Estudos ganhou um `id` próprio e estável (tanto no salvamento manual quanto no caminho usado pelo Vio via function calling), e `_chaveRevisao()` passou a usar esse id quando existe, caindo pro formato antigo (tipo+título) só pra registros históricos sem id. Resolve o bug silencioso de deduplicação descrito acima antes que ele acontecesse de verdade.
+- Revisão (`renderRevisao`): sem alteração de lógica, só CSS novo pra exibir corretamente título/subtítulo/lista numerada dentro do card quando um registro novo os contiver (`.rev-card-resumo h2/h3/ol`).
+
+**Testes executados (os 10 pedidos, via leitura de código + `node --check`, sem navegação ao vivo):**
+1. Cadastro com campos opcionais vazios: regra de validação (só Nome e Categoria são obrigatórios) não foi tocada, confirmado no código.
+2. Cadastro com todos os campos preenchidos: mesma lógica de salvamento, não alterada.
+3. Abertura de estudo existente (`openModalEstudo`): função não alterada.
+4. Registro de anotações com títulos e listas: `_ricoFormatBlock`/`_ricoCmd` e a whitelist do sanitizador cobrem H2/H3/UL/OL.
+5. Salvamento e reabertura do registro: card de Revisão lê os mesmos campos (`resumo`, agora unificado) sem mudança de formato de dado.
+6. Edição de um registro já salvo: **não implementado -- fora do escopo real.** Não existe (nem existia antes desta mudança) nenhuma tela de reabrir/editar um registro antigo de Estudos, só a ação de revisar (Já sei bem / Quero revisar de novo). Esse teste aparecia na lista de testes obrigatórios mas não tinha UI pedida nas seções 1-8; registrado aqui como decisão de escopo, não como pendência esquecida -- se Anderson quiser essa tela, é um pedido novo.
+7. Funcionamento do ditado: `_toggleDitadoEstudo`/`_initDitadoEstudo` não foram tocadas.
+8. Atualização do progresso: `_renderEstProgressoField` não teve a lógica alterada, só texto de rótulo.
+9. Integração com Revisão: coberta pela correção do `_chaveRevisao` acima, com compatibilidade retroativa garantida.
+10. Compatibilidade desktop e mobile: CSS novo não depende de media query, mesma estrutura responsiva já existente.
+
+**Pendência:** validação visual/funcional ao vivo (desktop e mobile) depende do Anderson -- nenhuma navegação de aba foi feita no site em produção por cautela já estabelecida nesta sessão.
+
+**Publicação:** `azimo-site/main` commit `bfd3204` (mesmo commit do item 372, entregues juntos por serem mudanças na mesma tela).
