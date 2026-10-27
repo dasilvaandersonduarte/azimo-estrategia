@@ -10391,3 +10391,29 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Pendência técnica:** nenhuma identificada no código. Validação visual/funcional ao vivo (desktop e mobile) depende do Anderson.
 
 **Publicação:** `azimo-site/main` commit `8eae3d8`.
+
+## Item 370 | Aumento do símbolo nos ícones de instalação desktop | 27/10/2026
+
+**Pedido:** Anderson reportou que, no Mac, o ícone do Azimo instalado ficava quase imperceptível -- "só aparece meio que um pontinho branco no meio". No celular (mobile), o tamanho já estava bom, não precisava mexer.
+
+**Investigação:** medido programaticamente (via PIL) o quanto o símbolo oficial (o losango/flecha de 3 camadas) ocupava dentro de cada arquivo de ícone. Em `icon-512.png` e `icon-192.png` (ícones "any", usados pelo instalador do Chrome/Edge no desktop), o símbolo ocupava só 60% da altura e 18% da largura do canvas -- muito espaço vazio ao redor, que somado ao arredondamento adicional que o próprio sistema operacional aplica por cima, deixava o glifo minúsculo no resultado final. `icon-maskable-512.png` (usado por máscaras adaptativas Android/Chrome) tinha a mesma proporção pequena.
+
+**Implementado:** os 3 arquivos foram regerados programaticamente (Python + PIL, com supersampling 4x pra manter as bordas lisas), reproduzindo exatamente a mesma geometria e cores do mark oficial (os 3 polígonos sobrepostos do losango, branco em 3 camadas de opacidade sobre o fundo indigo #6366F1) só que em escala maior: 85% de altura do canvas nos ícones "any" (icon-512, icon-192) e 78% de altura no maskable (mantendo folga dentro da safe zone de 80% de diâmetro usada por máscaras adaptativas, pra não cortar o símbolo). `apple-touch-icon.png` (iOS/mobile) não foi tocado, por já estar no tamanho certo segundo o Anderson.
+
+**Validação:** comparação visual direta entre o ícone antigo e o novo, redimensionados pra 64x64px (simulando o tamanho real que aparece no Dock/barra de tarefas) -- confirmado que o símbolo novo é muito mais legível nesse tamanho pequeno, deixando de parecer um "pontinho". Não foi possível testar o ícone de fato instalado no Dock do Mac do Anderson (precisa reinstalar o PWA pra pegar o ícone novo) -- essa confirmação final fica pendente dele.
+
+**Publicação:** `azimo-site/main` commit `9dc0622`.
+
+## Item 371 | Correção do levantamento de e-mails (item 368) + proposta de aviso de cobrança do trial de convite | 27/10/2026
+
+**Pedido:** depois de ver o levantamento do item 368 (lista de e-mails/notificações no Command), Anderson perguntou especificamente sobre a situação de e-mails/notificações e pediu que eu montasse a proposta dos e-mails faltantes (boas-vindas, trial acabando, pós-cancelamento) já embutida na tarefa dele no Command, pra ele seguir o processo por ali.
+
+**Investigação (correção honesta):** ao montar a proposta, reli o código dos fluxos reais de cadastro e cancelamento e descobri que o levantamento anterior (item 368) estava errado -- a busca inicial só tinha procurado chamadas de `sendUserEmail(env,...)`, mas o código usa uma SEGUNDA forma de mandar e-mail, um helper local `sendEmail` (chamada direta à API do Resend) definido dentro de `handleTrialStartWithCard` (o endpoint real de cadastro com cartão, usado por todo mundo hoje) e `handleCancelarAssinatura`. Essas chamadas não apareceram na busca anterior. Na realidade, já existem: uma sequência de boas-vindas completa (D+0 "Vio aqui, pode começar", D+1 "como foi ontem?", D+7 "7 dias, o que os dados dizem?", agendados via Resend no momento do cadastro) e um e-mail de pós-cancelamento ("Antes de você ir"), ambos ativos em produção. A lista antiga foi corrigida direto no Command (ver item do Backlog anterior editado).
+
+**Gap real confirmado (esse sim verdadeiro):** quem entra pelo trial de 15 dias com Código de Convite tem cartão cadastrado e é cobrado automaticamente no fim do trial, sem nenhum aviso prévio -- a única notificação que existe nesse período (`checkReengagement`) só dispara pra quem está *inativo*. Uma pessoa usando o produto normalmente, de boa-fé, nunca recebe um "sua cobrança está chegando" antes do cartão ser debitado. Isso é uma lacuna de transparência de cobrança, diferente da lacuna de retenção que o reengajamento já cobre.
+
+**Proposta registrada no Command (não implementada, aguardando aprovação):** novo e-mail "aviso de cobrança do trial de convite", disparado T-3 dias antes do fim do trial, pra todo `status=trial` vindo de Convite (ativo ou não, ao contrário do reengajamento), com valor e data exatos da cobrança (já disponíveis na subscription do Stripe) e link de cancelamento. Reaproveita a mesma query e o mesmo padrão de cron já usados em `checkReengagement`, sem infraestrutura nova. Convivem sem sobreposição: quem está inativo E perto do fim recebe os dois e-mails, em dias diferentes da janela (reengajamento em 6-7 dias antes, aviso de cobrança em 3 dias antes).
+
+**Implementado:** só a correção do texto no Azimo Command (cmd-note da Fase 5) e o registro da proposta -- nenhuma linha de Worker tocada ainda. Build/publicação da proposta em si fica para quando Anderson aprovar.
+
+**Publicação:** `azimo-site/main` commit `b5af6c7`.
