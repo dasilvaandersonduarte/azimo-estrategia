@@ -10478,3 +10478,15 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** lido o código de ponta a ponta antes e depois da mudança, `node --check` no bloco de script principal sem erro de sintaxe. Validação visual/funcional ao vivo (clicar no lápis, ver a cor de cada P, mudar o dia e confirmar que só move no Salvar) depende do Anderson testar no site.
 
 **Publicação:** `azimo-site/main` commit `858aa11`.
+
+## Item 375 | Renomeado campo "Canal / Autor / Fonte" para "Canal ou Autor" em registro de vídeo/artigo | 27/10/2026
+
+**Pedido:** Anderson pediu pra fazer testes reais de cadastro de Estudos comigo mesmo, cadastrando conteúdos dele (não o VTurb, que já estava completo), justamente pra eu avaliar o fluxo de criação e revisão na prática antes de outros usuários chegarem na plataforma -- com autorização pra manter o padrão da forma que ficar melhor e mais fácil pro usuário.
+
+**Investigação:** ao testar o cadastro de uma área de categoria Vídeo/Artigo (estudo real: "Wendel Carvalho | Propósito, Atitude e Riqueza"), apareceu um campo extra que só existe nessa categoria -- "Canal / Autor / Fonte" (`m-est-video-canal`) -- diferente do campo "Fonte" que já tinha sido removido do registro genérico no item 373. Esse campo é legítimo e continua em uso (inclusive o Vio usa ele no registro automático via `canal_autor`), mas o rótulo repetir a palavra "fonte" criava risco real de o usuário achar redundante ou pensar que o campo removido ainda existia escondido ali.
+
+**Implementado:** rótulo trocado de "Canal / Autor / Fonte" para "Canal ou Autor", sem mudar o campo em si, o placeholder, nem nenhuma outra funcionalidade.
+
+**Validação:** `node --check` sem erro de sintaxe. Testado ao vivo no navegador: cadastrei a área "Wendel Carvalho | Propósito, Atitude e Riqueza" (categoria Vídeo/Artigo) e um registro completo com o conteúdo real do material dele (WWWPFR, 4 sabotadores, 6 perguntas de riqueza permanente em lista numerada, etc.), confirmando cadastro, progresso ("1 conteúdo registrado") e Revisão agendada pra amanhã funcionando igual ao teste anterior do VTurb (item 374 complemento).
+
+**Publicação:** `azimo-site/main` commit `55629b2`.
