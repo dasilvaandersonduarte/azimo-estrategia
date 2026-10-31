@@ -10686,3 +10686,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Dados reais:** atualização transacional em `user_state` do usuário Anderson, condicionada a versão do estado, cardinalidade exata (27 revisões e 27 tarefas) e ausência de conflitos em 03/11. Apenas `nextReview` dessas 27 revisões e as tarefas vinculadas foram movidos de 28/10 para 03/11; demais dados preservados. Verificação posterior confirmou 27 revisões e 27 tarefas pendentes em 03/11, zero correspondências faltantes.
 
 **Testes e publicação:** oito scripts inline passaram em `node --check`; teste isolado executou movimento da tarefa vinculada no botão “Quero revisar novamente”, preservando id/status e reiniciando o ciclo. Vercel production `dpl_7CBQajv9r7voPzCUFYmRFGeeMCwc` READY nos aliases `azimo.life`/`www.azimo.life`. Em Chrome autenticado, filtro de 7 dias mostrou 27 cards com data 03/11 e Agenda semanal de 02–08/11 mostrou 27 revisões no dia 3 e zero nos outros dias. O botão não foi clicado na conta real para não deslocar uma das 27 revisões de 03/11; feedback visual da ação foi testado por código/simulação, ainda não por toque físico no celular. Nenhum Worker ou esquema de banco foi alterado.
+
+
+## Item 394 | 31/10/2026 | Agenda diária: cor Azimo e conclusão rápida
+
+**Solicitação:** unificar a cor das tarefas Azimo em roxo nas três visões; na diária, check direto próximo ao horário sem abrir detalhes; semanal/mensal mantêm interação anterior; permitir quebra de linhas no título, inclusive mobile.
+
+**Implementação:** `azimo-site/index.html`, commit `1186ba35cf03054d42fd2b2fa4bb98c72d999422` na `main`. Os blocos próprios da diária usam classe `agenda-blk-azimo` com cores índigo; botão de check reaproveita `toggleTarefa` com data explícita e `stopPropagation`, preservando a abertura dos detalhes ao clicar no restante do card; título usa `overflow-wrap:anywhere` e `white-space:normal`. Eventos Google continuam somente leitura. Sem alteração de Worker ou banco.
+
+**Publicação:** Vercel production `dpl_Gfy6zefdwehQy5t1KVTVfjJyZxgL` READY para o commit. **Validação pendente:** inspeção autenticada de conclusão, alinhamento do check e títulos longos em mobile; cards de duração curta podem exigir tratamento adicional de altura/colisão antes de aprovação final do usuário.
