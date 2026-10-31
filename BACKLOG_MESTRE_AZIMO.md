@@ -10635,3 +10635,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** Ícone `ti-message-circle` substituído por `vio-sidebar-mark`, preenchido pela função SVG compartilhada. O avatar de mensagens do Vio agora usa `_VIO_COMPASS_SVG(40)` em vez da bússola vermelha antiga. SVG mobile aumentado para 50 px no círculo de 52 px, mantendo a sincronização existente com o cabeçalho. Commit `azimo-site/main` `3b9d9c493a664a902b5a8ef301abe226afcab07d`. Vercel deployment `dpl_4gfN8c6xWdHQtMBjhL144REQkWAV` READY.
 
 **Pendências:** Validar visualmente as três regiões do chat e navegação mobile no navegador autenticado e em aparelho real; confirmar atribuição do domínio de produção ao deploy. Não foi executado QA de sintaxe dos scripts nem teste funcional de chat. Nenhuma mudança no Worker ou Supabase.
+
+
+## Item 389 | 31/10/2026 | Marca Vio em todas as mensagens e preenchimento dos ícones
+
+**Pedido:** O símbolo nas respostas do Vio permanecia antigo e pequeno, apesar da atualização do cabeçalho e sidebar. Solicitação de ocupar melhor a área do avatar e o círculo do mobile.
+
+**Implementação:** Substituídos cinco SVGs antigos de mensagens/histórico/indicador de digitação/cartões por `_VIO_COMPASS_SVG(28)`; dois caminhos de cartões de ação corrigidos para executar a função em vez de mostrar interpolação literal. CSS do avatar do chat ajustado para 34x34, sidebar Vio usando símbolo em toda a área de 36x36 e navegação mobile com SVG a 100% do círculo. Commits `f47ae64aa70f21eb3fd1ffb22daa2fa1927ede38` e `a093b520496ee1a4c3b02ea2c65fbea848d4bbe8`. Deploy Vercel production READY `dpl_3BC43WwGBDSX5wQ8Aar7bNgakneU`, associado a `azimo.life` e `www.azimo.life`.
+
+**Pendências:** Testes autenticados de respostas novas e antigas, indicadores e cartões, e revisão visual real desktop/mobile. Não foram executados testes automatizados de sintaxe ou browser. Sem alteração de Worker/Supabase.
