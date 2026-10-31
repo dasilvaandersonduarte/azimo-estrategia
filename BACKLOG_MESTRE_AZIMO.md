@@ -10597,3 +10597,14 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Commit:** `azimo-site/main` `e9cc38d23183e7a8570c8bd79494145ad3519ffa`.
 
 **Pendente:** Validar deploy Vercel e testar em sessão autenticada: editar tarefa existente para 16:15 com antecedência de 12 minutos, confirmar, reabrir Agenda e verificar persistência e ausência de duplicidade. Testar casos ambíguos e horários inválidos. Não afirmar que push foi entregue sem teste real.
+
+
+## Item 385 | 31/10/2026 | Comunicação do Vio e diagnóstico do ditado
+
+**Evidência:** Print do Vio respondeu `Consegue sim, manda ver` a pedido de edição que ele próprio deveria propor. Cartão correto já mostrava 16:20 e 5 minutos de antecedência. Ditado do usuário sem pontuação confiável.
+
+**Diagnóstico:** O microfone do chat utiliza `SpeechRecognition`/`webkitSpeechRecognition` em `pt-BR`, com capitalização da primeira letra, sem pós-processamento próprio de pontuação. A resposta do Vio não assumiu a condução da proposta.
+
+**Implementação:** Prompt do Vio orienta assumir a proposta sem afirmar execução antes da confirmação, interpretar ditado sem pontuação e não inventar horários, números ou acesso detalhado à Agenda. Commit `azimo-site/main` `3959b7df905b8da771a11205673e7d81019ac978`.
+
+**Pendente:** Testar comunicação em sessão autenticada; definir e implementar revisão de pontuação da transcrição com preservação de valores/horários e consentimento explícito para qualquer serviço adicional. Confirmar deploy de produção.
