@@ -10644,3 +10644,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** Substituídos cinco SVGs antigos de mensagens/histórico/indicador de digitação/cartões por `_VIO_COMPASS_SVG(28)`; dois caminhos de cartões de ação corrigidos para executar a função em vez de mostrar interpolação literal. CSS do avatar do chat ajustado para 34x34, sidebar Vio usando símbolo em toda a área de 36x36 e navegação mobile com SVG a 100% do círculo. Commits `f47ae64aa70f21eb3fd1ffb22daa2fa1927ede38` e `a093b520496ee1a4c3b02ea2c65fbea848d4bbe8`. Deploy Vercel production READY `dpl_3BC43WwGBDSX5wQ8Aar7bNgakneU`, associado a `azimo.life` e `www.azimo.life`.
 
 **Pendências:** Testes autenticados de respostas novas e antigas, indicadores e cartões, e revisão visual real desktop/mobile. Não foram executados testes automatizados de sintaxe ou browser. Sem alteração de Worker/Supabase.
+
+
+## Item 390 | 31/10/2026 | Acabamento premium da opção 2 aplicado ao Vio e sidebar
+
+**Pedido:** Implementar o mockup aprovado da opção 2 com maior sofisticação visual dos botões da sidebar e da interface do Vio.
+
+**Implementação:** CSS escopado adiciona gradientes em camadas, bordas e reflexos internos e sombras sutis nos botões da sidebar desktop, preservando Azimo Command verde; destaca marca oficial do Vio no cabeçalho, navegação e avatares; aprimora atalhos do chat, balões de resposta e área de entrada. Introduz classe `.vio-premium-mark` no cabeçalho e suporte a `prefers-reduced-motion`. Mantém funções e eventos existentes. Commit `azimo-site/main` `7979fe5fc4db2fc13e5a6251053a816f25a47087`. Deploy Vercel Production `dpl_5Ann3kzcmSj21jXviHrWRpfHqcDN` READY, com aliases `azimo.life` e `www.azimo.life`.
+
+**Pendências:** Inspeção visual autenticada desktop e mobile e teste de navegação, atalhos, foco e chat. Não foram executados testes automatizados de sintaxe ou capturas da produção. Nenhuma mudança em Worker/Supabase.
