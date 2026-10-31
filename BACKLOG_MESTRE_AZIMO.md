@@ -10561,4 +10561,4 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 
 **Implementação:** No frontend `azimo-site/index.html`, substituído detector simples de teclado por sincronização do `window.visualViewport` (altura e offset) enquanto `#chat-input` está focado no mobile. App passa a ocupar altura efetivamente visível e mantém a área de mensagens com flex e rolagem, com barra de digitação no fluxo. Remove estilos temporários ao fechar teclado. Commit `dceaa7204c91cf42ed5d8a91692f17e00b3e3852`.
 
-**Pendente:** Confirmar deployment Vercel e validar em iPhone físico que o histórico permaneça visível, que não ocorra ampliação/recuo de página e que teclado, envio, microfone e navegação voltem ao normal após fechar.
+**Publicação:** Vercel Production READY `dpl_1uTfFviV9rdhWi9ypkLjmxawa8Fz`. **Pendente:** Validar em iPhone físico que o histórico permaneça visível, que não ocorra ampliação/recuo de página e que teclado, envio, microfone e navegação voltem ao normal após fechar.
