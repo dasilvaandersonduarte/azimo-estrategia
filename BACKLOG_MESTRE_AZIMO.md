@@ -10544,3 +10544,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Validação:** `node --check` limpo nos 8 scripts inline. Publicado e confirmado via `curl` em produção. Testado ao vivo, autenticado: a) marquei a área real do Milagre da Manhã como concluída (checkbox aparece marcado, progresso 100%, sem mais o número fictício de páginas que eu tinha usado como gambiarra temporária). b) Abri a edição de um item real de Interesse Futuro (The Great CEO Within) -- veio pré-preenchido certo, salvei cancelamento sem perda. c) Simulei uma promoção completa com um item de teste descartável (criado e removido só pra esse teste, sem tocar nos 33 itens reais de Anderson): cancelei o modal Novo Estudo e confirmei que o lembrete continuou na lista e nenhuma área foi criada; repeti promovendo até salvar de verdade, confirmei que a área foi criada E o lembrete sumiu só nesse momento, e já limpei a área de teste depois. d) No campo de data, forcei via console uma data futura absurda (2099) direto no input pra testar a trava -- o registro salvo ficou com a data real do dia, confirmando que o clamp de segurança funciona mesmo contornando o `max` do HTML; registro de teste removido logo depois.
 
 **Publicação:** `azimo-site/main` commit `f89a375`.
+
+
+## Item 380 | 31/10/2026 | Vio mobile: campo de digitação sem zoom e placeholder direto
+
+**Solicitação:** No iPhone, ao tocar na caixa de mensagem do Vio, o navegador aparentava ampliar a interface. Anderson pediu abertura natural do teclado, como no WhatsApp, e a instrução “Toque para digitar.” em vez de “Toque em enviar ou no microfone.”
+
+**Implementação:** No `azimo-site/index.html`, placeholder mobile e placeholder inicial atualizados; tipografia do campo e do placeholder fixada em 16 px no layout mobile para evitar zoom automático do Safari ao focar campos pequenos; `touch-action: manipulation` aplicado ao textarea. Microfone, envio e demais funções preservados. Commit `35b1ae531567139e2c711261739f6a39f90fd4fb`.
+
+**Validação pendente:** Confirmar deploy de produção na Vercel e pedir teste real em iPhone, incluindo abertura/fechamento do teclado e ausência de zoom. Não houve teste físico no dispositivo de Anderson.
