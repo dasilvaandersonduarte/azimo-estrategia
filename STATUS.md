@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> 31/10/2026, item 385: refinadas instruções de comunicação do Vio para assumir propostas de ação e interpretar ditado sem pontuação, sem inventar horários ou números. `azimo-site/main` commit `3959b7df905b8da771a11205673e7d81019ac978`. Confirmado no código que o microfone usa Web Speech API do navegador, sem pontuação própria. Revisão visual da transcrição e testes autenticados ainda pendentes; nenhuma alteração no Worker.
+
 > 31/10/2026, item 384: corrigido fluxo do Vio para editar horário e/ou lembrete de tarefa existente, após teste real revelar prompt contraditório e ferramenta limitada à antecedência. `azimo-site/main` commit `e9cc38d23183e7a8570c8bd79494145ad3519ffa`. Cartão agora distingue atualização de criação. Pendente validação funcional autenticada e confirmação do deploy Vercel; nenhuma alteração no Worker ou banco.
 
 > 31/10/2026, item 383: Vio agora propõe alteração de lembrete de tarefa existente via ferramenta `alterar_lembrete_tarefa`, com correspondência única por título/data, cartão de confirmação e persistência de `lembreteConfig` sem duplicar tarefa. Commit frontend `61d5dd37ca9d2cbd1dd68f7522d383af4fef63c9`, deploy Vercel production READY `dpl_AL2J5DrDa2exar7HeWkoXoYpjqjB`. Pendente teste funcional real no chat. A autonomia geral do Vio para outras operações permanece uma evolução por ferramentas com permissões e confirmação, não foi liberado acesso irrestrito.
