@@ -10695,3 +10695,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** `azimo-site/index.html`, commit `1186ba35cf03054d42fd2b2fa4bb98c72d999422` na `main`. Os blocos próprios da diária usam classe `agenda-blk-azimo` com cores índigo; botão de check reaproveita `toggleTarefa` com data explícita e `stopPropagation`, preservando a abertura dos detalhes ao clicar no restante do card; título usa `overflow-wrap:anywhere` e `white-space:normal`. Eventos Google continuam somente leitura. Sem alteração de Worker ou banco.
 
 **Publicação:** Vercel production `dpl_Gfy6zefdwehQy5t1KVTVfjJyZxgL` READY para o commit. **Validação pendente:** inspeção autenticada de conclusão, alinhamento do check e títulos longos em mobile; cards de duração curta podem exigir tratamento adicional de altura/colisão antes de aprovação final do usuário.
+
+
+## Item 395 | 31/10/2026 | Agenda: remover horário, cores P1–P4 e próxima atrasada
+
+**Solicitação:** permitir transformar tarefa com horário em sem horário (mantendo-a no dia e no topo da Agenda diária); cores P1 vermelho, P2 laranja, P3 amarelo e P4 cinza na visualização Blocos, conforme Foco Azimo; ao navegar para dias atrasados, botão para próximo dia com tarefa atrasada sem voltar a Hoje.
+
+**Implementação:** `azimo-site/index.html`, commit `112dc4ebc80750c18c57a90593612bfeeaf06ab0`. Card de edição ganhou botão `Sem horário`, chamando o mesmo `updateTarefaHora` com valor vazio; lista de Blocos ganhou botão compacto para limpar horário. P1–P4 reutilizam `EISENHOWER_QUADRANTES` e destacam seleção sem ocultar a cor de cada opção. Navegação `Próxima atrasada` usa `_tarefasAtrasadasReais`, seleciona a próxima data maior que a exibida e mantém `Voltar pra hoje`. Sem mudanças no Worker ou Supabase.
+
+**Publicação:** Vercel production `dpl_C767BMGnqLeWXL1nMydnmfH2ARcA` READY. **Pendente:** validação funcional autenticada no navegador, em especial limpar horário no card, preservação de data e estado, e sequência de dias atrasados após reagendamento; READY não equivale a teste de interação.
