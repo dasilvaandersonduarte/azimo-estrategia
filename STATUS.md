@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> Atualizado em 31/10/2026. Item 380: campo de mensagem do Vio no mobile passou a exibir “Toque para digitar.” e recebeu reforço de tipografia de 16 px para prevenir zoom automático do Safari no iPhone ao focar a caixa de texto. Commit `35b1ae531567139e2c711261739f6a39f90fd4fb` em `azimo-site/main`. Publicação e teste físico no iPhone ainda pendentes de verificação. Sem alteração de Worker ou Supabase.
+> Atualizado em 31/10/2026. Item 380: campo de mensagem do Vio no mobile passou a exibir “Toque para digitar.” e recebeu reforço de tipografia de 16 px para prevenir zoom automático do Safari no iPhone ao focar a caixa de texto. Commit `35b1ae531567139e2c711261739f6a39f90fd4fb` em `azimo-site/main`. Deploy Vercel de produção confirmado READY (`dpl_Bp5kfWmgQrqFiu6QDPWaseUcKJ6C`), associado ao commit; teste físico no iPhone ainda pendente. Sem alteração de Worker ou Supabase.
 
 > Atualizado em 26/10/2026. Item 357: menu Mais mobile corrigido para seguir a referência cinematográfica aprovada, com oito cenas WebP reais integradas aos cards, em vez de desenhos SVG ampliados. Commit de frontend `e75687d`, conferido em `www.azimo.life` a 390 px e 320 px, com oito imagens carregadas, leitura preservada e rolagem até Command. Criado `DESIGN_SYSTEM_PREMIUM_AZIMO.md` no repositório de estratégia; aplicação às demais telas depende de aprovação individual. Sem teste físico em iPhone/Android ou sessão não administrativa. Ver Backlog item 357.
 
