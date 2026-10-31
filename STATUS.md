@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> 31/10/2026, item 386: implementado no chat principal do Vio envio de ditado com espera pelo resultado final do SpeechRecognition, revisão de pontuação via proxy Anthropic (Haiku), timeout 4,5s, verificação conservadora de números e fallback para texto original. `azimo-site/main` commit `c3c4a15d847c8b8141751513ed9d784c2d59dcb8`. Pendente validação real do modelo/latência, segurança semântica e comportamento no chat popup; não houve mudança no Worker.
+
 > 31/10/2026, item 385: refinadas instruções de comunicação do Vio para assumir propostas de ação e interpretar ditado sem pontuação, sem inventar horários ou números. `azimo-site/main` commit `3959b7df905b8da771a11205673e7d81019ac978`. Confirmado no código que o microfone usa Web Speech API do navegador, sem pontuação própria. Revisão visual da transcrição e testes autenticados ainda pendentes; nenhuma alteração no Worker.
 
 > 31/10/2026, item 384: corrigido fluxo do Vio para editar horário e/ou lembrete de tarefa existente, após teste real revelar prompt contraditório e ferramenta limitada à antecedência. `azimo-site/main` commit `e9cc38d23183e7a8570c8bd79494145ad3519ffa`. Cartão agora distingue atualização de criação. Pendente validação funcional autenticada e confirmação do deploy Vercel; nenhuma alteração no Worker ou banco.
