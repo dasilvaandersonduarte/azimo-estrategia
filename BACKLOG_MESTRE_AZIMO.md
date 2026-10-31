@@ -10653,3 +10653,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** CSS escopado adiciona gradientes em camadas, bordas e reflexos internos e sombras sutis nos botões da sidebar desktop, preservando Azimo Command verde; destaca marca oficial do Vio no cabeçalho, navegação e avatares; aprimora atalhos do chat, balões de resposta e área de entrada. Introduz classe `.vio-premium-mark` no cabeçalho e suporte a `prefers-reduced-motion`. Mantém funções e eventos existentes. Commit `azimo-site/main` `7979fe5fc4db2fc13e5a6251053a816f25a47087`. Deploy Vercel Production `dpl_5Ann3kzcmSj21jXviHrWRpfHqcDN` READY, com aliases `azimo.life` e `www.azimo.life`.
 
 **Pendências:** Inspeção visual autenticada desktop e mobile e teste de navegação, atalhos, foco e chat. Não foram executados testes automatizados de sintaxe ou capturas da produção. Nenhuma mudança em Worker/Supabase.
+
+
+## Item 391 | 31/10/2026 | Tooltips acima dos cards, Vio semanal e acabamento mobile
+
+**Pedido:** Resolver descrições da sidebar que ficavam atrás dos cards, padronizar o ícone da Análise Semanal do Vio e levar refinamento premium à navegação mobile.
+
+**Implementação:** Sidebar desktop elevada em camada própria com overflow visível; item Vio permite tooltip sair da área do botão e mantém SVG recortado dentro da moldura. Ícone `_VIO_ICON_SVG` da Análise Semanal passou a usar `_VIO_COMPASS_SVG(40)`; card semanal recebeu moldura e iluminação premium. Mobile recebeu reforço de estados ativos e sombras dos ícones, preservando navegação existente. Commit `azimo-site/main` `2b27fbd86eac59c22411443be454a16db1be14fc`. Deploy Vercel Production `dpl_9uKVFgaCz4h2KnhB5e2hMUYMEV92` READY e domínios confirmados.
+
+**Pendências:** Teste de hover real na sidebar, inspeção do ícone semanal e revisão visual em aparelho mobile. Sem teste de navegador autenticado; sem Worker/Supabase.
