@@ -10704,3 +10704,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** `azimo-site/index.html`, commit `112dc4ebc80750c18c57a90593612bfeeaf06ab0`. Card de edição ganhou botão `Sem horário`, chamando o mesmo `updateTarefaHora` com valor vazio; lista de Blocos ganhou botão compacto para limpar horário. P1–P4 reutilizam `EISENHOWER_QUADRANTES` e destacam seleção sem ocultar a cor de cada opção. Navegação `Próxima atrasada` usa `_tarefasAtrasadasReais`, seleciona a próxima data maior que a exibida e mantém `Voltar pra hoje`. Sem mudanças no Worker ou Supabase.
 
 **Publicação:** Vercel production `dpl_C767BMGnqLeWXL1nMydnmfH2ARcA` READY. **Pendente:** validação funcional autenticada no navegador, em especial limpar horário no card, preservação de data e estado, e sequência de dias atrasados após reagendamento; READY não equivale a teste de interação.
+
+
+## Item 396 | 31/10/2026 | Edição de tarefa com Salvar explícito e confirmação de descarte
+
+**Problema confirmado por Anderson:** No card de edição da Agenda, mudanças em título, horário, descrição, duração e lembrete eram persistidas imediatamente, inclusive o botão Sem horário. Clicar fora fechava o card sem aviso.
+
+**Correção:** Em `azimo-site/index.html`, commit `1dc694cb42d3e1680cf2332a5714d277e984e6cd`, handlers de campos do card não alteram mais `STATE`. Ao abrir, guarda snapshot dos valores; `Salvar` valida lembrete e aplica todos os campos em uma operação seguida de `saveState`, incluindo movimentação entre dias. `Sem horário` apenas limpa input temporariamente. Ao clicar fora ou em Fechar, se houver alterações, abre modal de confirmação com `Continuar editando` e `Sair sem salvar`; sem alterações, fecha normalmente. Ações explícitas Concluir/Excluir permanecem separadas.
+
+**Publicação e validação:** Push para `main` dispara Vercel automaticamente. Verificar READY do deploy e testar no app autenticado; especialmente alterações descartadas, múltiplos campos salvos juntos, lembrete inválido, edição a partir do resumo semanal/mensal e retorno à data original. Não declarar QA concluído sem teste.
