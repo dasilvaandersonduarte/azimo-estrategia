@@ -1,6 +1,6 @@
 # Azimo | Estado Atual
 
-> 31/10/2026, item 387: identidade SVG do Vio atualizada conforme referência aprovada (opção A, Clássica), unificando a função `_VIO_COMPASS_SVG`, o cabeçalho do chat principal e o ícone inicial da navegação mobile. Commit `azimo-site/main` `a0356da3afacf5732824397966fdca90a1a199a2`. A navegação mobile já possui sincronização dinâmica do SVG do cabeçalho. **Pendente:** testes de sintaxe em runtime, inspeção visual desktop/mobile e confirmação de publicação Vercel. Não houve alteração de Worker ou banco.
+> 31/10/2026, item 387: identidade SVG do Vio atualizada conforme referência aprovada (opção A, Clássica), unificando a função `_VIO_COMPASS_SVG`, o cabeçalho do chat principal e o ícone inicial da navegação mobile. Commit `azimo-site/main` `a0356da3afacf5732824397966fdca90a1a199a2`. A navegação mobile já possui sincronização dinâmica do SVG do cabeçalho. **Publicação confirmada:** Vercel Production READY `dpl_FtEiJmnCKjCyCD1VttNDpS4pMKBC` no commit `a0356da`. **Pendente:** testes de sintaxe em runtime e inspeção visual desktop/mobile. Não houve alteração de Worker ou banco.
 
 > 31/10/2026, item 386: implementado no chat principal do Vio envio de ditado com espera pelo resultado final do SpeechRecognition, revisão de pontuação via proxy Anthropic (Haiku), timeout 4,5s, verificação conservadora de números e fallback para texto original. `azimo-site/main` commit `c3c4a15d847c8b8141751513ed9d784c2d59dcb8`. Pendente validação real do modelo/latência, segurança semântica e comportamento no chat popup; não houve mudança no Worker.
 
