@@ -10584,3 +10584,16 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementado:** Nova ferramenta `alterar_lembrete_tarefa` no frontend, schema de título/data/antecedência; busca no estado do próprio usuário com correspondência única, impede alteração ambígua, apresenta confirmação e salva `lembreteConfig` na tarefa existente. Prompt atualizado para orientar edição de lembrete sem duplicar tarefas. Commit `61d5dd37ca9d2cbd1dd68f7522d383af4fef63c9`. Vercel produção READY `dpl_AL2J5DrDa2exar7HeWkoXoYpjqjB`.
 
 **Pendente:** Teste real no chat com edição 3 para 2 minutos, confirmação e persistência no modal. Próxima etapa: definir e implementar matriz de ferramentas de consulta, edição, conclusão, reagendamento e exclusão, com autorização por usuário, desambiguação e confirmação para ações destrutivas. Não liberar execução arbitrária de ações do site.
+
+
+## Item 384 | 31/10/2026 | Vio corrige edição conjunta de horário e lembrete
+
+**Evidência:** Print real do Vio após item 383: Vio dizia não conseguir editar horário, propunha adicionar uma nova tarefa e mostrava horário incorreto.
+
+**Causa identificada no código:** Prompt contraditório mandava editar lembrete na Agenda apesar de existir `alterar_lembrete_tarefa`; schema só aceitava antecedência, não novo horário; cartão usava rótulo genérico de criação.
+
+**Correção:** Prompt consolidado para usar ferramenta de edição em horário e/ou antecedência. Schema passou a aceitar `hora` opcional; confirmação apresenta horário atualizado e botão `Sim, atualizar`; persistência modifica tarefa existente pelo ID e preserva outros campos. Nenhuma duplicação intencional, Worker ou Supabase alterados.
+
+**Commit:** `azimo-site/main` `e9cc38d23183e7a8570c8bd79494145ad3519ffa`.
+
+**Pendente:** Validar deploy Vercel e testar em sessão autenticada: editar tarefa existente para 16:15 com antecedência de 12 minutos, confirmar, reabrir Agenda e verificar persistência e ausência de duplicidade. Testar casos ambíguos e horários inválidos. Não afirmar que push foi entregue sem teste real.
