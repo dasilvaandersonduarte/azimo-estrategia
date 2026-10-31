@@ -10552,4 +10552,4 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 
 **Implementação:** No `azimo-site/index.html`, placeholder mobile e placeholder inicial atualizados; tipografia do campo e do placeholder fixada em 16 px no layout mobile para evitar zoom automático do Safari ao focar campos pequenos; `touch-action: manipulation` aplicado ao textarea. Microfone, envio e demais funções preservados. Commit `35b1ae531567139e2c711261739f6a39f90fd4fb`.
 
-**Validação pendente:** Confirmar deploy de produção na Vercel e pedir teste real em iPhone, incluindo abertura/fechamento do teclado e ausência de zoom. Não houve teste físico no dispositivo de Anderson.
+**Publicação confirmada:** Vercel Production READY, deployment `dpl_Bp5kfWmgQrqFiu6QDPWaseUcKJ6C` associado ao commit `35b1ae5`. **Validação pendente:** Teste real em iPhone, incluindo abertura/fechamento do teclado e ausência de zoom. Não houve teste físico no dispositivo de Anderson.
