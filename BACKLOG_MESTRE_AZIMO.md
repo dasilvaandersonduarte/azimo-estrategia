@@ -10626,3 +10626,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** Substituída a geometria anterior da função `_VIO_COMPASS_SVG` por bússola em índigo/violeta, com mostrador circular, marcações e ponteiro vertical. Atualizado SVG do cabeçalho do chat principal e SVG inicial da navegação mobile. O sincronizador mobile já clona a marca do cabeçalho. `azimo-site/main` commit `a0356da3afacf5732824397966fdca90a1a199a2`. Nenhum fluxo de dados, Worker ou Supabase alterado.
 
 **Pendências:** Validar sintaxe de todos os scripts e fidelidade visual no navegador desktop/mobile, deploy Vercel Production READY `dpl_FtEiJmnCKjCyCD1VttNDpS4pMKBC` confirmado; conferir todas as instâncias do Vio em sessão autenticada. O símbolo foi reconstruído em SVG a partir da referência rasterizada, não extraído como vetor original.
+
+
+## Item 388 | 31/10/2026 | Logo Vio consistente nas três regiões do chat e ampliada no mobile
+
+**Pedido:** Mostrar a mesma bússola clássica no cabeçalho do Vio, no avatar das mensagens e no item Vio da sidebar desktop. No celular, preencher melhor o círculo do ícone da navegação inferior.
+
+**Implementação:** Ícone `ti-message-circle` substituído por `vio-sidebar-mark`, preenchido pela função SVG compartilhada. O avatar de mensagens do Vio agora usa `_VIO_COMPASS_SVG(40)` em vez da bússola vermelha antiga. SVG mobile aumentado para 50 px no círculo de 52 px, mantendo a sincronização existente com o cabeçalho. Commit `azimo-site/main` `3b9d9c493a664a902b5a8ef301abe226afcab07d`. Vercel deployment `dpl_4gfN8c6xWdHQtMBjhL144REQkWAV` READY.
+
+**Pendências:** Validar visualmente as três regiões do chat e navegação mobile no navegador autenticado e em aparelho real; confirmar atribuição do domínio de produção ao deploy. Não foi executado QA de sintaxe dos scripts nem teste funcional de chat. Nenhuma mudança no Worker ou Supabase.
