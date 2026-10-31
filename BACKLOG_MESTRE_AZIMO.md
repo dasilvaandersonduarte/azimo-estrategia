@@ -10562,3 +10562,16 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** No frontend `azimo-site/index.html`, substituído detector simples de teclado por sincronização do `window.visualViewport` (altura e offset) enquanto `#chat-input` está focado no mobile. App passa a ocupar altura efetivamente visível e mantém a área de mensagens com flex e rolagem, com barra de digitação no fluxo. Remove estilos temporários ao fechar teclado. Commit `dceaa7204c91cf42ed5d8a91692f17e00b3e3852`.
 
 **Publicação:** Vercel Production READY `dpl_1uTfFviV9rdhWi9ypkLjmxawa8Fz`. **Validação final em 31/10/2026:** Anderson confirmou o resultado no iPhone com “Boa, perfeito!”, após receber a versão corrigida. **Status: CONCLUÍDO e aprovado pelo fundador.** O feedback confirma que o problema relatado foi resolvido na experiência dele; não houve teste automatizado adicional de todas as interações (microfone, envio e navegação) nesta etapa. Nenhuma nova mudança de código foi necessária.
+
+
+## Item 382 | 31/10/2026 | Vio lembretes antecipados + clique nos blocos da Agenda
+
+**Evidência:** Quatro capturas enviadas por Anderson: push iOS de sequência com título truncado e identificação `from Azimo`; Vio afirmava que não existia aviso antecipado; editor de tarefa demonstrava configuração de minutos antes; Agenda diária tinha check à direita do bloco, prejudicando leitura do título e confirmação consciente da conclusão.
+
+**Diagnóstico:** `criar_tarefa` no Vio não declarava nem persistia antecedência, apesar de `lembreteConfig` e mecanismo de lembretes já existirem. O prompt também descrevia incorretamente limitações antigas do iPhone. O modal de tarefa já tinha descrição, horário, lembrete, data, conclusão e edição. O `from Azimo` é indicação de origem do iOS e não uma string do payload controlável pelo site; o título longo sofre truncamento nativo.
+
+**Implementação:** Frontend `azimo-site/index.html`: schema `criar_tarefa` inclui `lembrete` `{quantidade,unidade}`; Vio instruído a usar antecedência quando pedida e não prometer entrega de push; cartão de confirmação e editor exibem/validam a antecedência; `confirmarAcaoTool` salva `lembreteConfig` na tarefa. Removido o check diretamente dos blocos com horário no Diário; o clique abre o card de detalhes existente com ações de concluir, editar e reagendar. Nenhuma alteração de dados existentes, Worker ou Supabase.
+
+**Publicação:** GitHub `11538be455c7ba77a172011331a48f9e688e0883`; Vercel Production READY `dpl_ALibTpr52FdVJpRtZJGJxxzBHsgz`.
+
+**Status:** IMPLEMENTADO E PUBLICADO, aguardando validação funcional real no iPhone. Testar: Vio propõe tarefa com aviso 1h antes; cartão exibe antecedência; confirmar e reabrir tarefa na Agenda; notificação no horário configurado; tocar no bloco abre modal sem concluir automaticamente; concluir e reagendar pelo modal. O `from Azimo` permanece por ser rótulo do iOS. O título truncado pode ser refinado em etapa separada no Worker, com deploy Cloudflare manual, se necessário.
