@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> 31/10/2026, item 395: Agenda permite limpar horário no card e em Blocos; botões P1–P4 em Blocos exibem cores da classificação; navegação `Próxima atrasada` pula ao próximo dia com pendência. `azimo-site/main` `112dc4ebc80750c18c57a90593612bfeeaf06ab0`, Vercel production READY `dpl_C767BMGnqLeWXL1nMydnmfH2ARcA`. Pendente QA autenticado de interação e mobile; ver item 395.
+
 > 31/10/2026, item 394: Agenda diária com cor índigo padronizada para tarefas Azimo, check direto via `toggleTarefa` e títulos com quebra de linha. `azimo-site/main` `1186ba35cf03054d42fd2b2fa4bb98c72d999422`, Vercel READY `dpl_Gfy6zefdwehQy5t1KVTVfjJyZxgL`. Pendente QA autenticado de conclusão e legibilidade mobile, sobretudo tarefas curtas. Ver item 394.
 
 > 31/10/2026, item 393: 27 revisões pendentes e suas 27 tarefas vinculadas reagendadas em conjunto de 28/10 para 03/11, com conferência direta do estado e visual no site autenticado. Filtro “Pendentes” inclui atrasadas e vencidas hoje, contador do Dashboard usa data local e “Quero revisar novamente” move a tarefa vinculada com aviso/atualização imediata. `azimo-site/main` `bed47bae908de4be2dec2f03a23d577fa5ff64a2`, Vercel READY `dpl_7CBQajv9r7voPzCUFYmRFGeeMCwc`, aliases confirmados. O botão foi testado em cenário isolado, sem clique na conta real; ver Backlog item 393.
