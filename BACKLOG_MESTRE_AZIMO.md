@@ -10608,3 +10608,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** Prompt do Vio orienta assumir a proposta sem afirmar execução antes da confirmação, interpretar ditado sem pontuação e não inventar horários, números ou acesso detalhado à Agenda. Commit `azimo-site/main` `3959b7df905b8da771a11205673e7d81019ac978`.
 
 **Pendente:** Testar comunicação em sessão autenticada; definir e implementar revisão de pontuação da transcrição com preservação de valores/horários e consentimento explícito para qualquer serviço adicional. Confirmar deploy de produção.
+
+
+## Item 386 | 31/10/2026 | Ditado do Vio revisado automaticamente no envio
+
+**Pedido:** Transcrição em tempo real deve continuar aparecendo durante a fala. Ao enviar, a plataforma deve pontuar automaticamente antes de enviar ao Vio, sem segundo clique.
+
+**Implementação:** `sendMsg` do chat principal aguarda encerramento do reconhecimento de voz, revisa texto ditado usando chamada separada ao proxy Anthropic com modelo Haiku, com instrução de preservar integralmente conteúdo, nomes, números, horários e intenção. Verificação de tokens numéricos e tamanho protege contra alterações relevantes. Timeout de 4,5s e fallback para texto original. Texto digitado não passa por revisão. Commit `azimo-site/main` `c3c4a15d847c8b8141751513ed9d784c2d59dcb8`.
+
+**Riscos e pendências:** Sem teste autenticado em produção; confirmar disponibilidade do modelo e latência. Proteção numérica não garante preservação semântica de palavras. A revisão usa uma chamada adicional paga por mensagem ditada. Avaliar o chat popup separadamente e testar finalização do áudio, Enter e clique no envio, timeout, falha de rede e textos com horários. Deploy Vercel ainda não confirmado.
