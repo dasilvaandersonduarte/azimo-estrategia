@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> 31/10/2026, item 387: identidade SVG do Vio atualizada conforme referência aprovada (opção A, Clássica), unificando a função `_VIO_COMPASS_SVG`, o cabeçalho do chat principal e o ícone inicial da navegação mobile. Commit `azimo-site/main` `a0356da3afacf5732824397966fdca90a1a199a2`. A navegação mobile já possui sincronização dinâmica do SVG do cabeçalho. **Pendente:** testes de sintaxe em runtime, inspeção visual desktop/mobile e confirmação de publicação Vercel. Não houve alteração de Worker ou banco.
+
 > 31/10/2026, item 386: implementado no chat principal do Vio envio de ditado com espera pelo resultado final do SpeechRecognition, revisão de pontuação via proxy Anthropic (Haiku), timeout 4,5s, verificação conservadora de números e fallback para texto original. `azimo-site/main` commit `c3c4a15d847c8b8141751513ed9d784c2d59dcb8`. Pendente validação real do modelo/latência, segurança semântica e comportamento no chat popup; não houve mudança no Worker.
 
 > 31/10/2026, item 385: refinadas instruções de comunicação do Vio para assumir propostas de ação e interpretar ditado sem pontuação, sem inventar horários ou números. `azimo-site/main` commit `3959b7df905b8da771a11205673e7d81019ac978`. Confirmado no código que o microfone usa Web Speech API do navegador, sem pontuação própria. Revisão visual da transcrição e testes autenticados ainda pendentes; nenhuma alteração no Worker.
