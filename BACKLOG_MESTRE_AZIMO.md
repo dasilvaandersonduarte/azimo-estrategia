@@ -10617,3 +10617,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Implementação:** `sendMsg` do chat principal aguarda encerramento do reconhecimento de voz, revisa texto ditado usando chamada separada ao proxy Anthropic com modelo Haiku, com instrução de preservar integralmente conteúdo, nomes, números, horários e intenção. Verificação de tokens numéricos e tamanho protege contra alterações relevantes. Timeout de 4,5s e fallback para texto original. Texto digitado não passa por revisão. Commit `azimo-site/main` `c3c4a15d847c8b8141751513ed9d784c2d59dcb8`.
 
 **Riscos e pendências:** Sem teste autenticado em produção; confirmar disponibilidade do modelo e latência. Proteção numérica não garante preservação semântica de palavras. A revisão usa uma chamada adicional paga por mensagem ditada. Avaliar o chat popup separadamente e testar finalização do áudio, Enter e clique no envio, timeout, falha de rede e textos com horários. Deploy Vercel ainda não confirmado.
+
+
+## Item 387 | 31/10/2026 | Unificação visual da bússola clássica do Vio
+
+**Pedido:** Aplicar a opção A, Clássica, da referência visual aprovada, mantendo uma identidade consistente entre componentes do Vio.
+
+**Implementação:** Substituída a geometria anterior da função `_VIO_COMPASS_SVG` por bússola em índigo/violeta, com mostrador circular, marcações e ponteiro vertical. Atualizado SVG do cabeçalho do chat principal e SVG inicial da navegação mobile. O sincronizador mobile já clona a marca do cabeçalho. `azimo-site/main` commit `a0356da3afacf5732824397966fdca90a1a199a2`. Nenhum fluxo de dados, Worker ou Supabase alterado.
+
+**Pendências:** Validar sintaxe de todos os scripts e fidelidade visual no navegador desktop/mobile, confirmar deploy de produção e conferir todas as instâncias do Vio em sessão autenticada. O símbolo foi reconstruído em SVG a partir da referência rasterizada, não extraído como vetor original.
