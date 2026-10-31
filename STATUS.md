@@ -1,5 +1,7 @@
 # Azimo | Estado Atual
 
+> 31/10/2026, item 388: logo oficial Vio unificada no avatar das mensagens do chat, no ícone da sidebar desktop e no cabeçalho já atualizado. Ícone da navegação mobile ampliado de 34 para 50 px dentro do círculo de 52 px. Commit `azimo-site/main` `3b9d9c493a664a902b5a8ef301abe226afcab07d`, Vercel deployment READY `dpl_4gfN8c6xWdHQtMBjhL144REQkWAV`. **Pendente:** inspeção visual autenticada em desktop e iPhone e confirmação do alias de domínio no novo deploy. Nenhuma alteração de Worker ou banco.
+
 > 31/10/2026, item 387: identidade SVG do Vio atualizada conforme referência aprovada (opção A, Clássica), unificando a função `_VIO_COMPASS_SVG`, o cabeçalho do chat principal e o ícone inicial da navegação mobile. Commit `azimo-site/main` `a0356da3afacf5732824397966fdca90a1a199a2`. A navegação mobile já possui sincronização dinâmica do SVG do cabeçalho. **Publicação confirmada:** Vercel Production READY `dpl_FtEiJmnCKjCyCD1VttNDpS4pMKBC` no commit `a0356da`. **Pendente:** testes de sintaxe em runtime e inspeção visual desktop/mobile. Não houve alteração de Worker ou banco.
 
 > 31/10/2026, item 386: implementado no chat principal do Vio envio de ditado com espera pelo resultado final do SpeechRecognition, revisão de pontuação via proxy Anthropic (Haiku), timeout 4,5s, verificação conservadora de números e fallback para texto original. `azimo-site/main` commit `c3c4a15d847c8b8141751513ed9d784c2d59dcb8`. Pendente validação real do modelo/latência, segurança semântica e comportamento no chat popup; não houve mudança no Worker.
