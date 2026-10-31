@@ -10625,4 +10625,4 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 
 **Implementação:** Substituída a geometria anterior da função `_VIO_COMPASS_SVG` por bússola em índigo/violeta, com mostrador circular, marcações e ponteiro vertical. Atualizado SVG do cabeçalho do chat principal e SVG inicial da navegação mobile. O sincronizador mobile já clona a marca do cabeçalho. `azimo-site/main` commit `a0356da3afacf5732824397966fdca90a1a199a2`. Nenhum fluxo de dados, Worker ou Supabase alterado.
 
-**Pendências:** Validar sintaxe de todos os scripts e fidelidade visual no navegador desktop/mobile, confirmar deploy de produção e conferir todas as instâncias do Vio em sessão autenticada. O símbolo foi reconstruído em SVG a partir da referência rasterizada, não extraído como vetor original.
+**Pendências:** Validar sintaxe de todos os scripts e fidelidade visual no navegador desktop/mobile, deploy Vercel Production READY `dpl_FtEiJmnCKjCyCD1VttNDpS4pMKBC` confirmado; conferir todas as instâncias do Vio em sessão autenticada. O símbolo foi reconstruído em SVG a partir da referência rasterizada, não extraído como vetor original.
