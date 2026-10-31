@@ -10575,3 +10575,12 @@ Nenhuma das duas foi implementada ainda -- aguardando Anderson escolher, já que
 **Publicação:** GitHub `11538be455c7ba77a172011331a48f9e688e0883`; Vercel Production READY `dpl_ALibTpr52FdVJpRtZJGJxxzBHsgz`.
 
 **Status:** IMPLEMENTADO E PUBLICADO, aguardando validação funcional real no iPhone. Testar: Vio propõe tarefa com aviso 1h antes; cartão exibe antecedência; confirmar e reabrir tarefa na Agenda; notificação no horário configurado; tocar no bloco abre modal sem concluir automaticamente; concluir e reagendar pelo modal. O `from Azimo` permanece por ser rótulo do iOS. O título truncado pode ser refinado em etapa separada no Worker, com deploy Cloudflare manual, se necessário.
+
+
+## Item 383 | 31/10/2026 | Vio edita lembrete de tarefa existente
+
+**Pedido:** Após criar tarefa com aviso 3 minutos antes, usuário pediu mudar para 2 minutos. Vio recusou, pois só tinha ferramenta de criação.
+
+**Implementado:** Nova ferramenta `alterar_lembrete_tarefa` no frontend, schema de título/data/antecedência; busca no estado do próprio usuário com correspondência única, impede alteração ambígua, apresenta confirmação e salva `lembreteConfig` na tarefa existente. Prompt atualizado para orientar edição de lembrete sem duplicar tarefas. Commit `61d5dd37ca9d2cbd1dd68f7522d383af4fef63c9`. Vercel produção READY `dpl_AL2J5DrDa2exar7HeWkoXoYpjqjB`.
+
+**Pendente:** Teste real no chat com edição 3 para 2 minutos, confirmação e persistência no modal. Próxima etapa: definir e implementar matriz de ferramentas de consulta, edição, conclusão, reagendamento e exclusão, com autorização por usuário, desambiguação e confirmação para ações destrutivas. Não liberar execução arbitrária de ações do site.
